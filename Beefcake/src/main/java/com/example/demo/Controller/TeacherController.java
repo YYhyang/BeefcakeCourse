@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.math.BigDecimal;
+
 @RestController
 public class TeacherController {
     @Autowired
@@ -22,5 +24,9 @@ public class TeacherController {
     {
         return teacherService.extractQuestion(seminarId,presentId);
     }
+
+    @RequestMapping(value="/Teacher/ScoreQuestion",method = RequestMethod.PATCH)
+    public Boolean scoreQuestion(@RequestParam("seminarId")long seminarId, @RequestParam("presentId")long presentId, @RequestParam("round")Integer round, @RequestParam("score")BigDecimal score)
+    { return teacherService.scoreQuestion(seminarId,presentId,round,score); }
 
 }
