@@ -4,10 +4,7 @@ import com.example.demo.Dao.TeamSeminarDao;
 import com.example.demo.Entity.TeamSeminarEntity;
 import com.example.demo.Service.SeminarService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -24,7 +21,7 @@ public class SeminarController {
     }
 
     @RequestMapping(value="/Seminar/Team/1",method = RequestMethod.POST)
-    public TeamSeminarEntity find(@RequestParam("teamId")long id, @RequestParam("no")long no)
+    public TeamSeminarEntity find(@PathVariable("teamId")long id, @RequestParam("no")long no)
     {
         return teamSeminarDao.find(id,no);
     }
@@ -39,5 +36,6 @@ public class SeminarController {
     {
         return teamSeminarDao.start(seminarId);
     }
+
 
 }

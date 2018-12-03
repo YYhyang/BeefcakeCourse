@@ -22,6 +22,7 @@
         insert into team_seminar(seminar_id,team_id,no) values(#{seminarId},#{teamId},#{no})
     </insert>
 
+
     <update id="start">
         update seminar set status=1 where id=#{seminarId}
     </update>
