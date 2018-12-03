@@ -15,7 +15,7 @@
     </resultMap>
 
     <select id="extractQuestion" resultType="com.example.demo.Entity.QuestionEntity" resultMap="questionmap">
-        SELECT * FROM question  WHERE seminar_id=#{seminarId} AND present_id=#{presentId} AND status=0
+        SELECT * FROM question WHERE seminar_id=#{seminarId} AND present_id=#{presentId} AND status=0 ORDER BY rand() limit 1
     </select>
 
     <update id="scoreQuestion">
