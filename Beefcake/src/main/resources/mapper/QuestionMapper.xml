@@ -15,11 +15,11 @@
     </resultMap>
 
     <select id="extractQuestion" resultType="com.example.demo.Entity.QuestionEntity" resultMap="questionmap">
-        SELECT * FROM question ORDER BY RAND() LIMIT 1 WHERE seminar_id=${seminarId} AND present_id=${presentId} AND status=0
+        SELECT * FROM question  WHERE seminar_id=#{seminarId} AND present_id=#{presentId} AND status=0
     </select>
 
     <update id="scoreQuestion">
-        update question set score=#{score},status=1 where id=#{seminarId} AND present_id=${presentId} AND round=${round}
+        update question set score=#{score},status=1 where seminar_id=${seminarId} AND present_id=${presentId} AND student_Id=${studentId}
     </update>
 
 </mapper>

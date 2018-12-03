@@ -8,15 +8,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Component
 public class TeacherService {
     @Autowired
     private TeacherDao teacherDao;
 
-    public QuestionEntity extractQuestion(Long seminarId,Long presentId){return teacherDao.extractQuestion(seminarId,presentId);}
+    public List<QuestionEntity> extractQuestion(Long seminarId, Long presentId){return teacherDao.extractQuestion(seminarId,presentId);}
 
-    public Boolean scoreQuestion(Long seminarId, Long presentId, Integer round, BigDecimal score)
-    { return teacherDao.scoreQuestion(seminarId,presentId,round,score); }
+    public Boolean scoreQuestion(Long seminarId, Long presentId, Long studentId, BigDecimal score)
+    { return teacherDao.scoreQuestion(seminarId,presentId,studentId,score); }
 
 }
