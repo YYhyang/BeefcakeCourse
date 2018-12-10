@@ -56,7 +56,9 @@ public class UserController {
 
     }
 
-    
+    @RequestMapping(value = "/user/messageinterval",method = RequestMethod.PUT)
+    public void messageInterval(@RequestParam("messageInterval")int messageInterval)
+    {
 
-
+    }
 }
