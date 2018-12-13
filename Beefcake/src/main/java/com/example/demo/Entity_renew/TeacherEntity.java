@@ -1,11 +1,12 @@
 package com.example.demo.Entity_renew;
 
 public class TeacherEntity {
-    private String teacherid;
+    private int teacherid;
+    private String account;//是否需要待定
     private String name;
     private String email;
 
-    public void setTeacherid(String teacherid) {
+    public void setTeacherid(int teacherid) {
         this.teacherid = teacherid;
     }
 
@@ -17,8 +18,16 @@ public class TeacherEntity {
         this.email = email;
     }
 
-    public String getTeacherid() {
+    public void setAccount(String account) {
+        this.account = account;
+    }
+
+    public int getTeacherid() {
         return teacherid;
+    }
+
+    public String getAccount() {
+        return account;
     }
 
     public String getName() {
