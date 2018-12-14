@@ -2,9 +2,9 @@ package com.example.demo.Entity_renew;
 
 public class TeamSeminarEntity {
     private Long id;
-    private TeamEntity team;
-    private SeminarEntity seminar;
-    private int no;
+    private Long klass_seminar_id;
+    private Long team_id;
+    private int team_order;
 
     public Long getId() {
         return id;
@@ -14,27 +14,27 @@ public class TeamSeminarEntity {
         this.id = id;
     }
 
-    public TeamEntity getTeam() {
-        return team;
+    public Long getKlass_seminar_id() {
+        return klass_seminar_id;
     }
 
-    public void setTeam(TeamEntity team) {
-        this.team = team;
+    public void setKlass_seminar_id(Long klass_seminar_id) {
+        this.klass_seminar_id = klass_seminar_id;
     }
 
-    public SeminarEntity getSeminar() {
-        return seminar;
+    public Long getTeam_id() {
+        return team_id;
     }
 
-    public void setSeminar(SeminarEntity seminar) {
-        this.seminar = seminar;
+    public void setTeam_id(Long team_id) {
+        this.team_id = team_id;
     }
 
-    public int getNo() {
-        return no;
+    public int getTeam_order() {
+        return team_order;
     }
 
-    public void setNo(int no) {
-        this.no = no;
+    public void setTeam_order(int team_order) {
+        this.team_order = team_order;
     }
 }

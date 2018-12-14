@@ -12,12 +12,6 @@ import java.util.List;
 
 @Component
 public class TeacherService {
-    @Autowired
-    private TeacherDao teacherDao;
 
-    public List<QuestionEntity> extractQuestion(Long seminarId, Long presentId){return teacherDao.extractQuestion(seminarId,presentId);}
-
-    public Boolean scoreQuestion(Long seminarId, Long presentId, Long studentId, BigDecimal score)
-    { return teacherDao.scoreQuestion(seminarId,presentId,studentId,score); }
 
 }

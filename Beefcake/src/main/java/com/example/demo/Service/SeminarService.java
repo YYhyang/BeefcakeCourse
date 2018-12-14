@@ -11,24 +11,5 @@ import java.util.List;
 @Component
 public class SeminarService {
 
-    @Autowired
-    private TeamSeminarMapper teamSeminarMapper;
-
-    public List<TeamSeminarEntity> findAllTeam(Long seminarId) {
-        return teamSeminarMapper.findAll(seminarId);
-    }
-
-    public TeamSeminarEntity find(long id,long no)
-    {
-        return teamSeminarMapper.find(id, no);
-    }
-
-    public boolean save(Long seminarId, Long teamId, int no){
-        return teamSeminarMapper.save(seminarId, teamId, no);
-    }
-
-    public boolean start(Long seminarId){
-        return teamSeminarMapper.start(seminarId);
-    }
 
 }

@@ -1,11 +1,16 @@
 package com.example.demo.Controller;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import com.example.demo.Entity_renew.TeamSeminarEntity;
+import com.example.demo.Mapper.TeamSeminarMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
+@RestController
 public class PresentationController {
+    @Autowired
+    private TeamSeminarMapper teamSeminarMapper;
 
     @RequestMapping(value="/presentation/{presentationId}",method = RequestMethod.GET)   //查看自己小组报名的展示
     public void getPresentation(@RequestParam("presentationId")Integer presentationId )
@@ -73,10 +78,10 @@ public class PresentationController {
 
     }
 
-    @RequestMapping(value="/seminar/{seminarId}/class/{classId}/presentation",method = RequestMethod.GET)   //获得讨论课展示信息
-    public void getAllpresentation(@RequestParam("seminarId")Integer seminarId, @RequestParam("classId")Integer classId,@RequestParam("status")String status)
+    @RequestMapping(value="/seminar/{seminarId}/presentation",method = RequestMethod.GET)   //获得讨论课展示信息
+    public List<TeamSeminarEntity> getAllpresentation(@PathVariable("seminarId")Long seminarId)
     {
-
+        return teamSeminarMapper.findAll(seminarId);
     }
 
     @RequestMapping(value="/seminar/{seminarId}/class/{classId}/presentation",method = RequestMethod.POST)   //报名展示

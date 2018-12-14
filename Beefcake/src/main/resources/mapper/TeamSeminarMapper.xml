@@ -3,19 +3,13 @@
 
 <!-- 指定工作空间，要与接口名相同，源代码没有去看，猜测应该是通过"这里的namespace.下边方法的id"来定位方法的 -->
 <mapper namespace="com.example.demo.Mapper.TeamSeminarMapper">
-    <resultMap id="teamseminarmap" type="com.example.demo.Entity.TeamSeminarEntity">
-        <id column="id" property="id"/>
-        <result column="seminar_id" property="seminarId"/>
-        <result column="team_id" property="teamId"/>
-        <result column="no" property="no"/>
-    </resultMap>
 
-    <select id="find" resultType="com.example.demo.Entity.TeamSeminarEntity" resultMap="teamseminarmap">
-        SELECT * FROM team_seminar WHERE team_id=${teamId} AND no=${no}
+    <select id="find" resultType="com.example.demo.Entity_renew.TeamSeminarEntity">
+        SELECT id,klass_seminar_id,team_id,team_order FROM attendence WHERE team_id=${teamId} AND no=${no}
     </select>
 
-    <select id="findAll" resultType="com.example.demo.Entity.TeamSeminarEntity" resultMap="teamseminarmap">
-        SELECT * FROM team_seminar WHERE seminar_id= #{seminarId} ORDER BY no ASC
+    <select id="findAll" resultType="com.example.demo.Entity_renew.TeamSeminarEntity">
+        SELECT id,klass_seminar_id,team_id,team_order FROM attendance WHERE klass_seminar_id= #{seminarId} ORDER BY team_order ASC
     </select>
 
     <insert id="save">

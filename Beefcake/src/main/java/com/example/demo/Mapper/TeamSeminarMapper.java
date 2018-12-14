@@ -8,7 +8,7 @@ import java.util.List;
 @Mapper
 public interface TeamSeminarMapper {
 
-    public List<TeamSeminarEntity> findAll(@Param("seminarId")Long seminarId);
+    public List<com.example.demo.Entity_renew.TeamSeminarEntity> findAll(@Param("seminarId")Long seminarId);
 
     public TeamSeminarEntity find(@Param("teamId")long teamId, @Param("no")long no);
 
