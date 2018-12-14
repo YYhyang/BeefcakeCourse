@@ -1,7 +1,7 @@
 package com.example.demo.Entity_renew;
 
 public class CourseEntity {
-    private int courseid;
+    private Long courseid;
     private String name;
     private String intor;
     private TeacherEntity teacher;
@@ -15,7 +15,7 @@ public class CourseEntity {
     private int minMemberNumber;
     private int maxMemberNumber;
 
-    public void setCourseid(int courseid) {
+    public void setCourseid(Long courseid) {
         this.courseid = courseid;
     }
 
@@ -67,7 +67,7 @@ public class CourseEntity {
         this.maxMemberNumber = maxMemberNumber;
     }
 
-    public int getCourseid() {
+    public Long getCourseid() {
         return courseid;
     }
 

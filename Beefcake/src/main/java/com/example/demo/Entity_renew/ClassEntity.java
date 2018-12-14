@@ -1,7 +1,7 @@
 package com.example.demo.Entity_renew;
 
 public class ClassEntity {
-    private int classId;
+    private Long classId;
     private ClassEntity course;
     private String name;
     private String classroom;
@@ -9,7 +9,7 @@ public class ClassEntity {
     //还有一个学生名单，还没学怎么存文件，等到时候学会了确定怎么写
 
 
-    public void setClassId(int classId) {
+    public void setClassId(Long classId) {
         this.classId = classId;
     }
 
@@ -29,7 +29,7 @@ public class ClassEntity {
         this.time = time;
     }
 
-    public int getClassId() {
+    public Long getClassId() {
         return classId;
     }
 

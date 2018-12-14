@@ -1,13 +1,13 @@
 package com.example.demo.Entity_renew;
 
 public class StudentEntity {
-    private int studentid;
+    private Long studentid;
     private String account;//是否需要待定
     private String name;
     private String email;
     private int sex;
 
-    public void setStudentid(int studentid) {
+    public void setStudentid(Long studentid) {
         this.studentid = studentid;
     }
 
@@ -31,7 +31,7 @@ public class StudentEntity {
         return account;
     }
 
-    public int getStudentid() {
+    public Long getStudentid() {
         return studentid;
     }
 

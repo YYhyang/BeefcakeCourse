@@ -3,7 +3,7 @@ package com.example.demo.Entity_renew;
 import java.util.List;
 
 public class TeamEntity {
-    private int teamId;
+    private Long teamId;
     private String name;
     private CourseEntity course;
     private ClassEntity klass;
@@ -11,7 +11,7 @@ public class TeamEntity {
     private List<StudentEntity> members;
     private boolean valid;
 
-    public void setTeamId(int teamId) {
+    public void setTeamId(Long teamId) {
         this.teamId = teamId;
     }
 
@@ -39,7 +39,7 @@ public class TeamEntity {
         this.valid = valid;
     }
 
-    public int getTeamId() {
+    public Long getTeamId() {
         return teamId;
     }
 
