@@ -1,6 +1,7 @@
 package com.example.demo.Controller;
 
-import com.example.demo.Entity_renew.QuestionEntity;
+import com.example.demo.Entity.QuestionEntity;
+import com.example.demo.Mapper.QuestionMapper;
 import com.example.demo.Service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -11,6 +12,8 @@ public class QuestionController {
 
     @Autowired
    private QuestionService questionService;
+    @Autowired
+    private QuestionMapper questionMapper;
 
     @RequestMapping(value="/seminar/{seminarId}/class/{classId}/question",method = RequestMethod.GET)  //本节讨论课所有提问
     public List<QuestionEntity> getAllQuestion(@PathVariable("seminarId")Long seminarId, @PathVariable("classId")Long classId )
@@ -24,8 +27,8 @@ public class QuestionController {
     }
 
     @RequestMapping(value="/question/{questionId}",method = RequestMethod.POST)  //给提问打分，修改提问打分
-    public void scoreQuestion(@RequestParam("questionId")Integer question,@RequestParam("score")Integer score ){
-
+    public boolean scoreQuestion(@PathVariable("questionId")Long questionId,@RequestParam("score")double score ){
+        return questionMapper.score(questionId,score);
     }
 
 }

@@ -5,16 +5,16 @@
 <mapper namespace="com.example.demo.Mapper.QuestionMapper">
 
 
-    <select id="getAllQuestion" resultType="com.example.demo.Entity_renew.QuestionEntity">
+    <select id="getAllQuestion" resultType="com.example.demo.Entity.QuestionEntity">
         SELECT id,klass_seminar_id,attendance_id,team_id,student_id,is_selected,score FROM question WHERE klass_seminar_id=#{klassSeminarId}
     </select>
-
-    <update id="scoreQuestion">
-        update question set score=#{score},status=1 where seminar_id=${seminarId} AND present_id=${presentId} AND student_Id=${studentId}
-    </update>
 
     <insert id="askQuestion">
         insert into question(klass_seminar_id,attendance_id,team_id,student_id) values (#{klassSeminarId},#{attendanceId},#{teamId},#{studentId})
     </insert>
+
+    <update id="score">
+        update question set score=#{score},is_selected=1 where id=#{questionId}
+    </update>
 
 </mapper>

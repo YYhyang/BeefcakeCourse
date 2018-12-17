@@ -1,77 +1,69 @@
 package com.example.demo.Entity;
 
-import javax.persistence.*;
-import java.io.Serializable;
+import java.util.List;
 
-@Entity
-@Table(name = "team", schema = "BeefcakeCourse", catalog = "")
-public class TeamEntity implements Serializable {
-    private long id;
+public class TeamEntity {
+    private Long teamId;
     private String name;
-    private Long courseId;
-    private String leaderId;
+    private CourseEntity course;
+    private ClassEntity klass;
+    private StudentEntity leader;
+    private List<StudentEntity> members;
+    private boolean valid;
 
-    @Id
-    @Column(name = "id")
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    @Basic
-    @Column(name = "name")
-    public String getName() {
-        return name;
+    public void setTeamId(Long teamId) {
+        this.teamId = teamId;
     }
 
     public void setName(String name) {
         this.name = name;
     }
 
-    @Basic
-    @Column(name = "course_id")
-    public Long getCourseId() {
-        return courseId;
+    public void setCourse(CourseEntity course) {
+        this.course = course;
     }
 
-    public void setCourseId(Long courseId) {
-        this.courseId = courseId;
+    public void setKlass(ClassEntity klass) {
+        this.klass = klass;
     }
 
-    @Basic
-    @Column(name = "leader_id")
-    public String getLeaderId() {
-        return leaderId;
+    public void setLeader(StudentEntity leader) {
+        this.leader = leader;
     }
 
-    public void setLeaderId(String leaderId) {
-        this.leaderId = leaderId;
+    public void setMembers(List<StudentEntity> members) {
+        this.members = members;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        TeamEntity that = (TeamEntity) o;
-
-        if (id != that.id) return false;
-        if (name != null ? !name.equals(that.name) : that.name != null) return false;
-        if (courseId != null ? !courseId.equals(that.courseId) : that.courseId != null) return false;
-        if (leaderId != null ? !leaderId.equals(that.leaderId) : that.leaderId != null) return false;
-
-        return true;
+    public void setValid(boolean valid) {
+        this.valid = valid;
     }
 
-    @Override
-    public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (courseId != null ? courseId.hashCode() : 0);
-        result = 31 * result + (leaderId != null ? leaderId.hashCode() : 0);
-        return result;
+    public Long getTeamId() {
+        return teamId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public CourseEntity getCourse() {
+        return course;
+    }
+
+    public ClassEntity getKlass() {
+        return klass;
+    }
+
+    public StudentEntity getLeader() {
+        return leader;
+    }
+
+    public List<StudentEntity> getMembers() {
+        return members;
+    }
+
+    public boolean isValid() {
+        return valid;
     }
 }

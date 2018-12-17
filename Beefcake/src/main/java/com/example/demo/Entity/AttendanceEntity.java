@@ -1,4 +1,4 @@
-package com.example.demo.Entity_renew;
+package com.example.demo.Entity;
 
 public class AttendanceEntity {
     private Long id;

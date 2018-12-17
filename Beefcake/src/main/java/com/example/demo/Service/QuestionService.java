@@ -1,6 +1,6 @@
 package com.example.demo.Service;
 
-import com.example.demo.Entity_renew.QuestionEntity;
+import com.example.demo.Entity.QuestionEntity;
 import com.example.demo.Mapper.AttendanceMapper;
 import com.example.demo.Mapper.KlassStudentMapper;
 import com.example.demo.Mapper.QuestionMapper;

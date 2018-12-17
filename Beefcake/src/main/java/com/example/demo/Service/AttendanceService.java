@@ -1,6 +1,6 @@
 package com.example.demo.Service;
 
-import com.example.demo.Entity_renew.AttendanceEntity;
+import com.example.demo.Entity.AttendanceEntity;
 import com.example.demo.Mapper.AttendanceMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
