@@ -1,6 +1,6 @@
 package com.example.demo.Entity_renew;
 
-public class TeamSeminarEntity {
+public class AttendanceEntity {
     private Long id;
     private Long klass_seminar_id;
     private Long team_id;

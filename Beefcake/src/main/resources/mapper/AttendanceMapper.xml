@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 指定工作空间，要与接口名相同，源代码没有去看，猜测应该是通过"这里的namespace.下边方法的id"来定位方法的 -->
+<mapper namespace="com.example.demo.Mapper.AttendanceMapper">
+
+    <select id="findKlassSeminarId" resultType="java.lang.Long">
+        SELECT id FROM klass_seminar WHERE klass_id=#{classId} AND seminar_id=#{seminarId}
+    </select>
+
+    <select id="findAllTeam" resultType="com.example.demo.Entity_renew.AttendanceEntity">
+        SELECT id,klass_seminar_id,team_id,team_order FROM attendance WHERE klass_seminar_id= #{klassSeminarId} ORDER BY team_order ASC
+    </select>
+
+    <insert id="signUp">
+        insert into attendance(klass_seminar_id,team_id,team_order) values(#{klassSeminarId},#{teamId},#{presentationOrder})
+    </insert>
+
+
+    <update id="changeOrder">
+        update attendance set team_order=#{presentationOrder} where id=#{attendanceId}
+    </update>
+
+    <delete id="deleteSignUp">
+        DELETE FROM attendance WHERE id=#{attendanceId}
+    </delete>
+
+</mapper>
