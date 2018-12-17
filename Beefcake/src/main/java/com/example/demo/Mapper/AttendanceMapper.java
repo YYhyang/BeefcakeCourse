@@ -1,6 +1,5 @@
 package com.example.demo.Mapper;
 
-import com.example.demo.Entity.TeamSeminarEntity;
 import com.example.demo.Entity.AttendanceEntity;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
