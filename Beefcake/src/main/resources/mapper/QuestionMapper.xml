@@ -2,24 +2,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <!-- 指定工作空间，要与接口名相同，源代码没有去看，猜测应该是通过"这里的namespace.下边方法的id"来定位方法的 -->
-<mapper namespace="com.example.demo.Mapper.TeacherMapper">
-    <resultMap id="questionmap" type="com.example.demo.Entity.QuestionEntity">
-        <id column="id" property="id"/>
-        <result column="student_id" property="studentId"/>
-        <result column="seminar_id" property="seminarId"/>
-        <result column="team_id" property="teamId"/>
-        <result column="present_id" property="presentId"/>
-        <result column="round" property="round"/>
-        <result column="score" property="score"/>
-        <result column="status" property="status"/>
-    </resultMap>
+<mapper namespace="com.example.demo.Mapper.QuestionMapper">
 
-    <select id="extractQuestion" resultType="com.example.demo.Entity.QuestionEntity" resultMap="questionmap">
-        SELECT * FROM question WHERE seminar_id=#{seminarId} AND present_id=#{presentId} AND status=0 ORDER BY rand() limit 1
+
+    <select id="getAllQuestion" resultType="com.example.demo.Entity.QuestionEntity">
+        SELECT id,klass_seminar_id,attendance_id,team_id,student_id,is_selected,score FROM question WHERE klass_seminar_id=#{klassSeminarId}
     </select>
 
-    <update id="scoreQuestion">
-        update question set score=#{score},status=1 where seminar_id=${seminarId} AND present_id=${presentId} AND student_Id=${studentId}
+    <insert id="askQuestion">
+        insert into question(klass_seminar_id,attendance_id,team_id,student_id) values (#{klassSeminarId},#{attendanceId},#{teamId},#{studentId})
+    </insert>
+
+    <update id="score">
+        update question set score=#{score},is_selected=1 where id=#{questionId}
     </update>
 
 </mapper>

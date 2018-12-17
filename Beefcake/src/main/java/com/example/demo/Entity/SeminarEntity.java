@@ -1,64 +1,112 @@
 package com.example.demo.Entity;
 
-import javax.persistence.*;
-import java.io.Serializable;
+public class SeminarEntity {
+    private Long seminarId;
+    private CourseEntity course;
+    private ClassEntity klass;
+    private String name;
+    private String introduction;
+    private RoundEntity round;
+    private int order;
+    private int status;//讨论课状态
+    private boolean visible;
+    private int teamNumLimit;
+    private String signupStartTime;
+    private String signupEndTime;
 
-@Entity
-@Table(name = "seminar", schema = "BeefcakeCourse", catalog = "")
-public class SeminarEntity implements Serializable {
-    private long id;
-    private Integer roundNo;
-    private Integer status;
-
-    @Id
-    @Column(name = "id")
-    public long getId() {
-        return id;
+    public Long getSeminarId() {
+        return seminarId;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void setSeminarId(Long seminarId) {
+        this.seminarId = seminarId;
     }
 
-    @Basic
-    @Column(name = "round_no")
-    public Integer getRoundNo() {
-        return roundNo;
+    public CourseEntity getCourse() {
+        return course;
     }
 
-    public void setRoundNo(Integer roundNo) {
-        this.roundNo = roundNo;
+    public void setCourse(CourseEntity course) {
+        this.course = course;
     }
 
-    @Basic
-    @Column(name = "status")
-    public Integer getStatus() {
+    public ClassEntity getKlass() {
+        return klass;
+    }
+
+    public void setKlass(ClassEntity klass) {
+        this.klass = klass;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getIntroduction() {
+        return introduction;
+    }
+
+    public void setIntroduction(String introduction) {
+        this.introduction = introduction;
+    }
+
+    public RoundEntity getRound() {
+        return round;
+    }
+
+    public void setRound(RoundEntity round) {
+        this.round = round;
+    }
+
+    public int getOrder() {
+        return order;
+    }
+
+    public void setOrder(int order) {
+        this.order = order;
+    }
+
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(Integer status) {
+    public void setStatus(int status) {
         this.status = status;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        SeminarEntity that = (SeminarEntity) o;
-
-        if (id != that.id) return false;
-        if (roundNo != null ? !roundNo.equals(that.roundNo) : that.roundNo != null) return false;
-        if (status != null ? !status.equals(that.status) : that.status != null) return false;
-
-        return true;
+    public boolean isVisible() {
+        return visible;
     }
 
-    @Override
-    public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
-        result = 31 * result + (roundNo != null ? roundNo.hashCode() : 0);
-        result = 31 * result + (status != null ? status.hashCode() : 0);
-        return result;
+    public void setVisible(boolean visible) {
+        this.visible = visible;
+    }
+
+    public int getTeamNumLimit() {
+        return teamNumLimit;
+    }
+
+    public void setTeamNumLimit(int teamNumLimit) {
+        this.teamNumLimit = teamNumLimit;
+    }
+
+    public String getSignupStartTime() {
+        return signupStartTime;
+    }
+
+    public void setSignupStartTime(String signupStartTime) {
+        this.signupStartTime = signupStartTime;
+    }
+
+    public String getSignupEndTime() {
+        return signupEndTime;
+    }
+
+    public void setSignupEndTime(String signupEndTime) {
+        this.signupEndTime = signupEndTime;
     }
 }
