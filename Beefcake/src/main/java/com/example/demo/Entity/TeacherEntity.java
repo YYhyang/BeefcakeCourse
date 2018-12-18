@@ -1,17 +1,45 @@
 package com.example.demo.Entity;
 
 public class TeacherEntity {
-    private Long teacherid;
+    private Long id;
     private String account;//是否需要待定
-    private String name;
+    private String password;
+    private String teacher_name;
+    private int is_active;
     private String email;
 
-    public void setTeacherid(Long teacherid) {
-        this.teacherid = teacherid;
+    public String getTeacher_name() {
+        return teacher_name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTeacher_name(String teacher_name) {
+        this.teacher_name = teacher_name;
+    }
+
+
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public int getIs_active() {
+        return is_active;
+    }
+
+    public void setIs_active(int is_active) {
+        this.is_active = is_active;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public void setEmail(String email) {
@@ -22,16 +50,8 @@ public class TeacherEntity {
         this.account = account;
     }
 
-    public Long getTeacherid() {
-        return teacherid;
-    }
-
     public String getAccount() {
         return account;
-    }
-
-    public String getName() {
-        return name;
     }
 
     public String getEmail() {
