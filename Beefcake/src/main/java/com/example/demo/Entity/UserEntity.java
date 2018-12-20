@@ -1,50 +1,122 @@
 package com.example.demo.Entity;
 
-public class UserEntity {
+import lombok.Data;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
-    private String account;
+import java.util.Collection;
+import java.util.List;
+
+public class UserEntity implements UserDetails {
+
+    private Long id;
+    private String Username;
     private String password;
-    private String role;
-    private int isActived;
-    private int code;
+    private Boolean enabled;
+    private String name;
+    private int role;
+    private Collection<? extends GrantedAuthority>authorities;
+    private Boolean accountNonExpired=true;
+    private Boolean accountNonLocked=true;
+    private Boolean credentialsNonExpired=true;
 
-    public void setAccount(String account) {
-        this.account = account;
+   /*public UserEntity(String Username,String password,boolean enabled)
+    {
+        this.Username=Username;
+        this.password=password;
+        this.enabled=enabled;
+    }*/
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities()
+    {
+        return authorities;
+    }
+
+    @Override
+    public String getPassword()
+    {
+        return password;
+    }
+
+    @Override
+    public String getUsername()
+    {
+        return Username;
+    }
+    @Override
+    public boolean isAccountNonLocked()
+    {
+        return accountNonLocked;
+    }
+    @Override
+    public boolean isAccountNonExpired()
+    {
+        return accountNonExpired;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired()
+    {
+        return isAccountNonExpired();
+    }
+
+    @Override
+    public boolean isEnabled()
+    {
+        return enabled;
+    }
+
+    public void setUsername(String username) {
+        Username = username;
     }
 
     public void setPassword(String password) {
         this.password = password;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
     }
 
-    public void setIsActived(int isActived) {
-        this.isActived = isActived;
+    public void setAuthorities(Collection<? extends GrantedAuthority>authorities) {
+        this.authorities = authorities;
     }
 
-    public void setCode(int code) {
-        this.code = code;
+    public void setAccountNonExpired(Boolean accountNonExpired) {
+        this.accountNonExpired = accountNonExpired;
     }
 
-    public String getAccount() {
-        return account;
+    public void setAccountNonLocked(Boolean accountNonLocked) {
+        this.accountNonLocked = accountNonLocked;
     }
 
-    public String getPassword() {
-        return password;
+    public void setCredentialsNonExpired(Boolean credentialsNonExpired) {
+        this.credentialsNonExpired = credentialsNonExpired;
     }
 
-    public String getRole() {
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getRole() {
         return role;
     }
 
-    public int getIsActived() {
-        return isActived;
-    }
-
-    public int getCode() {
-        return code;
+    public void setRole(int role) {
+        this.role = role;
     }
 }

@@ -9,34 +9,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
     @RequestMapping(value = "/user/login",method = RequestMethod.POST)
-    public void login(@RequestParam("account")int account,@RequestParam("password")String password)
+    public void login(@RequestParam("account")String account,@RequestParam("password")String password)
     {
 
     }
 
-    @RequestMapping(value = "/user/modifycode",method = RequestMethod.PUT)//发送修改密码、找回密码的验证码
-    public void modifyCode()
-    {
 
-    }
-
-    @RequestMapping(value = "/user/activecode",method = RequestMethod.PUT)//发送激活账号的验证码
-    public void activeCode(@RequestParam("email")String email)
-    {
-
-    }
-
-    @RequestMapping(value="/user/verifycode",method = RequestMethod.PUT)//发送修改密码的验证码
-    public void verifyCode(@RequestParam("code")int code)
-    {
-
-    }
-
-    @RequestMapping(value = "/user/active",method = RequestMethod.PUT)
-    public void active(@RequestParam("password")String password,@RequestParam("email")String email,@RequestParam("code")int code)
-    {
-
-    }
 
     @RequestMapping(value = "/user/information",method = RequestMethod.GET)//获取个人信息
     public void getInfo()
@@ -56,9 +34,4 @@ public class UserController {
 
     }
 
-    @RequestMapping(value = "/user/messageinterval",method = RequestMethod.PUT)
-    public void messageInterval(@RequestParam("messageInterval")int messageInterval)
-    {
-
-    }
 }
