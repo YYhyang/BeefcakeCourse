@@ -24,10 +24,10 @@ public class QuestionService {
         return questionMapper.getAllQuestion(klassSeminarId);
     }
 
-    public boolean askQuestion(Long seminarId,Long classId,Long studentId,Long attendanceId)
+    /*public boolean askQuestion(Long seminarId,Long classId,Long studentId,Long attendanceId)
     {
         Long klassSeminarId=attendanceMapper.findKlassSeminarId(seminarId, classId);
         Long teamId=klassStudentMapper.getTeamId(studentId);
         return questionMapper.askQuestion(klassSeminarId,attendanceId,teamId,studentId);
-    }
+    }*/
 }

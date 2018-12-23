@@ -21,10 +21,10 @@ public class QuestionController {
         return questionService.getAllQuestion(seminarId, classId);
     }
 
-    @RequestMapping(value="/seminar/{seminarId}/class/{classId}/question",method = RequestMethod.POST)  //提问
+   /* @RequestMapping(value="/seminar/{seminarId}/class/{classId}/question",method = RequestMethod.POST)  //提问
     public boolean question(@PathVariable("seminarId")Long seminarId, @PathVariable("classId")Long classId, @RequestParam("studentId")Long studentId, @RequestParam("attendanceId")Long attendanceId ){
         return questionService.askQuestion(seminarId,classId,studentId,attendanceId);
-    }
+    }*/
 
     @RequestMapping(value="/question/{questionId}",method = RequestMethod.POST)  //给提问打分，修改提问打分
     public boolean scoreQuestion(@PathVariable("questionId")Long questionId,@RequestParam("score")double score ){

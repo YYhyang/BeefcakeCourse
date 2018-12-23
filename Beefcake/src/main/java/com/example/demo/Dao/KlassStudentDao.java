@@ -1,0 +1,42 @@
+package com.example.demo.Dao;
+
+import com.example.demo.Mapper.KlassStudentMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
+
+@Component
+public class KlassStudentDao {
+
+    @Autowired
+    private KlassStudentMapper klassStudentMapper;
+
+    public Long selectTeamMember(Long teamId, Long studentId){
+        return klassStudentMapper.selectTeamMember(teamId,studentId);
+    }//查询小组里是否有某学生 返回其ID（未实现）
+
+    public List<Long> getStudentIdByTeamId(Long teamId){
+        return klassStudentMapper.getStudentIdByTeamId(teamId);
+    }//返回所有在该小组的学生id
+
+    public void addTeamMember(Long klassId, Long studentId, Long teamId){
+        klassStudentMapper.addTeamMember(klassId,studentId,teamId);
+    }//为某班级下的某学生增加小组信息
+
+    public void deleteTeamMember(Long studentId, Long teamId){
+        klassStudentMapper.deleteTeamMember(studentId,teamId);
+    }//为某班级下的某学生删除小组信息
+
+    public Long getTeamId(Long courseId, Long studentId){
+        return klassStudentMapper.getTeamId(courseId,studentId);
+    }
+
+    public List<Long> getNoTeamStudentsId(Long courseId){
+        return klassStudentMapper.getNoTeamStudentsId(courseId);
+    }
+
+    public List<Long> getCoursesIdByStudentId(Long studentId){
+        return klassStudentMapper.getCoursesIdByStudentId(studentId);
+    }
+}

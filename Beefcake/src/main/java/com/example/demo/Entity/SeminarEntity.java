@@ -1,112 +1,37 @@
 package com.example.demo.Entity;
 
+import java.util.Date;
+
 public class SeminarEntity {
-    private Long seminarId;
+    private Long id;
     private CourseEntity course;
-    private ClassEntity klass;
-    private String name;
-    private String introduction;
     private RoundEntity round;
-    private int order;
-    private int status;//讨论课状态
-    private boolean visible;
-    private int teamNumLimit;
-    private String signupStartTime;
-    private String signupEndTime;
+    private String seminar_name;
+    private String introduction;
+    private int max_team;
+    private int is_visible;
+    private int seminar_serial;
+    private Date enroll_start_time;
+    private Date enroll_end_time;
 
-    public Long getSeminarId() {
-        return seminarId;
-    }
-
-    public void setSeminarId(Long seminarId) {
-        this.seminarId = seminarId;
-    }
-
-    public CourseEntity getCourse() {
-        return course;
-    }
-
-    public void setCourse(CourseEntity course) {
-        this.course = course;
-    }
-
-    public ClassEntity getKlass() {
-        return klass;
-    }
-
-    public void setKlass(ClassEntity klass) {
-        this.klass = klass;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getIntroduction() {
-        return introduction;
-    }
-
-    public void setIntroduction(String introduction) {
-        this.introduction = introduction;
-    }
-
-    public RoundEntity getRound() {
-        return round;
-    }
-
-    public void setRound(RoundEntity round) {
-        this.round = round;
-    }
-
-    public int getOrder() {
-        return order;
-    }
-
-    public void setOrder(int order) {
-        this.order = order;
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
-
-    public boolean isVisible() {
-        return visible;
-    }
-
-    public void setVisible(boolean visible) {
-        this.visible = visible;
-    }
-
-    public int getTeamNumLimit() {
-        return teamNumLimit;
-    }
-
-    public void setTeamNumLimit(int teamNumLimit) {
-        this.teamNumLimit = teamNumLimit;
-    }
-
-    public String getSignupStartTime() {
-        return signupStartTime;
-    }
-
-    public void setSignupStartTime(String signupStartTime) {
-        this.signupStartTime = signupStartTime;
-    }
-
-    public String getSignupEndTime() {
-        return signupEndTime;
-    }
-
-    public void setSignupEndTime(String signupEndTime) {
-        this.signupEndTime = signupEndTime;
-    }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+    public String getSeminar_name() { return seminar_name; }
+    public void setSeminar_name(String seminar_name) { this.seminar_name = seminar_name; }
+    public int getSeminar_serial() { return seminar_serial; }
+    public void setSeminar_serial(int seminar_serial) { this.seminar_serial = seminar_serial; }
+    public CourseEntity getCourse() { return course; }
+    public void setCourse(CourseEntity course) { this.course = course; }
+    public RoundEntity getRound() { return round; }
+    public void setRound(RoundEntity round) { this.round = round; }
+    public String getIntroduction() { return introduction; }
+    public void setIntroduction(String introduction) { this.introduction = introduction; }
+    public int getMax_team() { return max_team; }
+    public void setMax_team(int max_team) { this.max_team = max_team; }
+    public int getIs_visible() { return is_visible; }
+    public void setIs_visible(int is_visible) { this.is_visible = is_visible; }
+    public Date getEnroll_start_time() { return enroll_start_time; }
+    public void setEnroll_start_time(Date enroll_start_time) { this.enroll_start_time = enroll_start_time; }
+    public Date getEnroll_end_time() { return enroll_end_time; }
+    public void setEnroll_end_time(Date enroll_end_time) { this.enroll_end_time = enroll_end_time; }
 }

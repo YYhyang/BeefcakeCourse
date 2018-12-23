@@ -2,6 +2,7 @@ package com.example.demo.Sercurity;
 
 import com.example.demo.Entity.UserEntity;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.stereotype.Component;
 
 import javax.crypto.Mac;
 import javax.crypto.SecretKey;
@@ -9,7 +10,7 @@ import javax.crypto.spec.SecretKeySpec;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
-
+@Component
 public class JwtService {
     private String secret="Beefcake";
 

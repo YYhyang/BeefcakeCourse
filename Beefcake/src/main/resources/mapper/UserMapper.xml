@@ -18,4 +18,44 @@
         select id,account,password,is_active from teacher where account=#{account}
     </select>
 
+    <select id="studentLogin" resultType="com.example.demo.Entity.StudentEntity">
+        SELECT * FROM student WHERE account=#{account} AND password=#{password}
+    </select>
+
+    <select id="teacherLogin" resultType="com.example.demo.Entity.TeacherEntity">
+        SELECT * FROM teacher WHERE account=#{account} AND password=#{password}
+    </select>
+
+    <select id="studentForgetPassword" resultType="com.example.demo.Entity.StudentEntity">
+        SELECT * FROM  student WHERE account=#{account}
+    </select>
+
+    <select id="teacherForgetPassword" resultType="com.example.demo.Entity.TeacherEntity">
+        SELECT * FROM  teacher WHERE account=#{account}
+    </select>
+
+    <select id="studentGetInfo" resultType="com.example.demo.Entity.StudentEntity">
+        SELECT * FROM student WHERE account=#{account}
+    </select>
+
+    <select id="teacherGetInfo" resultType="com.example.demo.Entity.TeacherEntity">
+        SELECT * FROM teacher WHERE account=#{account}
+    </select>
+
+    <select id="studentChangePassword">
+        UPDATE student SET password=#{password} WHERE account=#{account}
+    </select>
+
+    <select id="teacherChangePassword">
+        UPDATE teacher SET password=#{password} WHERE account=#{account}
+    </select>
+
+    <select id="studentChangeEmail">
+        UPDATE student SET email=#{email} WHERE account=#{account}
+    </select>
+
+    <select id="teacherChangeEmail">
+        UPDATE teacher SET email=#{email} WHERE account=#{account}
+    </select>
+
 </mapper>

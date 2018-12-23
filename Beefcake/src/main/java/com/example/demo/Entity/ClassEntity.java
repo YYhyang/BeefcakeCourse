@@ -1,51 +1,20 @@
 package com.example.demo.Entity;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.List;
+
+@Data
+@NoArgsConstructor
 public class ClassEntity {
-    private Long classId;
-    private ClassEntity course;
-    private String name;
-    private String classroom;
-    private String time;
-    //还有一个学生名单，还没学怎么存文件，等到时候学会了确定怎么写
-
-
-    public void setClassId(Long classId) {
-        this.classId = classId;
-    }
-
-    public void setCourse(ClassEntity course) {
-        this.course = course;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setClassroom(String classroom) {
-        this.classroom = classroom;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
-    }
-
-    public Long getClassId() {
-        return classId;
-    }
-
-    public ClassEntity getCourse() {
-        return course;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getClassroom() {
-        return classroom;
-    }
-
-    public String getTime() {
-        return time;
-    }
+    private Long id;
+    private int grade;
+    private CourseEntity course;
+    private int klass_serial;
+    private String klass_time;
+    private String klass_location;
+    private List<RoundEntity> rounds;
+    private List<TeamEntity> teams;
+    private List<StudentEntity> students;
 }

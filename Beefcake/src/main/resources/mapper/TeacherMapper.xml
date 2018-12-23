@@ -5,18 +5,18 @@
 <mapper namespace="com.example.demo.Mapper.TeacherMapper">
 
     <insert id="createTeacher">
-        insert into teacher(account,password,teacher_name,is_active,email) values(#{account},#{password},#{teacher_name},#{is_active},#{email})
+        insert into teacher(account,password,is_active,teacher_name,email) values(#{account},#{password},0,#{teacher_name},#{email})
     </insert>
 
-    <select id="getAll" resultType="com.example.demo.Entity.TeacherEntity">
+    <select id="getAllTeacher" resultType="com.example.demo.Entity.TeacherEntity">
         SELECT * FROM teacher
     </select>
 
-    <select id="searchTeacherAccount" resultType="com.example.demo.Entity.TeacherEntity">
+    <select id="searchTeacherByAccount" resultType="com.example.demo.Entity.TeacherEntity">
         SELECT * FROM teacher WHERE account =#{account}
     </select>
 
-    <select id="searchTeacherName" resultType="com.example.demo.Entity.TeacherEntity">
+    <select id="searchTeacherByName" resultType="com.example.demo.Entity.TeacherEntity">
         SELECT * FROM teacher WHERE teacher_name =#{teacher_name}
     </select>
 
@@ -35,5 +35,9 @@
     <update id="activateTeacher">
         update teacher set is_active=1 where id=${teacherId}
     </update>
+
+    <select id="selectTeacherById" resultType="com.example.demo.Entity.TeacherEntity">
+        SELECT * FROM teacher WHERE id=#{teacherId}
+    </select>
 
 </mapper>

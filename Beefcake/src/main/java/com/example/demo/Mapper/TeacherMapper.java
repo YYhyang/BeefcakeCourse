@@ -6,24 +6,23 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 public interface TeacherMapper {
-    //public List<QuestionEntity> extractQuestion(@Param("seminarId")Long seminarId, @Param("presentId")Long presentId);
 
-    // public Boolean scoreQuestion(@Param("seminarId")Long seminarId,@Param("presentId")Long presentId,@Param("studentId")Long studentId,@Param("score")BigDecimal score);
+    public Boolean createTeacher(@Param("account") String account, @Param("password") String password, @Param("teacher_name") String teacher_name, @Param("email") String email);
 
-    public Boolean createTeacher(@Param("account") String account, @Param("password")String password, @Param("teacher_name")String teacher_name, @Param("is_active")int is_active,@Param("email")String email);
+    public List<TeacherEntity> getAllTeacher();
 
-    public List<TeacherEntity> getAll( );
+    public List<TeacherEntity> searchTeacherByAccount(@Param("account") String identity);
 
-    public TeacherEntity searchTeacherAccount(@Param("account")String identity );
+    public List<TeacherEntity> searchTeacherByName(@Param("teacher_name") String identity);
 
-    public TeacherEntity searchTeacherName(@Param("teacher_name")String identity );
+    public Boolean putTeacherInfo(@Param("teacherId") Long teacherId, @Param("account") String account, @Param("teacher_name") String teacher_name, @Param("email") String email);
 
-    public Boolean putTeacherInfo(@Param("teacherId")Integer teacherId,@Param("account")String account,@Param("teacher_name")String teacher_name,@Param("email")String email );
+    public Boolean putTeacherPassword(@Param("teacherId") Long teacherId);
 
-    public Boolean putTeacherPassword(@Param("teacherId")Integer teacherId );
+    public Boolean deleteTeacher(@Param("teacherId") Long teacherId);
 
-    public Boolean deleteTeacher(@Param("teacherId")Integer teacherId );
+    public Boolean activateTeacher(@Param("teacherId") Long teacherId, @Param("password") String password);
 
-    public Boolean activateTeacher(@Param("teacherId")Integer teacherId,@Param("password")String password );
+    public TeacherEntity selectTeacherById(@Param("teacherId") Long teacherId);
 
 }
