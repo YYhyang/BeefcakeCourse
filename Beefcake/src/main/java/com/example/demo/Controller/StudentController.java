@@ -1,25 +1,96 @@
 package com.example.demo.Controller;
 
-import com.example.demo.Dao.StudentDao;
-import com.example.demo.Entity.TeamStudentEntity;
+import com.example.demo.DTO.UserInfoDTO;
+import com.example.demo.Entity.StudentEntity;
+import com.example.demo.Mapper.StudentMapper;
+import com.example.demo.VO.UserInfoVO;
+import org.springframework.web.bind.annotation.*;
 import com.example.demo.Service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 public class StudentController {
     @Autowired
-    private StudentDao studentDao;
-    @Autowired
     private StudentService studentService;
+    @Autowired
+    private StudentMapper studentMapper;
 
-    @RequestMapping(value = "/Student/Ask",method = RequestMethod.POST)
-    public boolean ask(@RequestParam("studentId")String studentId,@RequestParam("seminarId")Long seminarId,@RequestParam("presentId")Long presentId,@RequestParam("round")int round)
+    @RequestMapping(value = "/student",method = RequestMethod.GET)//管理员获得所有学生信息
+    public List<UserInfoVO> getAllStudent()
     {
-        return studentService.ask(studentId, seminarId, presentId, round);
+        List<UserInfoVO> list =new ArrayList<>();
+        List<StudentEntity> students=studentService.getAllStudent();
+        for(StudentEntity temp:students){
+            UserInfoVO vo=new UserInfoVO();
+            vo.setId(temp.getId());
+            vo.setAccount(temp.getAccount());
+            vo.setName(temp.getStudent_name());
+            vo.setEmail(temp.getEmail());
+            list.add(vo);
+        }
+        return list;
     }
 
+    @RequestMapping(value = "/student/searchstudent",method = RequestMethod.GET)
+    public List<UserInfoVO> searchStudent(@RequestParam("identity")String identity)//管理员根据姓名或学号查询学生
+    {
+        List<UserInfoVO> list =new ArrayList<>();
+        List<StudentEntity> students=studentService.searchStudent(identity);
+        for(StudentEntity temp:students){
+            UserInfoVO vo=new UserInfoVO();
+            vo.setId(temp.getId());
+            vo.setAccount(temp.getAccount());
+            vo.setName(temp.getStudent_name());
+            vo.setEmail(temp.getEmail());
+            list.add(vo);
+        }
+        return list;
+    }
+
+    @RequestMapping(value = "/student/{studentId}/information",method = RequestMethod.PUT)
+    public UserInfoVO putStudentInfo(@PathVariable("studentId")Long studentId, @RequestBody UserInfoDTO dto)//管理员修改某一学生信息
+    {
+        if(studentService.putStudentInfo(studentId,dto.getAccount(),dto.getName(),dto.getEmail())) {
+            UserInfoVO vo = new UserInfoVO();
+            vo.setId(studentId);
+            vo.setAccount(dto.getAccount());
+            vo.setName(dto.getName());
+            vo.setEmail(dto.getEmail());
+            return vo;
+        }
+        else
+            return new UserInfoVO();  //异常处理之后
+    }
+
+    @RequestMapping(value= "/student/{studentId}/password",method = RequestMethod.PUT)
+    public UserInfoVO putStudentPassword(@PathVariable("studentId")Long studentId)//管理员重置学生密码
+    {
+        if(studentService.putStudentPassword(studentId)) {
+            UserInfoVO vo=new UserInfoVO();
+            StudentEntity student=studentService.getStudentById(studentId);
+            vo.setId(student.getId());
+            vo.setAccount(student.getAccount());
+            vo.setName(student.getStudent_name());
+            vo.setEmail(student.getEmail());
+            return vo;
+        }
+        else
+            return new UserInfoVO();  //异常处理之后
+    }
+
+    @RequestMapping(value = "/student/{studentId}",method = RequestMethod.DELETE)
+    public void deleteStudent(@PathVariable("studentId")Long studentId)//管理员按ID删除某学生
+    {
+        studentService.deleteStudent(studentId);
+    }
+
+    @RequestMapping(value = "/student/active",method = RequestMethod.PUT)
+    public Boolean activateStudent(@PathVariable("studentId")Long studentId,@RequestParam("password")String password,@RequestParam("email")String email)
+    {
+        return studentMapper.activateStudent(studentId,password,email);
+    }
 }
+

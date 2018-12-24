@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 指定工作空间，要与接口名相同，源代码没有去看，猜测应该是通过"这里的namespace.下边方法的id"来定位方法的 -->
+<mapper namespace="CommonMapper">
+
+    <resultMap id="CourseMap" type="com.example.demo.Entity.CourseEntity">
+        <id column="id" property="id"/>
+        <result column="course_name" property="course_name"/>
+        <result column="introduction" property="introduction"/>
+        <result column="presentation_percentage" property="presentation_percentage"/>
+        <result column="question_percentage" property="question_percentage"/>
+        <result column="report_percentage" property="report_percentage"/>
+        <result column="team_start_time" property="team_start_time"/>
+        <result column="team_end_time" property="team_end_time"/>
+        <result column="team_main_course_id" property="team_main_course_id"/>
+        <result column="seminar_main_course_id" property="seminar_main_course_id"/>
+        <association column="teacher_id" property="teacher" select="selectTeacher"/>
+    </resultMap>
+
+    <resultMap id="RoundMap" type="com.example.demo.Entity.RoundEntity">
+        <id column="id" property="id"/>
+        <result column="round_serial" property="round_serial"/>
+        <result column="presentation_score_method" property="presentation_score_method"/>
+        <result column="report_score_method" property="report_score_method"/>
+        <result column="question_score_method" property="question_score_method"/>
+        <association property="course" column="course_id" select="selectCourse"/>
+    </resultMap>
+
+    <resultMap id="ClassMap" type="com.example.demo.Entity.ClassEntity">
+        <id column="id" property="id"/>
+        <result column="grade" property="grade"/>
+        <result column="klass_serial" property="klass_serial"/>
+        <result column="klass_time" property="klass_time"/>
+        <result column="klass_location" property="klass_location"/>
+        <association property="course" column="course_id" select="selectCourse"/>
+    </resultMap>
+
+    <resultMap id="TeamMap" type="com.example.demo.Entity.TeamEntity">
+        <id column="id" property="id"/>
+        <result column="team_name" property="team_name"/>
+        <result column="team_serial" property="team_serial"/>
+        <result column="status" property="status"/>
+        <association property="course" column="course_id" select="selectCourse"/>
+        <association property="klass" column="klass_id" select="selectClass"/>
+        <association property="leader" column="leader_id" select="selectStudent"/>
+    </resultMap>
+
+    <select id="selectStudent" resultType="com.example.demo.Entity.StudentEntity">
+        SELECT * FROM student WHERE id=#{id}
+    </select>
+
+    <select id="selectTeacher" resultType="com.example.demo.Entity.TeacherEntity">
+        SELECT * FROM teacher WHERE id=#{id}
+    </select>
+
+    <select id="selectCourse" resultMap="CourseMap">
+        SELECT * FROM course WHERE id=#{id}
+    </select>
+
+    <select id="selectRound" resultMap="RoundMap">
+        SELECT * FROM round WHERE id=#{id}
+    </select>
+    <select id="selectClass" resultMap="ClassMap">
+        SELECT * FROM klass WHERE id=#{id}
+    </select>
+    <select id="selectTeam" resultMap="TeamMap">
+        SELECT * FROM team WHERE id=#{id}
+    </select>
+</mapper>

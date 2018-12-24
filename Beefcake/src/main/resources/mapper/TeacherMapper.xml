@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 指定工作空间，要与接口名相同，源代码没有去看，猜测应该是通过"这里的namespace.下边方法的id"来定位方法的 -->
+<mapper namespace="com.example.demo.Mapper.TeacherMapper">
+
+    <insert id="createTeacher">
+        insert into teacher(account,password,is_active,teacher_name,email) values(#{account},#{password},0,#{teacher_name},#{email})
+    </insert>
+
+    <select id="getAllTeacher" resultType="com.example.demo.Entity.TeacherEntity">
+        SELECT * FROM teacher
+    </select>
+
+    <select id="searchTeacherByAccount" resultType="com.example.demo.Entity.TeacherEntity">
+        SELECT * FROM teacher WHERE account =#{account}
+    </select>
+
+    <select id="searchTeacherByName" resultType="com.example.demo.Entity.TeacherEntity">
+        SELECT * FROM teacher WHERE teacher_name =#{teacher_name}
+    </select>
+
+    <update id="putTeacherInfo" >
+        update teacher set account=#{account},teacher_name=#{teacher_name},email=#{email} where id=${teacherId}
+    </update>
+
+    <update id="putTeacherPassword">
+        update teacher set password="123456" where id=${teacherId}
+    </update>
+
+    <delete id="deleteTeacher">
+        delete FROM teacher where id=${teacherId}
+    </delete>
+
+    <update id="activateTeacher">
+        update teacher set is_active=1 where id=${teacherId}
+    </update>
+
+    <select id="selectTeacherById" resultType="com.example.demo.Entity.TeacherEntity">
+        SELECT * FROM teacher WHERE id=#{teacherId}
+    </select>
+
+</mapper>
