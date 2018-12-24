@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Component
@@ -25,6 +26,13 @@ public class CourseService {
     @Autowired
     private StudentDao studentDao;
 
+    public Long createCourse(String courseName, String introduction, int pPercent, int qPercent, int rPercent, Date teamStartTime,Date teamEndTime){
+        Long jwt_teacherId = new Long(7);
+        courseDao.createCourse(jwt_teacherId,courseName,introduction,pPercent,qPercent,rPercent,teamStartTime,teamEndTime);
+        return courseDao.getCourseId(jwt_teacherId,courseName);
+    }
+
+
     public CourseEntity getCourseById(Long courseId){
         CourseEntity course= courseDao.getCourseById(courseId);
         List<Long> allRoundId = roundDao.getAllRoundId(courseId);
@@ -42,17 +50,19 @@ public class CourseService {
         return course;
     }
 
-    public List<CourseEntity> getCourse(String role, Long Id){
+    public List<CourseEntity> getCourse(){
+        String role = "teacher";//老师或学生
+        Long jwt_Id = new Long(8);
         if(role=="student"){
             List<CourseEntity> courseEntities = new ArrayList<>();
-            List<Long> coursesId = klassStudentDao.getCoursesIdByStudentId(Id);
+            List<Long> coursesId = klassStudentDao.getCoursesIdByStudentId(jwt_Id);
             for(Long courseId:coursesId){
                 courseEntities.add(courseDao.getCourseById(courseId));
             }
             return courseEntities;
         }
         else {
-            return courseDao.getCoursesByTeacherId(Id);
+            return courseDao.getCoursesByTeacherId(jwt_Id);
         }
     }
 

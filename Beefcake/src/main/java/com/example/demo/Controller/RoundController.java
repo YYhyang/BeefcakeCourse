@@ -1,6 +1,7 @@
 package com.example.demo.Controller;
 
 import com.example.demo.DTO.changeRoundDTO;
+import com.example.demo.DTO.changeRoundScoreDTO;
 import com.example.demo.Entity.RoundEntity;
 import com.example.demo.Entity.RoundscoreEntity;
 import com.example.demo.Entity.SeminarEntity;
@@ -106,8 +107,8 @@ public class RoundController {
         return vo;
     }
 
-    /*@RequestMapping(value = "/round/{roundId}/team/{teamId}/roundscore",method = RequestMethod.PUT)
-    public boolean changeScore(){
-
-    }*/
+    @RequestMapping(value = "/round/{roundId}/team/{teamId}/roundscore",method = RequestMethod.PUT)
+    public boolean changeScore(@PathVariable("roundId")Long roundId,@PathVariable("teamId")Long teamId,@RequestBody changeRoundScoreDTO dto){
+        return roundService.changeRoundScore(roundId,teamId,dto);
+    }
 }

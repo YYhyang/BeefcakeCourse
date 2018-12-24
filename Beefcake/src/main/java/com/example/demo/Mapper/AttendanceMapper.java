@@ -27,4 +27,6 @@ public interface AttendanceMapper {
 
     public boolean deleteSignUp(@Param("attendanceId")Long attendanceId);
 
+    public Long getCourseBySeminarId(@Param("seminarId")Long seminarId);
+
 }

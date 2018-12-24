@@ -9,4 +9,12 @@
     <select id="getAllKlassId" resultType="java.lang.Long">
         select id from klass where course_id=#{courseId}
     </select>
+
+    <insert id="createKlass">
+        insert into klass(course_id,grade,klass_serial,klass_time,klass_location) values (#{courseId},#{grade},#{klassSerial},#{klassTime},#{klassLocation})
+    </insert>
+
+    <select id="getKlassId" resultType="java.lang.Long">
+        select id from klass where course_id=#{courseId} and grade=#{grade} and klass_serial=#{klassSerial}
+    </select>
 </mapper>

@@ -43,7 +43,7 @@ public class JWTLoginFilter extends UsernamePasswordAuthenticationFilter {
         }
 
         //测试用户名密码
-        System.out.println("Login username: "+username);
+        System.out.println("Login: "+username);
         System.out.println("Login password: "+password);
 
 
@@ -69,7 +69,12 @@ public class JWTLoginFilter extends UsernamePasswordAuthenticationFilter {
         String jwtString = jwtService.generateJwt(userEntity);
         System.out.println("jwtString: "+jwtString);
 
+        String  role;
+        if(userEntity.getRole()==1)
+            role="Teacher";
+        else role="Student";
         response.addHeader("token","Bearer "+jwtString);
+        response.addHeader("role",role);
 
     }
 }

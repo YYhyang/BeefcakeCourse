@@ -53,4 +53,13 @@ public class RoundDao {
         }
         return true;
     }
+    public boolean changeRoundScore(Long roundId,Long teamId,double presentationScore,double reportScore,
+                                    double questionScore,double finalScore)
+    {
+        return roundMapper.changeRoundScore(roundId, teamId, presentationScore, reportScore, questionScore, finalScore);
+    }
+
+    public double averageScore(double presentationScore,double reportScore, double questionScore){
+        return (presentationScore+reportScore+questionScore)/3;
+    }
 }

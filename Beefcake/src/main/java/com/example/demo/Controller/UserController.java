@@ -17,7 +17,7 @@ public class UserController {
     @Autowired
     public UserMapper userMapper;
     @RequestMapping(value = "/user/login",method = RequestMethod.POST)
-    public boolean login(@RequestParam("account") String account, @RequestParam("password") String password)
+    public boolean login(@RequestParam("username") String account, @RequestParam("password") String password)
     {
         return userService.userLogin(account,password);
     }
