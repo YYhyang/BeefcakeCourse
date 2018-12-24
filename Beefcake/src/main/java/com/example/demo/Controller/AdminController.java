@@ -1,23 +1,23 @@
 package com.example.demo.Controller;
 
+import com.example.demo.Service.AdminService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
+
 @RestController
 public class AdminController {
 
+    @Resource
+    AdminService adminService;
+
     @RequestMapping(value = "/admin/login", method = RequestMethod.POST)
-    public void login(@RequestParam("account")int account, @RequestParam("password")String password)
+    public boolean login(@RequestParam("account")String account, @RequestParam("password")String password)
     {
-
+        return adminService.login(account,password);
     }
 
-
-    @RequestMapping(value = "/admin/email",method = RequestMethod.GET)
-    public void getAdminEmail()
-    {
-
-    }
 }

@@ -1,64 +1,37 @@
 package com.example.demo.Entity;
 
-import javax.persistence.*;
-import java.io.Serializable;
+import java.util.Date;
 
-@Entity
-@Table(name = "seminar", schema = "BeefcakeCourse", catalog = "")
-public class SeminarEntity implements Serializable {
-    private long id;
-    private Integer roundNo;
-    private Integer status;
+public class SeminarEntity {
+    private Long id;
+    private CourseEntity course;
+    private RoundEntity round;
+    private String seminar_name;
+    private String introduction;
+    private int max_team;
+    private int is_visible;
+    private int seminar_serial;
+    private Date enroll_start_time;
+    private Date enroll_end_time;
 
-    @Id
-    @Column(name = "id")
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    @Basic
-    @Column(name = "round_no")
-    public Integer getRoundNo() {
-        return roundNo;
-    }
-
-    public void setRoundNo(Integer roundNo) {
-        this.roundNo = roundNo;
-    }
-
-    @Basic
-    @Column(name = "status")
-    public Integer getStatus() {
-        return status;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        SeminarEntity that = (SeminarEntity) o;
-
-        if (id != that.id) return false;
-        if (roundNo != null ? !roundNo.equals(that.roundNo) : that.roundNo != null) return false;
-        if (status != null ? !status.equals(that.status) : that.status != null) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
-        result = 31 * result + (roundNo != null ? roundNo.hashCode() : 0);
-        result = 31 * result + (status != null ? status.hashCode() : 0);
-        return result;
-    }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+    public String getSeminar_name() { return seminar_name; }
+    public void setSeminar_name(String seminar_name) { this.seminar_name = seminar_name; }
+    public int getSeminar_serial() { return seminar_serial; }
+    public void setSeminar_serial(int seminar_serial) { this.seminar_serial = seminar_serial; }
+    public CourseEntity getCourse() { return course; }
+    public void setCourse(CourseEntity course) { this.course = course; }
+    public RoundEntity getRound() { return round; }
+    public void setRound(RoundEntity round) { this.round = round; }
+    public String getIntroduction() { return introduction; }
+    public void setIntroduction(String introduction) { this.introduction = introduction; }
+    public int getMax_team() { return max_team; }
+    public void setMax_team(int max_team) { this.max_team = max_team; }
+    public int getIs_visible() { return is_visible; }
+    public void setIs_visible(int is_visible) { this.is_visible = is_visible; }
+    public Date getEnroll_start_time() { return enroll_start_time; }
+    public void setEnroll_start_time(Date enroll_start_time) { this.enroll_start_time = enroll_start_time; }
+    public Date getEnroll_end_time() { return enroll_end_time; }
+    public void setEnroll_end_time(Date enroll_end_time) { this.enroll_end_time = enroll_end_time; }
 }

@@ -1,28 +1,30 @@
 package com.example.demo.Controller;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import com.example.demo.Entity.AttendanceEntity;
+import com.example.demo.Mapper.AttendanceMapper;
+import com.example.demo.Service.AttendanceService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
+@RestController
 public class PresentationController {
+    @Autowired
+    private AttendanceService attendanceService;
+    @Autowired
+    private AttendanceMapper attendanceMapper;
 
-    @RequestMapping(value="/presentation/{presentationId}",method = RequestMethod.GET)   //查看自己小组报名的展示
-    public void getPresentation(@RequestParam("presentationId")Integer presentationId )
+    @RequestMapping(value="/attendance/{attendanceId}",method = RequestMethod.PUT)   //修改报名展示
+    public boolean putPresentation(@PathVariable("attendanceId")Long attendanceId,@RequestParam("presentationOrder")Integer presentationOrder )
     {
-
+        return attendanceMapper.changeOrder(attendanceId,presentationOrder);
     }
 
-    @RequestMapping(value="/presentation/{presentationId}",method = RequestMethod.PUT)   //修改报名展示
-    public void putPresentation(@RequestParam("presentationId")Integer presentationId,@RequestParam("presentationOrder")Integer presentationOrder )
+    @RequestMapping(value="/attendance/{attendanceId}",method = RequestMethod.DELETE)   //取消报名展示
+    public boolean deletePresentation(@PathVariable("attendanceId")Long attendanceId )
     {
-
-    }
-
-    @RequestMapping(value="/presentation/{presentationId}",method = RequestMethod.DELETE)   //取消报名展示
-    public void deletePresentation(@RequestParam("presentationId")Integer presentationId )
-    {
-
+        return attendanceMapper.deleteSignUp(attendanceId);
     }
 
     @RequestMapping(value="/presentation/{presentationId}/report",method = RequestMethod.POST)   //上传讨论课报告
@@ -74,15 +76,15 @@ public class PresentationController {
     }
 
     @RequestMapping(value="/seminar/{seminarId}/class/{classId}/presentation",method = RequestMethod.GET)   //获得讨论课展示信息
-    public void getAllpresentation(@RequestParam("seminarId")Integer seminarId, @RequestParam("classId")Integer classId,@RequestParam("status")String status)
+    public List<AttendanceEntity> getAllpresentation(@PathVariable("seminarId")Long seminarId, @PathVariable("classId")Long classId)
     {
-
+        return attendanceService.findAllTeam(seminarId, classId);
     }
 
     @RequestMapping(value="/seminar/{seminarId}/class/{classId}/presentation",method = RequestMethod.POST)   //报名展示
-    public void postpresentation(@RequestParam("seminarId")Integer seminarId, @RequestParam("classId")Integer classId,@RequestParam("presentationOrder")Integer presentationOrder,@RequestParam("teamId")Integer teamId)
+    public boolean postpresentation(@PathVariable("seminarId")Long seminarId, @PathVariable("classId")Long classId,@RequestParam("presentationOrder")int presentationOrder,@RequestParam("teamId")Long teamId)
     {
-
+        return attendanceService.signUpAttendence(seminarId, classId, presentationOrder, teamId);
     }
 
 }

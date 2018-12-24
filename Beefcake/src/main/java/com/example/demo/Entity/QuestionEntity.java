@@ -1,130 +1,67 @@
 package com.example.demo.Entity;
 
-import javax.persistence.*;
-import java.io.Serializable;
-import java.math.BigDecimal;
+public class QuestionEntity {
+    private Long id;
+    private Long klass_seminar_id;
+    private Long attendance_id;
+    private Long team_id;
+    private Long student_id;
+    private int is_selected;
+    private double score;
 
-@Entity
-@Table(name = "question", schema = "BeefcakeCourse", catalog = "")
-public class QuestionEntity implements Serializable {
-    private long id;
-    private String studentId;
-    private Long seminarId;
-    private Long teamId;
-    private Long presentId;
-    private Integer round;
-    private BigDecimal score;
-    private Integer status;
-
-    @Id
-    @Column(name = "id")
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    @Basic
-    @Column(name = "student_id")
-    public String getStudentId() {
-        return studentId;
+    public Long getKlass_seminar_id() {
+        return klass_seminar_id;
     }
 
-    public void setStudentId(String studentId) {
-        this.studentId = studentId;
+    public void setKlass_seminar_id(Long klass_seminar_id) {
+        this.klass_seminar_id = klass_seminar_id;
     }
 
-    @Basic
-    @Column(name = "seminar_id")
-    public Long getSeminarId() {
-        return seminarId;
+    public Long getAttendance_id() {
+        return attendance_id;
     }
 
-    public void setSeminarId(Long seminarId) {
-        this.seminarId = seminarId;
+    public void setAttendance_id(Long attendance_id) {
+        this.attendance_id = attendance_id;
     }
 
-    @Basic
-    @Column(name = "team_id")
-    public Long getTeamId() {
-        return teamId;
+    public Long getTeam_id() {
+        return team_id;
     }
 
-    public void setTeamId(Long teamId) {
-        this.teamId = teamId;
+    public void setTeam_id(Long team_id) {
+        this.team_id = team_id;
     }
 
-    @Basic
-    @Column(name = "present_id")
-    public Long getPresentId() {
-        return presentId;
+    public Long getStudent_id() {
+        return student_id;
     }
 
-    public void setPresentId(Long presentId) {
-        this.presentId = presentId;
+    public void setStudent_id(Long student_id) {
+        this.student_id = student_id;
     }
 
-    @Basic
-    @Column(name = "round")
-    public Integer getRound() {
-        return round;
+    public int getIs_selected() {
+        return is_selected;
     }
 
-    public void setRound(Integer round) {
-        this.round = round;
+    public void setIs_selected(int is_selected) {
+        this.is_selected = is_selected;
     }
 
-    @Basic
-    @Column(name = "score")
-    public BigDecimal getScore() {
+    public double getScore() {
         return score;
     }
 
-    public void setScore(BigDecimal score) {
+    public void setScore(double score) {
         this.score = score;
-    }
-
-    @Basic
-    @Column(name = "status")
-    public Integer getStatus() {
-        return status;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        QuestionEntity that = (QuestionEntity) o;
-
-        if (id != that.id) return false;
-        if (studentId != null ? !studentId.equals(that.studentId) : that.studentId != null) return false;
-        if (seminarId != null ? !seminarId.equals(that.seminarId) : that.seminarId != null) return false;
-        if (teamId != null ? !teamId.equals(that.teamId) : that.teamId != null) return false;
-        if (presentId != null ? !presentId.equals(that.presentId) : that.presentId != null) return false;
-        if (round != null ? !round.equals(that.round) : that.round != null) return false;
-        if (score != null ? !score.equals(that.score) : that.score != null) return false;
-        if (status != null ? !status.equals(that.status) : that.status != null) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
-        result = 31 * result + (studentId != null ? studentId.hashCode() : 0);
-        result = 31 * result + (seminarId != null ? seminarId.hashCode() : 0);
-        result = 31 * result + (teamId != null ? teamId.hashCode() : 0);
-        result = 31 * result + (presentId != null ? presentId.hashCode() : 0);
-        result = 31 * result + (round != null ? round.hashCode() : 0);
-        result = 31 * result + (score != null ? score.hashCode() : 0);
-        result = 31 * result + (status != null ? status.hashCode() : 0);
-        return result;
     }
 }

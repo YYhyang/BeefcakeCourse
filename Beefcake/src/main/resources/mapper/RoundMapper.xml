@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 指定工作空间，要与接口名相同，源代码没有去看，猜测应该是通过"这里的namespace.下边方法的id"来定位方法的 -->
+<mapper namespace="com.example.demo.Mapper.RoundMapper">
+    <resultMap id="seminarMap" type="com.example.demo.Entity.SeminarEntity">
+        <id column="id" property="id"/>
+        <result column="seminar_name" property="seminar_name"/>
+        <result column="introduction" property="introduction"/>
+        <result column="max_team" property="max_team"/>
+        <result column="is_visible" property="is_visible"/>
+        <result column="seminar_serial" property="seminar_serial"/>
+        <result column="enroll_start_time" property="enroll_start_time"/>
+        <result column="enroll_end_time" property="enroll_end_time"/>
+        <association column="course_id" property="course" select="CommonMapper.selectCourse"/>
+        <association column="round_id" property="round" select="CommonMapper.selectRound"/>
+    </resultMap>
+
+    <resultMap id="RoundScoreMap" type="com.example.demo.Entity.RoundscoreEntity">
+        <result column="total_score" property="total_score"/>
+        <result column="presentation_score" property="presentation_score"/>
+        <result column="question_score" property="question_score"/>
+        <result column="report_score" property="report_score"/>
+        <association property="round" column="round_id" select="CommonMapper.selectRound"/>
+        <association property="team" column="team_id" select="CommonMapper.selectTeam"/>
+    </resultMap>
+    <select id="finaAllSeminarByRoundId" resultMap="seminarMap">
+        select * from seminar where round_id=#{roundId} and is_visible=1
+    </select>
+
+    <select id="getRoundByRoundId" resultMap="CommonMapper.RoundMap">
+        SELECT * FROM round WHERE id=#{roundId}
+    </select>
+
+    <select id="getAllRoundScoreByRoundIdAndTeamId" resultMap="RoundScoreMap">
+        SELECT * FROM round_score WHERE round_id=#{param1} AND team_id=#{param2}
+    </select>
+
+    <select id="getAllRoundScoreByRoundId" resultMap="RoundScoreMap">
+        SELECT * FROM round_score WHERE round_id=#{roundId}
+    </select>
+
+    <select id="getAllRoundId" resultType="java.lang.Long">
+        select id from round where course_id=#{courseId}
+    </select>
+
+    <select id="getRoundById" resultType="com.example.demo.Entity.RoundEntity">
+        select * from round where id=#{roundId}
+    </select>
+
+    <insert id="createRound">
+        insert into round(course_id,round_serial) values(#{arg1},#{arg0})
+    </insert>
+
+
+    <insert id="createSignUpnum">
+        insert into klass_round(klass_id,round_id,enroll_number) values (#{param1},#{param2},1)
+    </insert>
+
+    <update id="changeRoundInfo">
+        update round set presentation_score_method=#{param2},report_score_method=#{param3},question_score_method=#{param4} where id=#{param1}
+    </update>
+
+    <update id="changeSignUpnum">
+        update klass_round set enroll_number=#{param3} WHERE klass_id=#{param1} AND round_id=#{param2}
+    </update>
+</mapper>
