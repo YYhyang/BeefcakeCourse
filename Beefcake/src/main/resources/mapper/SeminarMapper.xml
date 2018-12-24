@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 指定工作空间，要与接口名相同，源代码没有去看，猜测应该是通过"这里的namespace.下边方法的id"来定位方法的 -->
+<mapper namespace="com.example.demo.Mapper.SeminarMapper">
+
+    <resultMap id="seminarMap" type="com.example.demo.Entity.SeminarEntity">
+        <id column="id" property="id"/>
+        <result column="seminar_name" property="seminar_name"/>
+        <result column="introduction" property="introduction"/>
+        <result column="max_team" property="max_team"/>
+        <result column="is_visible" property="is_visible"/>
+        <result column="seminar_serial" property="seminar_serial"/>
+        <result column="enroll_start_time" property="enroll_start_time"/>
+        <result column="enroll_end_time" property="enroll_end_time"/>
+        <association column="course_id" property="course" select="CommonMapper.selectCourse"/>
+        <association column="round_id" property="round" select="CommonMapper.selectRound"/>
+    </resultMap>
+
+    <resultMap id="SeminarScoreMap" type="com.example.demo.Entity.SeminarScoreEntity">
+        <id column="klass_seminar_id" property="klass_seminar_id"/>
+        <result column="total_score" property="total_score"/>
+        <result column="presentation_score" property="presentation_score"/>
+        <result column="report_score" property="report_score"/>
+        <result column="question_score" property="question_score"/>
+        <association property="team" column="team_id" select="CommonMapper.selectTeam"/>
+    </resultMap>
+
+    <insert id="createSeminar">
+        insert into seminar(course_id,round_id,seminar_name,introduction,max_team,is_visible,seminar_serial,enroll_start_time,enroll_end_time)
+        values (#{param1},#{param2},#{param3},#{param4},#{param5},#{param6},#{param7},#{param8},#{param9})
+    </insert>
+
+    <insert id="setPresentationScore">
+        insert into seminar_score(klass_seminar_id,team_id,presentation_score) values (#{param1},#{param2},#{param3})
+    </insert>
+
+    <select id="getClassIdBySeminarId" resultType="java.lang.Long">
+        SELECT klass_id from klass_seminar where seminar_id=#{seminarId}
+    </select>
+
+    <select id="getClassIdByTeamId" resultType="java.lang.Long">
+        SELECT klass_id from team where id=#{teamId}
+    </select>
+
+    <select id="getKlassSeminarIdByClassIdAndSeminarId" resultType="java.lang.Long">
+        select id from klass_seminar where klass_id=#{param1} and seminar_id=#{param2}
+    </select>
+
+    <select id="getScoreByKlassSeminarIdAndTeamId" resultMap="SeminarScoreMap">
+        select * from seminar_score where klass_seminar_id=#{param1} and team_id=#{param2}
+    </select>
+
+    <select id="getSeminarBySeminarId" resultMap="seminarMap">
+        Select * from seminar where id=#{seminarId}
+    </select>
+
+    <update id="changeReportDDL">
+        update klass_seminar set report_ddl=#{param3} where seminar_id=#{param1} and klass_id=#{param2}
+    </update>
+
+    <update id="setRound">
+        update seminar set round_id=#{param2} where id=#{param1}
+    </update>
+
+    <update id="setStatus">
+        update klass_seminar set status=#{param3} where seminar_id=#{param1} and klass_id=#{param2}
+    </update>
+
+    <update id="setReportScore">
+        update seminar_score set report_score=#{param3} where klass_seminar_id=#{param1} and team_id=#{param2}
+    </update>
+
+    <update id="changeSeminar">
+        update seminar set course_id=#{param1},
+                            round_id=#{param2},
+                            seminar_name=#{param3},
+                            introduction=#{param4},
+                            max_team=#{param5},
+                            is_visible=#{param6},
+                            seminar_serial=#{param7},
+                            enroll_start_time=#{param8},
+                            enroll_end_time=#{param9} where id=#{param10}
+    </update>
+
+    <delete id="deleteSeminar">
+        delete from seminar where id=#{seminarId}
+    </delete>
+
+</mapper>

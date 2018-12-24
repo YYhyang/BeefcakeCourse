@@ -42,9 +42,9 @@ public class TeamController {
 
         //获得初始Entity类
         TeamEntity teamEntity = teamService.getTeamById(teamId);
-        ClassEntity classEntity = klassService.getKlassById(teamEntity.getKlass().getId());
-        CourseEntity courseEntity = courseService.getCourseById(teamEntity.getCourse().getId());
-        StudentEntity leaderEntity = studentService.getStudentById(teamEntity.getLeader().getId());
+        ClassEntity classEntity = teamEntity.getKlass();
+        CourseEntity courseEntity = teamEntity.getCourse();
+        StudentEntity leaderEntity = teamEntity.getLeader();
         List<StudentEntity> studentEntities = teamEntity.getMembers();
         //初始化内部VO类
         KlassInTeamVO klass = new KlassInTeamVO();

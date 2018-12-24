@@ -20,6 +20,8 @@ public interface RoundMapper {
     public boolean createRound(@Param("round_serial")int round_serial,@Param("courseId")Long courseId);
     public boolean changeRoundInfo(@Param("roundId")Long roundId,@Param("presentation")int presentation,@Param("report")int report,@Param("question")int question);
     public boolean changeSignUpnum(@Param("klassId")Long klassId,@Param("roundId")Long roundId,@Param("enrollNumber")int enrollNumber);
+    public boolean changeRoundScore(@Param("roundId")Long roundId,@Param("teamId")Long teamId,@Param("presentationScore")double presentationScore,@Param("reportScore")double reportScore,
+                                    @Param("questionScore")double questionScore,@Param("finalScore")double finalScore);
     public boolean createSignUpnum(@Param("klassId")Long klassId,@Param("roundId")Long roundId);
     public List<Long> getAllRoundId(@Param("courseId") Long courseId);
     public RoundEntity getRoundById(@Param("roundId")Long roundId);

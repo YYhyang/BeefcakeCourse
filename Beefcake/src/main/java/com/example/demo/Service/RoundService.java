@@ -1,6 +1,7 @@
 package com.example.demo.Service;
 
 import com.example.demo.DTO.changeRoundDTO;
+import com.example.demo.DTO.changeRoundScoreDTO;
 import com.example.demo.Dao.RoundDao;
 import com.example.demo.Entity.RoundEntity;
 import com.example.demo.Entity.RoundscoreEntity;
@@ -46,6 +47,11 @@ public class RoundService {
             return true;
         else
             return false;
+    }
+
+    public boolean changeRoundScore(Long roundId, Long teamId, changeRoundScoreDTO dto){
+        double finalScore=(dto.getPresentationScore()+dto.getQuestionScore()+dto.getReportScore())/3;
+        return roundDao.changeRoundScore(roundId,teamId,dto.getPresentationScore(),dto.getReportScore(),dto.getQuestionScore(),finalScore);
     }
 
     public boolean createRound(int round_serial, Long courseId) {
