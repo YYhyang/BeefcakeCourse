@@ -8,6 +8,10 @@
         SELECT id FROM klass_seminar WHERE klass_id=#{classId} AND seminar_id=#{seminarId}
     </select>
 
+    <select id="getCourseBySeminarId" resultType="java.lang.Long">
+        SELECT course_id FROM seminar WHERE id=#{seminarId}
+    </select>
+
     <select id="findAllTeam" resultType="com.example.demo.Entity.AttendanceEntity">
         SELECT id,klass_seminar_id,team_id,team_order FROM attendance WHERE klass_seminar_id= #{klassSeminarId} ORDER BY team_order ASC
     </select>
