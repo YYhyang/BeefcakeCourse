@@ -9,7 +9,6 @@ import java.util.Collection;
 import java.util.List;
 
 public class UserEntity implements UserDetails {
-
     private Long id;
     private String Username;
     private String password;

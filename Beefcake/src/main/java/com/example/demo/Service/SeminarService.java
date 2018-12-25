@@ -28,7 +28,7 @@ public class SeminarService {
                                         createSeminarDTO.getOrder(),createSeminarDTO.getStart(),createSeminarDTO.getEnd());
     }
 
-    public boolean changeSeminar(Long seminarId,CreateSeminarDTO createSeminarDTO)
+    public boolean changeSeminar(Long seminarId, CreateSeminarDTO createSeminarDTO)
     {
         return seminarDao.changeSeminar(createSeminarDTO.getCourseId(),createSeminarDTO.getRoundId(),createSeminarDTO.getSeminarName(),
                 createSeminarDTO.getIntroduction(),createSeminarDTO.getMaxTeam(),createSeminarDTO.getVisible(),
@@ -54,7 +54,7 @@ public class SeminarService {
     public boolean setStatus(Long seminarId, changeSeminarStatusDTO dto){
         return seminarDao.setStatus(seminarId,dto.getClassId(),dto.getStatus());
     }
-    public SeminarScoreEntity getScoreBySeminarIdAndTeamId(Long seminarId,Long teamId)
+    public SeminarScoreEntity getScoreBySeminarIdAndTeamId(Long seminarId, Long teamId)
     {
         Long classId=seminarDao.getClassIdByTeamId(teamId);
         Long klassSeminarId=seminarDao.getKlassSeminarIdByClassIdAndSeminarId(classId,seminarId);

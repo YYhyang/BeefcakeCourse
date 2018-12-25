@@ -5,7 +5,8 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class QuestionScoreDTO {
-    private Long team_id;
-    private double score;
+public class KlassDTO {
+    String name;
+    String time;
+    String classroom;
 }

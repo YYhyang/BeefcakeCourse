@@ -12,12 +12,12 @@ import java.util.Map;
 public class CourseDTO {
     private String name;
     private String intro;
-    private double presentationWeight;
-    private double questionWeight;
-    private double reportWeight;
+    private int presentationWeight;
+    private int questionWeight;
+    private int reportWeight;
     private int minMemberNumber;
     private int maxMemberNumber;
-    private Date startTeamTime;
-    private Date endTeamTime;
+    private String startTeamTime;
+    private String endTeamTime;
     private List<Map<String,String>> conflictCourses;
 }

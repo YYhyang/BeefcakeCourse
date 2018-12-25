@@ -2,12 +2,6 @@ package com.example.demo.Config;
 
 import com.alibaba.druid.support.http.WebStatFilter;
 
-import java.io.IOException;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.annotation.WebInitParam;
 

@@ -14,9 +14,6 @@ import com.example.demo.VO.SeminarScoreInfoVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
-import java.util.List;
-
 @RestController
 public class SeminarController {
     @Autowired

@@ -1,14 +1,10 @@
 package com.example.demo.Sercurity;
 
 import com.example.demo.Entity.UserEntity;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.List;
 
-@Data
-@NoArgsConstructor
 public class JWTPayLoad {
     private Long id;
     private String username;

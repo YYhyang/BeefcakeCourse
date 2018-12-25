@@ -13,6 +13,14 @@ public class CourseDao {
     @Autowired
     private CourseMapper courseMapper;
 
+    public void createCourse(Long teacherId,String courseName,String introduction,int pPercent,int qPercent,int rPercent,Date teamStartTime,Date teamEndTime){
+        courseMapper.createCourse(teacherId,courseName,introduction,pPercent,qPercent,rPercent,teamStartTime,teamEndTime);
+    }
+
+    public Long getCourseId(Long teacherId,String courseName){
+        return courseMapper.getCourseId(teacherId,courseName);
+    }
+
     public CourseEntity getCourseById(Long courseId){
         return courseMapper.getCourseById(courseId);
     }

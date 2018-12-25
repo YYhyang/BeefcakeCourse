@@ -84,7 +84,7 @@ public class TeamController {
 
     //尚未完善
     @RequestMapping(value="/team/{teamId}",method = RequestMethod.POST)  //修改队伍
-    public void updateTeam(@RequestParam("name") String name, @RequestParam("courseId") Integer courseId, @RequestParam("classId") Integer classId ){
+    public void updateTeam(){
 
     }
 
