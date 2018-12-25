@@ -27,4 +27,6 @@ public interface AttendanceMapper {
 
     public boolean deleteSignUp(@Param("attendanceId")Long attendanceId);
 
+    //上传报告
+    public boolean postReport(@Param("attendanceId")Long attendanceId,@Param("report_name")String report_name,@Param("report_url")String report_url);
 }

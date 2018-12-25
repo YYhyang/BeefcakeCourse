@@ -25,4 +25,9 @@
         DELETE FROM attendance WHERE id=#{attendanceId}
     </delete>
 
+    <update id="postReport">
+        update attendance set report_name=#{report_name}AND report_url=#{report_url} where id=#{attendanceId}
+    </update>
+
+
 </mapper>

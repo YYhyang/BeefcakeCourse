@@ -1,5 +1,6 @@
 package com.example.demo.Service;
 
+import com.example.demo.Dao.AttendanceDao;
 import com.example.demo.Entity.AttendanceEntity;
 import com.example.demo.Mapper.AttendanceMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,9 @@ import java.util.List;
 public class AttendanceService {
     @Autowired
     AttendanceMapper attendanceMapper;
+    @Autowired
+    AttendanceDao attendanceDao;
+
     public List<AttendanceEntity>findAllTeam(Long seminarId, Long classId)
     {
         Long klassSeminarId= attendanceMapper.findKlassSeminarId(seminarId, classId);
@@ -23,4 +27,5 @@ public class AttendanceService {
         return attendanceMapper.signUp(klassSeminarId,presentationOrder,teamId);
     }
 
+    public boolean postReport(Long attendanceId,String report_name,String report_url){return attendanceDao.postReport(attendanceId,report_name,report_url);}
 }

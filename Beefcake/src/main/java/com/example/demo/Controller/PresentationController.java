@@ -1,11 +1,16 @@
 package com.example.demo.Controller;
 
+import com.example.demo.DTO.FileDTO;
 import com.example.demo.Entity.AttendanceEntity;
 import com.example.demo.Mapper.AttendanceMapper;
 import com.example.demo.Service.AttendanceService;
+import com.example.demo.VO.FileVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -27,10 +32,31 @@ public class PresentationController {
         return attendanceMapper.deleteSignUp(attendanceId);
     }
 
-    @RequestMapping(value="/presentation/{presentationId}/report",method = RequestMethod.POST)   //上传讨论课报告
-    public void postReport(@RequestParam("presentationId")Integer presentationId,@RequestParam("file")String file )
-    {
-
+    @RequestMapping(value="/attendance/{attendanceId}/report",method = RequestMethod.POST)   //上传讨论课报告
+    public FileVO postReport(@PathVariable("attendanceId")Long attendanceId, @RequestBody FileDTO dto) throws IOException {
+        MultipartFile file=dto.getFile();
+        if (file.isEmpty()) {
+            return new FileVO();
+        }
+        else{
+            String fileName = file.getOriginalFilename();
+            String suffixName = fileName.substring(fileName.lastIndexOf("."));
+            String filePath = "D://AAA//";
+            String path = filePath + fileName + suffixName;
+            if(attendanceService.postReport(attendanceId,fileName,path)) {
+                File dest =new File(path);
+                // 检测是否存在目录
+                if (!dest.getParentFile().exists()) {
+                    dest.getParentFile().mkdirs();// 新建文件夹
+                }
+                file.transferTo(dest);// 文件写入
+                FileVO vo=new FileVO();
+                vo.setUrl(path);
+                return vo;
+            }
+            else
+                return new FileVO();
+        }
     }
 
     @RequestMapping(value="/presentation/{presentationId}/report",method = RequestMethod.PUT)   //重传讨论课报告
