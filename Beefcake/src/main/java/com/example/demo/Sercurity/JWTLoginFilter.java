@@ -68,13 +68,14 @@ public class JWTLoginFilter extends UsernamePasswordAuthenticationFilter {
 
         String jwtString = jwtService.generateJwt(userEntity);
         System.out.println("jwtString: "+jwtString);
-
+        int is_active=userEntity.getIs_active();
         String  role;
         if(userEntity.getRole()==1)
             role="Teacher";
         else role="Student";
         response.addHeader("token","Bearer "+jwtString);
         response.addHeader("role",role);
+        response.addHeader("active",String.valueOf(is_active));
 
     }
 }

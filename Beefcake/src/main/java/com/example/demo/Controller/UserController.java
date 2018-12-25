@@ -16,11 +16,11 @@ public class UserController {
     public UserService userService;
     @Autowired
     public UserMapper userMapper;
-    @RequestMapping(value = "/user/login",method = RequestMethod.POST)
+    /*@RequestMapping(value = "/user/login",method = RequestMethod.POST)
     public boolean login(@RequestParam("username") String account, @RequestParam("password") String password)
     {
         return userService.userLogin(account,password);
-    }
+    }*/
 
     @RequestMapping(value="/user/password",method = RequestMethod.GET)
     public String forgetPassword(@RequestParam("account") String account)//暂时先返回密码  待修改

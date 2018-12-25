@@ -7,6 +7,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
+import java.util.List;
 
 @Mapper
 @Component
@@ -29,4 +30,9 @@ public interface SeminarMapper {
     public boolean setPresentationScore(@Param("klass_seminar_id")Long klassSeminarId,@Param("teamId")Long teamId,@Param("presentationScore")double presentationScore);
     public boolean setReportScore(@Param("klass_seminar_id")Long klassSeminarId,@Param("teamId")Long teamId,@Param("reportScore")double reportScore);
     public SeminarEntity getSeminarBySeminarId(@Param("seminarId")Long seminarId);
+    public List<Long> getAllTeamId(@Param("klassSeminarId")Long klassSeminarId);
+    public double getScoreByTeamId(@Param("teamId")Long teamId);
+    public String findPresentation(@Param("klassSeminarId")Long klassSeminarId,@Param("teamId")Long teamId);
+    public boolean setQuestionScore(@Param("klassSeminarId")Long klassSeminarId,@Param("teamId")Long teamId,@Param("questionScore")double questionScore);
+    public boolean createQuestionScore(@Param("klassSeminarId")Long klassSeminarId,@Param("teamId")Long teamId,@Param("questionScore")double questionScore);
 }

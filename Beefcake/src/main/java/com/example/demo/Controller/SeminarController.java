@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.List;
 
 @RestController
 public class SeminarController {
@@ -103,5 +104,11 @@ public class SeminarController {
     public boolean setReportScore(@PathVariable("seminarId")Long seminarId,@PathVariable("teamId")Long teamId,@RequestParam("reportScore")double reportScore)
     {
         return seminarService.setReportScore(seminarId, teamId, reportScore);
+    }
+
+    @RequestMapping(value = "/seminar/end",method = RequestMethod.POST)
+    public boolean setQuestionScore(@RequestParam("klassSeminarId")Long klassSeminarId)
+    {
+        return seminarService.setQuestionScore(klassSeminarId);
     }
 }

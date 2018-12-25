@@ -14,6 +14,5 @@ public class TeamEntity {
     private int team_serial;
     private ClassEntity klass;
     private CourseEntity course;
-    private List<StudentEntity> members;
     private int status;
 }

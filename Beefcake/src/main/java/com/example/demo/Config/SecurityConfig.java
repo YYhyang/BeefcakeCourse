@@ -31,14 +31,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception{
-        http.cors().and().csrf().disable().authorizeRequests()
-                .antMatchers("/user/login").permitAll()
-                .anyRequest().authenticated()
-               /* .and()
-                .formLogin()
-                .loginProcessingUrl("/user/login")*/
+        http.authorizeRequests()
+                .antMatchers("/druid/**").permitAll()
+                .anyRequest()
+                .authenticated()
                 .and()
                 .addFilter(new JWTLoginFilter(authenticationManager()))
-                .addFilter(new JWTAuthenticationFilter(authenticationManager()));
+                .addFilter(new JWTAuthenticationFilter(authenticationManager()))
+                .csrf().disable();
+        /*http.cors().and().csrf().disable().authorizeRequests()
+                .antMatchers("/hello").permitAll()
+                .anyRequest().authenticated()
+                .and()
+                .addFilter(new JWTLoginFilter(authenticationManager()))
+                .addFilter(new JWTAuthenticationFilter(authenticationManager()));*/
     }
 }

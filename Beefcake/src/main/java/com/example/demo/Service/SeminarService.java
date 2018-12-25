@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
+import java.util.List;
 
 @Component
 public class SeminarService {
@@ -73,5 +74,23 @@ public class SeminarService {
         Long classId=seminarDao.getClassIdByTeamId(teamId);
         Long klassSeminarId=seminarDao.getKlassSeminarIdByClassIdAndSeminarId(classId,seminarId);
         return seminarDao.setReportScore(klassSeminarId, teamId, reportScore);
+    }
+
+
+    public boolean setQuestionScore(Long klassSeminarId){
+        boolean temp;
+        List<Long>teamIdList=seminarDao.getAllTeamId(klassSeminarId);
+        for(Long teamId:teamIdList){
+            double score=seminarDao.getScoreByTeamId(teamId);
+            String k;
+                    k=seminarDao.findPresentation(klassSeminarId,teamId);
+            if(k==null)
+                temp=seminarDao.createQuestionScore(klassSeminarId,teamId,score);
+            else
+                temp=seminarDao.setQuestionScore(klassSeminarId,teamId,score);
+            if(!temp)
+                return temp;
+        }
+        return true;
     }
 }
