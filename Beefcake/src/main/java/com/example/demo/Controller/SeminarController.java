@@ -14,8 +14,6 @@ import com.example.demo.VO.SeminarScoreInfoVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
-
 @RestController
 public class SeminarController {
     @Autowired
@@ -98,6 +96,7 @@ public class SeminarController {
     {
         return seminarService.setPresentationScore(seminarId, teamId, presentationScore);
     }
+
     @RequestMapping(value = "/seminar/{seminarId}/team/{teamId}/seminarscore",method = RequestMethod.PUT)//给一个小组的报告打分
     public boolean setReportScore(@PathVariable("seminarId")Long seminarId,@PathVariable("teamId")Long teamId,@RequestParam("reportScore")double reportScore)
     {

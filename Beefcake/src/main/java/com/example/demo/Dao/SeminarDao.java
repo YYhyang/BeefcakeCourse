@@ -47,7 +47,6 @@ public class SeminarDao {
     public boolean setReportScore(Long klassSeminarId,Long teamId,double reportScore){return seminarMapper.setReportScore(klassSeminarId, teamId, reportScore);}
     public boolean setPresentationScore(Long klassSeminarId,Long teamId,double presentationScore){return seminarMapper.setPresentationScore(klassSeminarId, teamId, presentationScore);}
 
-
     public List<Long> getAllTeamId(Long klassSeminarId){return seminarMapper.getAllTeamId(klassSeminarId);}
     public double getScoreByTeamId(Long teamId){return seminarMapper.getScoreByTeamId(teamId);}
     public String findPresentation(Long klassSeminarId,Long teamId){return seminarMapper.findPresentation(klassSeminarId, teamId);}
