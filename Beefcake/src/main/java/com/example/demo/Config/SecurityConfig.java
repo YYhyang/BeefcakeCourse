@@ -39,11 +39,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilter(new JWTLoginFilter(authenticationManager()))
                 .addFilter(new JWTAuthenticationFilter(authenticationManager()))
                 .csrf().disable();
-        /*http.cors().and().csrf().disable().authorizeRequests()
-                .antMatchers("/hello").permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .addFilter(new JWTLoginFilter(authenticationManager()))
-                .addFilter(new JWTAuthenticationFilter(authenticationManager()));*/
     }
 }
