@@ -98,4 +98,15 @@ public class SeminarController {
     {
         return seminarService.setPresentationScore(seminarId, teamId, presentationScore);
     }
+    @RequestMapping(value = "/seminar/{seminarId}/team/{teamId}/seminarscore",method = RequestMethod.PUT)//给一个小组的报告打分
+    public boolean setReportScore(@PathVariable("seminarId")Long seminarId,@PathVariable("teamId")Long teamId,@RequestParam("reportScore")double reportScore)
+    {
+        return seminarService.setReportScore(seminarId, teamId, reportScore);
+    }
+
+    @RequestMapping(value = "/seminar/end",method = RequestMethod.POST)
+    public boolean setQuestionScore(@RequestParam("klassSeminarId")Long klassSeminarId)
+    {
+        return seminarService.setQuestionScore(klassSeminarId);
+    }
 }

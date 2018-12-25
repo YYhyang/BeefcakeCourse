@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
+import java.util.List;
 
 @Component
 public class SeminarService {
@@ -63,6 +64,33 @@ public class SeminarService {
 
     public boolean setPresentationScore(Long seminarId,Long teamId,double presentationScore)
     {
-        return false;
+        Long classId=seminarDao.getClassIdByTeamId(teamId);
+        Long klassSeminarId=seminarDao.getKlassSeminarIdByClassIdAndSeminarId(classId,seminarId);
+        return seminarDao.setPresentationScore(klassSeminarId,teamId,presentationScore);
+    }
+
+    public boolean setReportScore(Long seminarId,Long teamId,double reportScore)
+    {
+        Long classId=seminarDao.getClassIdByTeamId(teamId);
+        Long klassSeminarId=seminarDao.getKlassSeminarIdByClassIdAndSeminarId(classId,seminarId);
+        return seminarDao.setReportScore(klassSeminarId, teamId, reportScore);
+    }
+
+
+    public boolean setQuestionScore(Long klassSeminarId){
+        boolean temp;
+        List<Long> teamIdList=seminarDao.getAllTeamId(klassSeminarId);
+        for(Long teamId:teamIdList){
+            double score=seminarDao.getScoreByTeamId(teamId);
+            String k;
+            k=seminarDao.findPresentation(klassSeminarId,teamId);
+            if(k==null)
+                temp=seminarDao.createQuestionScore(klassSeminarId,teamId,score);
+            else
+                temp=seminarDao.setQuestionScore(klassSeminarId,teamId,score);
+            if(!temp)
+                return temp;
+        }
+        return true;
     }
 }

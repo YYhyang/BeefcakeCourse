@@ -9,12 +9,12 @@ import java.util.Collection;
 import java.util.List;
 
 public class UserEntity implements UserDetails {
-
     private Long id;
     private String Username;
     private String password;
-    private Boolean enabled;
+    private Boolean enabled=true;
     private String name;
+    private int is_active;
     private int role;
     private Collection<? extends GrantedAuthority>authorities;
     private Boolean accountNonExpired=true;
@@ -118,5 +118,13 @@ public class UserEntity implements UserDetails {
 
     public void setRole(int role) {
         this.role = role;
+    }
+
+    public int getIs_active() {
+        return is_active;
+    }
+
+    public void setIs_active(int is_active) {
+        this.is_active = is_active;
     }
 }

@@ -31,6 +31,14 @@
         values (#{param1},#{param2},#{param3},#{param4},#{param5},#{param6},#{param7},#{param8},#{param9})
     </insert>
 
+    <insert id="setPresentationScore">
+        insert into seminar_score(klass_seminar_id,team_id,presentation_score) values (#{param1},#{param2},#{param3})
+    </insert>
+
+    <insert id="createQuestionScore">
+        insert into seminar_score(klass_seminar_id,team_id,question_score) values (#{param1},#{param2},#{param3})
+    </insert>
+
     <select id="getClassIdBySeminarId" resultType="java.lang.Long">
         SELECT klass_id from klass_seminar where seminar_id=#{seminarId}
     </select>
@@ -51,6 +59,18 @@
         Select * from seminar where id=#{seminarId}
     </select>
 
+    <select id="getAllTeamId" resultType="java.lang.Long">
+        select team_id from question where klass_seminar_id=#{param1} and is_selected=1 group by team_id
+    </select>
+
+    <select id="getScoreByTeamId" resultType="java.lang.Double">
+        select max(score) from question where team_id=#{param1}
+    </select>
+
+    <select id="findPresentation" resultType="java.lang.String">
+        select presentation_score from seminar_score where klass_seminar_id=#{param1} and team_id=#{param2}
+    </select>
+
     <update id="changeReportDDL">
         update klass_seminar set report_ddl=#{param3} where seminar_id=#{param1} and klass_id=#{param2}
     </update>
@@ -61,6 +81,14 @@
 
     <update id="setStatus">
         update klass_seminar set status=#{param3} where seminar_id=#{param1} and klass_id=#{param2}
+    </update>
+
+    <update id="setReportScore">
+        update seminar_score set report_score=#{param3} where klass_seminar_id=#{param1} and team_id=#{param2}
+    </update>
+
+    <update id="setQuestionScore">
+        update seminar_score set question_score=#{param3} where klass_seminar_id=#{param1} and team_id=#{param2}
     </update>
 
     <update id="changeSeminar">
