@@ -18,8 +18,45 @@
         delete from team where id=#{teamId}
     </delete>
 
+    <delete id="deleteTeamFromTeamStudent">
+        delete from team_student where team_id=#{teamId}
+    </delete>
+
+    <delete id="deleteTeamFromKlassTeam">
+        delete from klass_team where team_id=#{teamId}
+    </delete>
 
     <update id="changeTeamStatus">
         update team set status=#{status} where id=#{teamId}
     </update>
+
+    <select id="getMemberLimit" resultType="com.example.demo.strategy.MemberLimitStrategy">
+        select * from member_limit_strategy where id=#{strategyId}
+    </select>
+
+    <select id="getConflictCourseId" resultType="java.lang.Long">
+        select course_id from conflict_course_strategy where id=#{strategyId}
+    </select>
+
+    <select id="getCourseMemberLimit" resultType="com.example.demo.strategy.CourseMemberLimitStrategy">
+        select * from course_member_limit_strategy where id=#{strategyId}
+    </select>
+
+    <select id="getMemberIdByCourseId" resultType="java.lang.Long">
+        select team_student.student_id from team_student LEFT JOIN klass_student on team_student.student_id=klass_student.student_id
+        where klass_student.course_id=#{courseId} and team_student.team_id=#{teamId}
+    </select>
+
+    <select id="getAndStrategy" resultType="com.example.demo.strategy.AndOrStrategy">
+        select * from team_and_strategy where id=#{strategyId}
+    </select>
+
+    <select id="getOrStrategy" resultType="com.example.demo.strategy.AndOrStrategy">
+        select * from team_or_strategy where id=#{strategyId}
+    </select>
+
+    <select id="getStrategyByCourseId" resultType="com.example.demo.strategy.TeamStrategy">
+        select course_id,strategy_name,strategy_id from team_strategy where course_id=#{courseId}
+    </select>
+
 </mapper>

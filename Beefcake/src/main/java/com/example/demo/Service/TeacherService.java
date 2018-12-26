@@ -39,8 +39,8 @@ public class TeacherService {
         return teacherDao.putTeacherPassword(teacherId);
     }
 
-    public void deleteTeacher(Long teacherId)
+    public String deleteTeacher(Long teacherId)
     {
-        teacherDao.deleteTeacher(teacherId);
+        return teacherDao.deleteTeacher(teacherId);
     }
 }

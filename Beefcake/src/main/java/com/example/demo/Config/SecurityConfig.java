@@ -30,8 +30,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception{
-        http.authorizeRequests()
-                .antMatchers("/druid/**").permitAll()
+        http
+                .formLogin()
+                .loginPage("/login.html")
+                .loginProcessingUrl("/login")
+                .permitAll()
+                .and()
+                .authorizeRequests()
+                .antMatchers("/**/*.css","/**/*.js","/**/*.jpg","/**/fonts/*","/**/*.png","/**/*.gif","/**/*.jpeg").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()

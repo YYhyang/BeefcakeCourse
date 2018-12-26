@@ -3,19 +3,28 @@
 
 <!-- 指定工作空间，要与接口名相同，源代码没有去看，猜测应该是通过"这里的namespace.下边方法的id"来定位方法的 -->
 <mapper namespace="com.example.demo.Mapper.UserMapper">
-    <resultMap id="Usermap" type="com.example.demo.Entity.UserEntity">
+    <resultMap id="StudentMap" type="com.example.demo.Entity.UserEntity">
         <id column="id" property="id"/>
         <result column="account" property="Username"/>
         <result column="password" property="password"/>
         <result column="is_active" property="is_active"/>
+        <result column="student_name" property="name"/>
     </resultMap>
 
-    <select id="findFromStudent" resultMap="Usermap">
-        select id,account,password,is_active from student where account=#{account}
+    <resultMap id="TeacherMap" type="com.example.demo.Entity.UserEntity">
+        <id column="id" property="id"/>
+        <result column="account" property="Username"/>
+        <result column="password" property="password"/>
+        <result column="is_active" property="is_active"/>
+        <result column="teacher_name" property="name"/>
+    </resultMap>
+
+    <select id="findFromStudent" resultMap="StudentMap">
+        select id,account,password,is_active,student_name from student where account=#{account}
     </select>
 
-    <select id="findFromTeacher" resultMap="Usermap">
-        select id,account,password,is_active from teacher where account=#{account}
+    <select id="findFromTeacher" resultMap="TeacherMap">
+        select id,account,password,is_active,teacher_name from teacher where account=#{account}
     </select>
 
     <select id="studentLogin" resultType="com.example.demo.Entity.StudentEntity">

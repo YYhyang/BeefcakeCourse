@@ -4,6 +4,13 @@
 <!-- 指定工作空间，要与接口名相同，源代码没有去看，猜测应该是通过"这里的namespace.下边方法的id"来定位方法的 -->
 <mapper namespace="com.example.demo.Mapper.AttendanceMapper">
 
+    <resultMap id="AttendanceMap" type="com.example.demo.Entity.AttendanceEntity">
+        <id column="id" property="id"/>
+        <result column="klass_seminar_id" property="klass_seminar_id"/>
+        <result column="team_order" property="team_order"/>
+        <association property="team" column="team_id" select="CommonMapper.selectTeam"/>
+    </resultMap>
+
     <select id="findKlassSeminarId" resultType="java.lang.Long">
         SELECT id FROM klass_seminar WHERE klass_id=#{classId} AND seminar_id=#{seminarId}
     </select>
@@ -12,7 +19,7 @@
         SELECT course_id FROM seminar WHERE id=#{seminarId}
     </select>
 
-    <select id="findAllTeam" resultType="com.example.demo.Entity.AttendanceEntity">
+    <select id="findAllTeam" resultMap="AttendanceMap">
         SELECT id,klass_seminar_id,team_id,team_order FROM attendance WHERE klass_seminar_id= #{klassSeminarId} ORDER BY team_order ASC
     </select>
 
@@ -20,9 +27,16 @@
         insert into attendance(klass_seminar_id,team_id,team_order) values(#{klassSeminarId},#{teamId},#{presentationOrder})
     </insert>
 
+    <update id="postReport">
+        update attendance set report_name=#{report_name},report_url=#{report_url} where id=#{attendanceId}
+    </update>
 
     <update id="changeOrder">
         update attendance set team_order=#{presentationOrder} where id=#{attendanceId}
+    </update>
+
+    <update id="setStatus">
+        update attendance set is_present=#{status} where id=#{attendanceId}
     </update>
 
     <delete id="deleteSignUp">

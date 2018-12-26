@@ -14,7 +14,7 @@ public class AdminController {
     @Resource
     AdminService adminService;
 
-    @RequestMapping(value = "/admin/login", method = RequestMethod.POST)
+    @RequestMapping(value = "/admin/login", method = RequestMethod.POST)//通过
     public boolean login(@RequestParam("account")String account, @RequestParam("password")String password)
     {
         return adminService.login(account,password);

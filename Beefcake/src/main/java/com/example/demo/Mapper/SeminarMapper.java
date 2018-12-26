@@ -15,7 +15,7 @@ public interface SeminarMapper {
     public boolean createSeminar(@Param("courseId") Long courseId, @Param("roundId") Long roundId, @Param("seminarName") String seminarName,
                                  @Param("introduction") String introduction, @Param("max_team") int maxTeam, @Param("isVisible") int visible,
                                  @Param("seminarSerial") int order, @Param("enrollStart") Date start, @Param("enrollEnd") Date end);
-    public Long getClassIdBySeminarId(@Param("seminarId") Long seminarId);
+    public List<Long> getClassIdBySeminarId(@Param("seminarId") Long seminarId);
     public Long getClassIdByTeamId(@Param("teamId") Long teamId);
     public Long getKlassSeminarIdByClassIdAndSeminarId(@Param("classId") Long classId, @Param("seminarId") Long seminarId);
     public boolean changeSeminar(@Param("courseId") Long courseId, @Param("roundId") Long roundId, @Param("seminarName") String seminarName,

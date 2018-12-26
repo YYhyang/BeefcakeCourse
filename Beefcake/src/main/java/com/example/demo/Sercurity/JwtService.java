@@ -23,7 +23,7 @@ public class JwtService {
     public String generateJwt(UserEntity user){
 
         ObjectMapper objectMapper=new ObjectMapper();
-        JWTPayLoad jwt=new JWTPayLoad(user.getId(),user.getUsername(),user.getRole(),user.getName());
+        JWTPayLoad jwt=new JWTPayLoad(user.getId(),user.getUsername(),user.getRole(),user.getIs_active(),user.getName());
         try{
             String header=objectMapper.writeValueAsString(JWT_HEADER);
             String payload=objectMapper.writeValueAsString(jwt);

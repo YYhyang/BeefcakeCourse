@@ -2,9 +2,11 @@ package com.example.demo.Service;
 
 import com.example.demo.Dao.*;
 import com.example.demo.Entity.*;
+import com.example.demo.Sercurity.JWTPayLoad;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -25,9 +27,16 @@ public class CourseService {
     private TeamService teamService;
     @Autowired
     private StudentDao studentDao;
+    @Autowired
+    private JwtDao jwtDao;
+    @Autowired
+    private ShareSeminarApplicationDao shareSeminarApplicationDao;
+    @Autowired
+    private ShareTeamApplicationDao shareTeamApplicationDao;
 
-    public Long createCourse(String courseName, String introduction, int pPercent, int qPercent, int rPercent, Date teamStartTime,Date teamEndTime){
-        Long jwt_teacherId = new Long(7);
+    public Long createCourse(String courseName, String introduction, int pPercent, int qPercent, int rPercent, Date teamStartTime, Date teamEndTime, HttpServletRequest request){
+        JWTPayLoad jwtPayLoad=jwtDao.getJwtPayLoad(request);
+        Long jwt_teacherId = jwtPayLoad.getId();
         courseDao.createCourse(jwt_teacherId,courseName,introduction,pPercent,qPercent,rPercent,teamStartTime,teamEndTime);
         return courseDao.getCourseId(jwt_teacherId,courseName);
     }
@@ -47,13 +56,16 @@ public class CourseService {
         }
         course.setKlasses(klasses);
         course.setRounds(rounds);
+        course.setTeacher(courseDao.getCourseById(courseId).getTeacher());
         return course;
     }
 
-    public List<CourseEntity> getCourse(){
-        String role = "teacher";//老师或学生
-        Long jwt_Id = new Long(8);
-        if(role=="student"){
+    public List<CourseEntity> getCourse(HttpServletRequest request){
+        int role;//老师或学生
+        JWTPayLoad jwtPayLoad=jwtDao.getJwtPayLoad(request);
+        Long jwt_Id = jwtPayLoad.getId();
+        role=jwtPayLoad.getRole();
+        if(role==0){
             List<CourseEntity> courseEntities = new ArrayList<>();
             List<Long> coursesId = klassStudentDao.getCoursesIdByStudentId(jwt_Id);
             for(Long courseId:coursesId){
@@ -81,8 +93,9 @@ public class CourseService {
         return teams;
     }
 
-    public TeamEntity getMyTeam(Long courseId){
-        Long jwt_studentId = new Long(11);
+    public TeamEntity getMyTeam(Long courseId,HttpServletRequest request){
+        JWTPayLoad jwtPayLoad=jwtDao.getJwtPayLoad(request);
+        Long jwt_studentId=jwtPayLoad.getId() ;
         Long teamId=klassStudentDao.getTeamId(courseId,jwt_studentId);
         return teamService.getTeamById(teamId);
     }
@@ -94,5 +107,48 @@ public class CourseService {
             studentEntities.add(studentDao.selectStudentById(studentId));
         }
         return studentEntities;
+    }
+
+    public void createSeminarShare(Long mainCourseId,Long subCourseId){
+        //判断是否已经分享
+        if(shareSeminarApplicationDao.getId(mainCourseId,subCourseId)!=null) {
+            String status = shareSeminarApplicationDao.getShareSeminarApplication(mainCourseId, subCourseId).getStatus(); //若未查到抛出异常
+            if (status.equals("0")) {
+                shareSeminarApplicationDao.setStatusNull(mainCourseId, subCourseId);
+            }
+        }
+        else{
+            Long subCourseTeacherId = courseDao.getTeacherId(subCourseId);
+            shareSeminarApplicationDao.createShareSeminarApplication(mainCourseId, subCourseId, subCourseTeacherId);
+        }
+    }
+
+    public void createTeamShare(Long mainCourseId,Long subCourseId){
+        if (shareTeamApplicationDao.getId(mainCourseId, subCourseId) != null) {
+            String status = shareTeamApplicationDao.getShareTeamApplication(mainCourseId,subCourseId).getStatus();
+            if(status.equals("0")){
+                shareTeamApplicationDao.setStatusNull(mainCourseId,subCourseId);
+            }
+        }
+        else{
+            Long subCourseTeacherId = courseDao.getTeacherId(subCourseId);
+            shareTeamApplicationDao.createShareTeamApplication(mainCourseId,subCourseId,subCourseTeacherId);
+        }
+    }
+
+    public void deleteTeamShare(Long teamShareId){
+        ShareApplicationEntity shareApplicationEntity = shareTeamApplicationDao.getShareById(teamShareId);
+        if (shareApplicationEntity.getStatus().equals("1")){
+            courseDao.deleteTeamMainCourseId(shareApplicationEntity.getSub_course_id());
+        }
+        shareTeamApplicationDao.deleteTeamShare(teamShareId);
+    }
+
+    public void deleteSeminarShare(Long seminarShareId){
+        ShareApplicationEntity shareApplicationEntity = shareSeminarApplicationDao.getShareById(seminarShareId);
+        if (shareApplicationEntity.getStatus().equals("1")){
+            courseDao.deleteSeminarMainCourseId(shareApplicationEntity.getSub_course_id());
+        }
+        shareSeminarApplicationDao.deleteSeminarShare(seminarShareId);
     }
 }

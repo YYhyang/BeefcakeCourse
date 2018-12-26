@@ -25,19 +25,13 @@ public class TeamController {
 
     @Autowired
     private TeamService teamService;
-    @Autowired
-    private KlassService klassService;
-    @Autowired
-    private CourseService courseService;
-    @Autowired
-    private StudentService studentService;
 
     @RequestMapping(value="/team",method = RequestMethod.POST)  //新建队伍
     public Long postTeam(@RequestParam("teamName") String teamName, @RequestParam("courseId") Long courseId, @RequestParam("klassId") Long klassId , @RequestParam("leaderId") Long leaderId){
         return teamService.postTeam(klassId,courseId,leaderId,teamName,1); //创建时默认为合法
     }
 
-    @RequestMapping(value="/team/{teamId}",method = RequestMethod.GET)  //获取队伍信息
+    @RequestMapping(value="/team/{teamId}",method = RequestMethod.GET)  //获取队伍信息(测试通过）
     public GetTeamByIdVO getTeamInfoById(@PathVariable("teamId") Long teamId ){
 
         //获得初始Entity类
@@ -88,28 +82,28 @@ public class TeamController {
 
     }
 
-    @RequestMapping(value="/team/{teamId}",method = RequestMethod.DELETE)  //按ID删除队伍及队长解散队伍
+    @RequestMapping(value="/team/{teamId}",method = RequestMethod.DELETE)  //按ID删除队伍及队长解散队伍(测试成功）
     public void deleteTeam(@PathVariable("teamId") Long teamId ){
         teamService.deleteTeam(teamId);
     }
 
-    @RequestMapping(value="/team/{teamId}/add",method = RequestMethod.PUT)  //添加成员
+    @RequestMapping(value="/team/{teamId}/add",method = RequestMethod.PUT)  //添加成员(测试通过）
     public void addTeamMember(@PathVariable("teamId") Long teamId, @RequestBody StudentIdDTO student){
         teamService.addTeamMember(teamId,student.getId());
         //return Long.parseLong(info.getKlass().get("id"));  //测试嵌套表单
     }
 
-    @RequestMapping(value="/team/{teamId}/remove",method = RequestMethod.PUT)  //移除成员和退出队伍
+    @RequestMapping(value="/team/{teamId}/remove",method = RequestMethod.PUT)  //移除成员和退出队伍(测试通过）
     public void removeTeam(@PathVariable("teamId") Long teamId, @RequestBody StudentIdDTO student  ){
         teamService.deleteTeamMember(teamId,student.getId());
     }
 
-    @RequestMapping(value="/team/{teamId}/teamvalidrequest",method = RequestMethod.POST)  //发起队伍状态申请
+    @RequestMapping(value="/team/{teamId}/teamvalidrequest",method = RequestMethod.POST)  //发起队伍状态申请（应该不用改，未测试）
     public void teamRequest(@PathVariable("teamId") Long teamId, @RequestBody TeamRequestDTO teamRequest){
         teamService.teamValidRequest(teamId,teamRequest.getCourseId(),teamRequest.getReason());
     }
 
-    @RequestMapping(value="/team/{teamId}/approve",method = RequestMethod.PUT)  //老师同意学生组队合法
+    @RequestMapping(value="/team/{teamId}/approve",method = RequestMethod.PUT)  //老师同意学生组队合法(应该不用改，未测试）
     public void approveTeam(@PathVariable("teamId") Long teamId ){
         teamService.approveTeam(teamId);
     }

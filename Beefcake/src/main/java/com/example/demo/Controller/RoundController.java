@@ -25,7 +25,7 @@ public class RoundController {
     @Autowired
     RoundMapper roundMapper;
 
-    @RequestMapping(value = "/round/{roundId}/seminar",method = RequestMethod.GET)//获取某轮次的所有讨论课
+    @RequestMapping(value = "/round/{roundId}/seminar",method = RequestMethod.GET)//获取某轮次的所有讨论课（通过）
     public List<RoundSeminarInfoVO> getSeminar(@PathVariable("roundId")Long roundId)
     {
         List<SeminarEntity> seminarList=roundService.findAllSeminarByRoundId(roundId);
@@ -41,7 +41,7 @@ public class RoundController {
 
     }
 
-    @RequestMapping(value = "/round/{roundId}",method = RequestMethod.GET)
+    @RequestMapping(value = "/round/{roundId}",method = RequestMethod.GET)//获取某轮次（通过）
     public RoundInfoVO getRound(@PathVariable("roundId")Long roundId)
     {
         RoundInfoVO vo=new RoundInfoVO();
@@ -72,7 +72,7 @@ public class RoundController {
         return roundService.createRound(round_serial,courseId);
     }
 
-    @RequestMapping(value = "/round/{roundId}/roundscore",method = RequestMethod.GET)
+    @RequestMapping(value = "/round/{roundId}/roundscore",method = RequestMethod.GET)//获取某轮的所有分数（通过）
     public List<RoundScoreInfoVO> getAllRoundScoreByRoundId(@PathVariable("roundId")Long roundId){
 
         List<RoundscoreEntity> scoreList=roundService.getAllRoundScoreByRoundId(roundId);
@@ -92,7 +92,7 @@ public class RoundController {
         return VoList;
 
     }
-    @RequestMapping(value = "/round/{roundId}/team/{teamId}/roundscore",method = RequestMethod.GET)
+    @RequestMapping(value = "/round/{roundId}/team/{teamId}/roundscore",method = RequestMethod.GET)//获取某个组的轮次成绩（通过）
     public RoundScoreInfoVO getAllRoundScoreByRoundIdAndTeamId(@PathVariable("roundId")Long roundId, @PathVariable("teamId")Long teamId){
         RoundscoreEntity score=roundService.getAllRoundScoreByRoundIdAndTeamId(roundId,teamId);
         RoundScoreInfoVO vo=new RoundScoreInfoVO();

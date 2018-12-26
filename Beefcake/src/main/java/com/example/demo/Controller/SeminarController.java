@@ -14,6 +14,9 @@ import com.example.demo.VO.SeminarScoreInfoVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @RestController
 public class SeminarController {
     @Autowired
@@ -24,14 +27,18 @@ public class SeminarController {
         return seminarService.createSeminar(dto);
     }
 
-    @RequestMapping(value = "/seminar/{seminarId}/class",method = RequestMethod.GET)//获取讨论课所属的班级
-    public KlassInTeamVO getClass(@PathVariable("seminarId")Long seminarId)
+    @RequestMapping(value = "/seminar/{seminarId}/class",method = RequestMethod.GET)//获取讨论课所属的班级(测试通过)
+    public List<KlassInTeamVO> getClass(@PathVariable("seminarId")Long seminarId)
     {
-        ClassEntity klass=seminarService.getClassBySeminarId(seminarId);
-        KlassInTeamVO vo=new KlassInTeamVO();
-        vo.setId(klass.getId());
-        vo.setName(String.valueOf(klass.getGrade())+"-"+String.valueOf(klass.getKlass_serial()));
-        return vo;
+        List<ClassEntity> klasses=seminarService.getClassBySeminarId(seminarId);
+        List<KlassInTeamVO> vos=new ArrayList<>();
+        for(ClassEntity klass:klasses) {
+            KlassInTeamVO vo = new KlassInTeamVO();
+            vo.setId(klass.getId());
+            vo.setName(String.valueOf(klass.getGrade()) + "-" + String.valueOf(klass.getKlass_serial()));
+            vos.add(vo);
+        }
+        return vos;
     }
 
     @RequestMapping(value = "/seminar/{seminarId}",method = RequestMethod.PUT)//修改讨论课
@@ -46,7 +53,7 @@ public class SeminarController {
         return seminarService.deleteSeminar(seminarId);
     }
 
-    @RequestMapping(value = "/seminar/{seminarId}",method = RequestMethod.GET)
+    @RequestMapping(value = "/seminar/{seminarId}",method = RequestMethod.GET)//获取某节讨论课（测试成功）
     public SeminarInfoVO getSeminar(@PathVariable("seminarId")Long seminarId)
     {
         SeminarEntity seminarEntity=seminarService.getSeminarBySeminarId(seminarId);

@@ -37,8 +37,11 @@ public class TeacherDao {
         return teacherMapper.putTeacherPassword(teacherId);
     }
 
-    public void deleteTeacher(Long teacherId)
+    public String deleteTeacher(Long teacherId)
     {
-        teacherMapper.deleteTeacher(teacherId);
+        if(teacherMapper.deleteTeacher(teacherId))
+            return "success";
+        else
+            return "fail";
     }
 }

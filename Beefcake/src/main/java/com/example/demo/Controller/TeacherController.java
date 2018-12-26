@@ -95,8 +95,8 @@ public class TeacherController {
     }
 
     @RequestMapping(value="/teacher/{teacherId}",method = RequestMethod.DELETE)  //管理员按ID删除某一教师
-    public void deleteTeacher(@PathVariable("teacherId")Long teacherId ){
-        teacherService.deleteTeacher(teacherId);
+    public String deleteTeacher(@PathVariable("teacherId")Long teacherId ){
+        return teacherService.deleteTeacher(teacherId);
     }
 
     @RequestMapping(value="/teacher/active",method = RequestMethod.PUT)  //教师激活

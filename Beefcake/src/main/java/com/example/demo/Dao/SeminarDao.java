@@ -28,7 +28,7 @@ public class SeminarDao {
         return seminarMapper.changeSeminar(courseId, roundId, seminarName, introduction, maxTeam, visible, order, start, end, seminarId);
     }
 
-    public Long getClassIdBySeminarId(Long seminarId)
+    public List<Long> getClassIdBySeminarId(Long seminarId)
     {
         return seminarMapper.getClassIdBySeminarId(seminarId);
     }

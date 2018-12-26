@@ -27,8 +27,7 @@ public class QuestionService {
     public boolean askQuestion(Long seminarId,Long classId,Long studentId,Long attendanceId)
     {
         Long klassSeminarId=attendanceMapper.findKlassSeminarId(seminarId, classId);
-        Long courseId=attendanceMapper.getCourseBySeminarId(seminarId);
-        Long teamId=klassStudentMapper.getTeamId(courseId,studentId);
+        Long teamId=klassStudentMapper.getTeamId(classId,studentId);
         return questionMapper.askQuestion(klassSeminarId,attendanceId,teamId,studentId);
     }
 }

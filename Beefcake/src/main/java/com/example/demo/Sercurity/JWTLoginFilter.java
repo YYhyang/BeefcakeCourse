@@ -60,11 +60,12 @@ public class JWTLoginFilter extends UsernamePasswordAuthenticationFilter {
                                             FilterChain chain,Authentication authResult){
         UserEntity userEntity=(UserEntity)authResult.getDetails();
         //以下为测试
-        /*
+
         System.out.println(userEntity.getId());
         System.out.println(userEntity.getUsername());
         System.out.println(userEntity.getPassword());
-        System.out.println(userEntity.getRole());*/
+        System.out.println(userEntity.getRole());
+        System.out.println(userEntity.getName());
 
         String jwtString = jwtService.generateJwt(userEntity);
         System.out.println("jwtString: "+jwtString);

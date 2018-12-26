@@ -15,7 +15,7 @@ public class UserEntity implements UserDetails {
     private Boolean enabled=true;
     private String name;
     private int is_active;
-    private int role;
+    private int role;//0为学生，1为老师
     private Collection<? extends GrantedAuthority>authorities;
     private Boolean accountNonExpired=true;
     private Boolean accountNonLocked=true;

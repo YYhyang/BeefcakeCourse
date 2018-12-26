@@ -17,6 +17,10 @@ public class CourseDao {
         courseMapper.createCourse(teacherId,courseName,introduction,pPercent,qPercent,rPercent,teamStartTime,teamEndTime);
     }
 
+    public Long getTeacherId(Long courseId){
+        return courseMapper.getTeacherId(courseId);
+    }
+
     public Long getCourseId(Long teacherId,String courseName){
         return courseMapper.getCourseId(teacherId,courseName);
     }
@@ -35,5 +39,13 @@ public class CourseDao {
 
     public List<CourseEntity> getCoursesByTeacherId(Long teacherId){
         return courseMapper.getCoursesByTeacherId(teacherId);
+    }
+
+    public void deleteTeamMainCourseId(Long courseId){
+        courseMapper.deleteTeamMainCourseId(courseId);
+    }
+
+    public void deleteSeminarMainCourseId(Long courseId){
+        courseMapper.deleteSeminarMainCourseId(courseId);
     }
 }

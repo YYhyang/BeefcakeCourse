@@ -11,7 +11,7 @@
         select id from course where teacher_id=#{teacherId} and course_name=#{courseName}
     </select>
 
-    <select id="getCourseById" resultType="com.example.demo.Entity.CourseEntity">
+    <select id="getCourseById" resultMap="CommonMapper.CourseMap">
         select * from course where id=#{courseId}
     </select>
 
@@ -26,4 +26,16 @@
     <select id="getCoursesByTeacherId" resultType="com.example.demo.Entity.CourseEntity">
         select * from course where teacher_id=#{teacherId}
     </select>
+
+    <select id="getTeacherId" resultType="java.lang.Long">
+        select teacher_id from course where id =#{courseId}
+    </select>
+
+    <update id="deleteTeamMainCourseId">
+        update course set team_main_course_id = null where id = #{courseId};
+    </update>
+
+    <update id="deleteSeminarMainCourseId">
+        update course set seminar_main_course_id = null where id = #{courseId};
+    </update>
 </mapper>

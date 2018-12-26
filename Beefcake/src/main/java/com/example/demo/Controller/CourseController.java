@@ -2,17 +2,18 @@ package com.example.demo.Controller;
 
 import com.example.demo.DTO.CourseDTO;
 import com.example.demo.DTO.KlassDTO;
+import com.example.demo.DTO.ShareRequestIdDTO;
 import com.example.demo.DTO.TeamDTO;
-import com.example.demo.Dao.KlassDao;
+import com.example.demo.Dao.ShareSeminarApplicationDao;
+import com.example.demo.Dao.ShareTeamApplicationDao;
 import com.example.demo.Entity.*;
 import com.example.demo.Service.CourseService;
 import com.example.demo.Service.KlassService;
-import com.example.demo.Service.StudentService;
-import com.example.demo.Service.TeacherService;
 import com.example.demo.VO.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -25,14 +26,18 @@ public class CourseController {
     private CourseService courseService;
     @Autowired
     private KlassService klassService;
+    @Autowired
+    private ShareSeminarApplicationDao shareSeminarApplicationDao;
+    @Autowired
+    private ShareTeamApplicationDao shareTeamApplicationDao;
 
     @RequestMapping(value = "/course",method = RequestMethod.POST)//创建课程
-    public IdVO createCourse(@RequestBody CourseDTO course)
+    public IdVO createCourse(@RequestBody CourseDTO course,HttpServletRequest request)
     {
         SimpleDateFormat sim=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         try {
             Long id = courseService.createCourse(course.getName(), course.getIntro(), course.getPresentationWeight(),
-                    course.getQuestionWeight(), course.getReportWeight(), sim.parse(course.getStartTeamTime()), sim.parse(course.getEndTeamTime()));
+                    course.getQuestionWeight(), course.getReportWeight(), sim.parse(course.getStartTeamTime()), sim.parse(course.getEndTeamTime()),request);
             IdVO idVO = new IdVO();
             idVO.setId(id);
             return idVO;
@@ -48,10 +53,10 @@ public class CourseController {
     } //冲突课程待处理
 
     @RequestMapping(value = "/course",method = RequestMethod.GET)
-    public List<GetAllCourseVO> getCourse()
+    public List<GetAllCourseVO> getCourse(HttpServletRequest request)
     {
         List<GetAllCourseVO> courses = new ArrayList<>();
-        List<CourseEntity> courseEntities = courseService.getCourse();
+        List<CourseEntity> courseEntities = courseService.getCourse(request);
         for(CourseEntity courseEntity:courseEntities){
             GetAllCourseVO course = new GetAllCourseVO();
             course.setId(courseEntity.getId());
@@ -112,10 +117,10 @@ public class CourseController {
     }
 
 
-    @RequestMapping(value = "/course/{courseId}/myteam",method = RequestMethod.GET)
-    public TeamVO getMyTeam(@PathVariable("courseId")Long courseId)
+    @RequestMapping(value = "/course/{courseId}/myTeam",method = RequestMethod.GET)
+    public TeamVO getMyTeam(@PathVariable("courseId")Long courseId, HttpServletRequest request)
     {
-        TeamEntity teamEntity = courseService.getMyTeam(courseId);
+        TeamEntity teamEntity = courseService.getMyTeam(courseId,request);
         return TeamEntityToTeamVO(teamEntity);
     }
 
@@ -156,34 +161,94 @@ public class CourseController {
         IdVO idVO = new IdVO();
         idVO.setId(id);
         return idVO;
-    }//传入学生名单待实现
-
-
-    @RequestMapping(value = "/course/{courseId}/share",method = RequestMethod.GET)//获取所有共享
-    public void getShare(@PathVariable("courseId")int courseId)
-    {
-
     }
 
-    @RequestMapping(value = "/course/{courseId}/share/{shareId}",method = RequestMethod.DELETE)//获取所有共享
-    public void deleteShare(@PathVariable("courseId")int courseId,@PathVariable("shareId")int shareId)
-    {
 
+    @RequestMapping(value = "/course/{courseId}/seminarshare",method = RequestMethod.GET)//获取所有共享
+    public List<SeminarShareVO> getSeminarShare(@PathVariable("courseId")Long courseId)
+    {
+        List<Long> seminarSharesId = shareSeminarApplicationDao.getSeminarSharesId(courseId);
+        List<SeminarShareVO> seminars = new ArrayList<>();
+        for(Long seminarShareId:seminarSharesId){
+
+            SeminarShareVO seminar = new SeminarShareVO();
+            MasterCourseVO masterCourse = new MasterCourseVO();
+            ReceiveCourseVO receiveCourse = new ReceiveCourseVO();
+
+            ShareApplicationEntity shareSeminar=shareSeminarApplicationDao.getShareById(seminarShareId);
+            CourseEntity mainCourse=courseService.getCourseById(shareSeminar.getMain_course_id());
+            CourseEntity subCourse=courseService.getCourseById(shareSeminar.getSub_course_id());
+
+            masterCourse.setMasterCourseId(shareSeminar.getMain_course_id());
+            masterCourse.setMasterCourseName(mainCourse.getCourse_name());
+            masterCourse.setTeacherName(mainCourse.getTeacher().getTeacher_name());
+            receiveCourse.setReceiveCourseId(shareSeminar.getSub_course_id());
+            receiveCourse.setReceiveCourseName(subCourse.getCourse_name());
+            receiveCourse.setTeacherName(subCourse.getTeacher().getTeacher_name());
+
+            seminar.setSeminarShareId(seminarShareId);
+            seminar.setMasterCourse(masterCourse);
+            seminar.setReceiveCourse(receiveCourse);
+
+            seminars.add(seminar);
+        }
+        return seminars;
     }
 
-    @RequestMapping(value = "/course/{courseId}/sharerequest",method = RequestMethod.POST)//获取所有共享
-    public void createShare(@PathVariable("courseId")int courseId)
+    @RequestMapping(value = "/course/{courseId}/teamshare",method = RequestMethod.GET)//获取所有共享
+    public List<TeamShareVO> getTeamShare(@PathVariable("courseId")Long courseId)
     {
+        List<Long> teamSharesId = shareTeamApplicationDao.getTeamSharesId(courseId);
+        List<TeamShareVO> teams = new ArrayList<>();
+        for(Long teamShareId:teamSharesId){
 
+            TeamShareVO team = new TeamShareVO();
+            MasterCourseVO masterCourse = new MasterCourseVO();
+            ReceiveCourseVO receiveCourse = new ReceiveCourseVO();
+
+            ShareApplicationEntity shareTeam=shareTeamApplicationDao.getShareById(teamShareId);
+            CourseEntity mainCourse=courseService.getCourseById(shareTeam.getMain_course_id());
+            CourseEntity subCourse=courseService.getCourseById(shareTeam.getSub_course_id());
+
+            masterCourse.setMasterCourseId(shareTeam.getMain_course_id());
+            masterCourse.setMasterCourseName(mainCourse.getCourse_name());
+            masterCourse.setTeacherName(mainCourse.getTeacher().getTeacher_name());
+            receiveCourse.setReceiveCourseId(shareTeam.getSub_course_id());
+            receiveCourse.setReceiveCourseName(subCourse.getCourse_name());
+            receiveCourse.setTeacherName(subCourse.getTeacher().getTeacher_name());
+
+            team.setTeamShareId(teamShareId);
+            team.setMasterCourse(masterCourse);
+            team.setReceiveCourse(receiveCourse);
+
+            teams.add(team);
+        }
+        return teams;
     }
 
-    @RequestMapping(value = "/course/{courseId}/class/{classId}/team",method = RequestMethod.POST)
-    public IdVO createTeam(@PathVariable("courseId")Long courseId, @PathVariable("classId")Long classId,@RequestBody TeamDTO teamDTO)
+    @RequestMapping(value = "/course/teamshare/{teamShareId}",method = RequestMethod.DELETE)//取消小组分享
+    public void deleteTeamShare(@PathVariable("teamShareId")Long teamShareId)
     {
-        IdVO idVO = new IdVO();
-        idVO.setId(courseId);
-        return idVO;
-    }//有关小组 待完善
+        courseService.deleteTeamShare(teamShareId);
+    }
+
+    @RequestMapping(value = "/course/seminarshare/{seminarShareId}",method = RequestMethod.DELETE)//取消讨论课共享
+    public void deleteSemianrShare(@PathVariable("seminarShareId")Long seminarShareId)
+    {
+        courseService.deleteSeminarShare(seminarShareId);
+    }
+
+    @RequestMapping(value = "/course/{courseId}/seminarsharerequest",method = RequestMethod.POST)//发起讨论课共享请求
+    public void createSeminarShare(@PathVariable("courseId")Long courseId, @RequestBody ShareRequestIdDTO shareRequestIdDTO)
+    {
+         courseService.createSeminarShare(courseId,shareRequestIdDTO.getSubCourseId());
+    }
+
+    @RequestMapping(value= "/course/{courseId}/teamsharerequest",method = RequestMethod.POST)//发起组队共享请求
+    public void createTeamShare(@PathVariable("courseId")Long courseId,@RequestBody ShareRequestIdDTO shareRequestIdDTO){
+        courseService.createTeamShare(courseId,shareRequestIdDTO.getSubCourseId());
+    }
+    
 
     public TeamVO TeamEntityToTeamVO(TeamEntity teamEntity){
         TeamVO teamVO = new TeamVO();

@@ -11,6 +11,7 @@ import com.example.demo.Entity.SeminarScoreEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -39,10 +40,14 @@ public class SeminarService {
         return seminarDao.deleteSeminar(seminarId);
     }
     public boolean changeReportDDL(Long seminarId, Long classId, Date ddl){return seminarDao.changeReportDDL(seminarId, classId, ddl);}
-    public ClassEntity getClassBySeminarId(Long seminarId)
+    public List <ClassEntity> getClassBySeminarId(Long seminarId)
     {
-        Long classId=seminarDao.getClassIdBySeminarId(seminarId);
-        return klassDao.getKlassById(classId);
+        List<Long> classIds=seminarDao.getClassIdBySeminarId(seminarId);
+        List<ClassEntity>classEntities=new ArrayList<>();
+        for(Long classId:classIds){
+            classEntities.add(klassDao.getKlassById(classId));
+        }
+        return classEntities;
     }
     public SeminarEntity getSeminarBySeminarId(Long seminarId)
     {

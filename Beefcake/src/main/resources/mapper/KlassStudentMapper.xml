@@ -9,20 +9,21 @@
     </insert>
 
     <select id="getStudentIdByTeamId" resultType="java.lang.Long">
-        select student_id from klass_student where team_id=#{teamId}
+        select student_id from team_student where team_id=#{teamId}
     </select>
 
     <select id="getTeamId" resultType="java.lang.Long">
-        select team_id from klass_student where student_id=#{studentId} and course_id=#{courseId}
+        select klass_team.team_id from klass_team LEFT JOIN team_student on klass_team.team_id=
+        team_student.team_id where klass_team.klass_id=#{classId} and team_student.student_id=#{studentId}
     </select>
 
-    <update id="addTeamMember">
-        update klass_student set team_id=#{teamId} where klass_id=#{klassId} and student_id=#{studentId}
-    </update>
+    <insert id="addTeamMember">
+        insert into  team_student(team_id,student_id) values(#{param3},#{param2})
+    </insert>
 
-    <update id="deleteTeamMember">
-        update klass_student set team_id=NULL  where team_id=#{teamId} and student_id=#{studentId}
-    </update>
+    <delete id="deleteTeamMember">
+        delete from team_student  where team_id=#{teamId} and student_id=#{studentId}
+    </delete>
 
     <select id="getNoTeamStudentsId" resultType="java.lang.Long">
         select student_id from klass_student where course_id = #{courseId} and team_id is null
