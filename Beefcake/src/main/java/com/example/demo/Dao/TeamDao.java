@@ -157,4 +157,8 @@ public class TeamDao {
         }
         return true;
     }
+
+    public List<Long> getSomeMembersId(Long teamId,Long klassId){
+        return teamMapper.getSomeMembersId(teamId,klassId);
+    }
 }

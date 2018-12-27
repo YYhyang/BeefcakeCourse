@@ -9,5 +9,6 @@ public class AttendanceInfoVO {
     private Long id;
     private Long teamId;
     private String teamSerialName;
+    private String pptStatus;
     private int order;
 }

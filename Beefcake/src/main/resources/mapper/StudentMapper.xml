@@ -29,7 +29,7 @@
     </delete>
 
     <update id="activateStudent">
-        update student set is_active=1 where id=${studentId}
+        update student set is_active=1,password=#{password},email=#{email} where id=${studentId}
     </update>
 
     <select id="selectStudentById" resultType="com.example.demo.Entity.StudentEntity">

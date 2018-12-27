@@ -55,4 +55,6 @@ public interface TeamMapper {
 
     public int getMaxTeamSerial(@Param("klassId")Long klassId);
 
+    public List<Long> getSomeMembersId(@Param("teamId")Long teamId,@Param("klassId")Long klassId);
+
 }

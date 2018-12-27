@@ -68,11 +68,21 @@ public class SeminarService {
         return score;
     }
 
-    public boolean setPresentationScore(Long seminarId,Long teamId,double presentationScore)
+    public boolean setPresentationScore(Long seminarId,Long classId,Long teamId,double presentationScore)
     {
-        Long classId=seminarDao.getClassIdByTeamId(teamId);
+
         Long klassSeminarId=seminarDao.getKlassSeminarIdByClassIdAndSeminarId(classId,seminarId);
-        return seminarDao.setPresentationScore(klassSeminarId,teamId,presentationScore);
+        String score=String.valueOf(seminarDao.getScoreByKlassSeminarIdAndTeamId(klassSeminarId,teamId).getPresentation_score());
+        if(score==null)
+            return seminarDao.setPresentationScore(klassSeminarId,teamId,presentationScore);
+        else
+            return seminarDao.updatePresentationScore(klassSeminarId,teamId,presentationScore);
+    }
+
+    public boolean updatePresentationScore(Long seminarId, Long classId, Long teamId,double presentationScore)
+    {
+        Long klassSeminarId=seminarDao.getKlassSeminarIdByClassIdAndSeminarId(classId,seminarId);
+        return seminarDao.updatePresentationScore(klassSeminarId,teamId,presentationScore);
     }
 
     public boolean setReportScore(Long seminarId,Long teamId,double reportScore)
@@ -88,11 +98,6 @@ public class SeminarService {
         List<Long>teamIdList=seminarDao.getAllTeamId(klassSeminarId);
         for(Long teamId:teamIdList){
             double score=seminarDao.getScoreByTeamId(teamId);
-            String k;
-                    k=seminarDao.findPresentation(klassSeminarId,teamId);
-            if(k==null)
-                temp=seminarDao.createQuestionScore(klassSeminarId,teamId,score);
-            else
                 temp=seminarDao.setQuestionScore(klassSeminarId,teamId,score);
             if(!temp)
                 return temp;

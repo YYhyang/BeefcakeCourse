@@ -37,6 +37,8 @@ public class CourseService {
     private ShareSeminarApplicationDao shareSeminarApplicationDao;
     @Autowired
     private ShareTeamApplicationDao shareTeamApplicationDao;
+    @Autowired
+    private TeamDao teamDao;
 
     public Long createCourse(String courseName, String introduction, int pPercent, int qPercent, int rPercent, Date teamStartTime, Date teamEndTime, HttpServletRequest request){
         JWTPayLoad jwtPayLoad=jwtDao.getJwtPayLoad(request);
@@ -68,6 +70,7 @@ public class CourseService {
         int role;//老师或学生
         JWTPayLoad jwtPayLoad=jwtDao.getJwtPayLoad(request);
         Long jwt_Id = jwtPayLoad.getId();
+        System.out.println(jwt_Id);
         role=jwtPayLoad.getRole();
         if(role==0){
             List<CourseEntity> courseEntities = new ArrayList<>();
@@ -141,9 +144,22 @@ public class CourseService {
         //将共享信息删除
     }
 
-
     public void deleteAllTeams(Long courseId){
+        List<Long> teamsId = getAllTeamsId(courseId);
+        for(Long teamId:teamsId){
+            teamDao.deleteTeam(teamId);
+            teamDao.deleteTeamFromKlassTeam(teamId);
+            teamDao.deleteTeamFromTeamStudent(teamId);
+        }
+    }//删除课程下所有team
 
+    public List<Long> getAllTeamsId(Long courseId){
+        List<Long> klassesId = klassDao.getAllKlassId(courseId);
+        List<Long> teamsId = new ArrayList<>();
+        for(Long klassId:klassesId){
+            teamsId.addAll(teamDao.getAllTeamIdByKlassId(klassId));
+        }
+        return teamsId;
     }
 
 

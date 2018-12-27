@@ -9,6 +9,7 @@ import com.example.demo.VO.UserInfoVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -100,8 +101,8 @@ public class TeacherController {
     }
 
     @RequestMapping(value="/teacher/active",method = RequestMethod.PUT)  //教师激活
-    public Boolean activateTeacher(@PathVariable("teacherId")Long teacherId,@RequestParam("password")String password ){
-        return teacherMapper.activateTeacher(teacherId,password);
+    public Boolean activateTeacher(@RequestParam("password")String password, HttpServletRequest request){
+        return teacherService.activeTeacher(password,request);
     }
 
 }

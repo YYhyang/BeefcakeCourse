@@ -111,4 +111,8 @@
         delete from seminar where id=#{seminarId}
     </delete>
 
+    <update id="updatePresentationScore">
+        update seminar_score set presentation_score=#{param3} where klass_seminar_id=#{param1} and team_id=#{param2}
+    </update>
+
 </mapper>

@@ -12,6 +12,8 @@ public class TeacherDao {
     @Autowired
     private TeacherMapper teacherMapper;
 
+    public Boolean activateTeacher( Long teacherId, String password){return teacherMapper.activateTeacher(teacherId,password);}
+
     public Boolean createTeacher(String account,String password,String teacher_name,String email){return teacherMapper.createTeacher(account,password,teacher_name,email);}
 
     public List<TeacherEntity> getAllTeacher()

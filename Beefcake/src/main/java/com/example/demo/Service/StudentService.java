@@ -1,16 +1,22 @@
 package com.example.demo.Service;
 
+import com.example.demo.Dao.JwtDao;
 import com.example.demo.Dao.StudentDao;
 import com.example.demo.Entity.StudentEntity;
+import com.example.demo.Sercurity.JWTPayLoad;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @Component
 public class StudentService {
     @Autowired
     private StudentDao studentDao;
+    @Autowired
+    private JwtDao jwtDao;
 
     public List<StudentEntity> getAllStudent()
     {
@@ -41,5 +47,12 @@ public class StudentService {
     public void deleteStudent(Long studentId)
     {
         studentDao.deleteStudent(studentId);
+    }
+
+    public boolean activeStudent(String password, String email, HttpServletRequest request)
+    {
+        JWTPayLoad jwtPayLoad=jwtDao.getJwtPayLoad(request);
+        Long jwt_studentId = jwtPayLoad.getId();
+        return studentDao.activateStudent(jwt_studentId,password,email);
     }
 }

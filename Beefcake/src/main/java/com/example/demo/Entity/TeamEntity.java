@@ -17,4 +17,8 @@ public class TeamEntity {
     private CourseEntity course;
     private List<StudentEntity> members;
     private int status;
+
+    public int countMembersNum(){
+        return members.size();
+    }
 }

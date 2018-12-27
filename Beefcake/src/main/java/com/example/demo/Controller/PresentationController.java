@@ -109,9 +109,14 @@ public class PresentationController {
             int teamSerial=attendanceEntity.getTeam().getTeam_serial();
             int classSerial=attendanceEntity.getTeam().getClass_serial();
             if(attendanceEntity.getPpt_name()==null)
-                vo.setTeamSerialName(String.valueOf(classSerial)+"-"+String.valueOf(teamSerial)+" 未提交");
-            else
+            {
                 vo.setTeamSerialName(String.valueOf(classSerial)+"-"+String.valueOf(teamSerial));
+                vo.setPptStatus("未提交");
+            }
+            else {
+                vo.setTeamSerialName(String.valueOf(classSerial) + "-" + String.valueOf(teamSerial));
+                vo.setPptStatus("");
+            }
             vo.setOrder(attendanceEntity.getTeam_order());
             vos.add(vo);
         }

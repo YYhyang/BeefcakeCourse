@@ -2,6 +2,7 @@ package com.example.demo.Service;
 
 import com.example.demo.Dao.*;
 import com.example.demo.Entity.ShareApplicationEntity;
+import com.example.demo.Entity.TeamEntity;
 import com.example.demo.Entity.TeamValidApplicationEntity;
 import com.example.demo.Sercurity.JWTPayLoad;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,8 @@ public class RequestService {
     private TeamDao teamDao;
     @Autowired
     private JwtDao jwtDao;
+    @Autowired
+    private KlassDao klassDao;
 
     public List<ShareApplicationEntity> getShareTeamRequest(HttpServletRequest request){
         JWTPayLoad jwtPayLoad=jwtDao.getJwtPayLoad(request);
@@ -63,35 +66,33 @@ public class RequestService {
         }
         else
         {
-            courseService.deleteAllTeams(teamShare.getSub_course_id());//从课程删除课程下所有小组 ##待修改
-            //建立从课程和主课程小组关系
+            courseService.deleteAllTeams(teamShare.getSub_course_id());//从课程删除课程下所有小组
 
+            List<Long> mainCourseTeamsId = courseService.getAllTeamsId(teamShare.getMain_course_id());//获取主课程所有小组id
+            List<Long> subCourseKlassesId = klassDao.getAllKlassId(teamShare.getSub_course_id());     //获取从课程所有课程id
+
+            //建立从课程和主课程小组关系
+            for(Long teamId:mainCourseTeamsId){
+                int maxNum=0;
+                Long targetKlassId = null;
+                for(Long klassId:subCourseKlassesId){
+                    TeamEntity partTeam = teamService.getTeamInKlass(teamId,klassId);
+                    if(partTeam.countMembersNum()>maxNum) {
+                        maxNum=partTeam.countMembersNum();
+                        targetKlassId = klassId;
+                    }
+                }
+                if(targetKlassId!=null)
+                    teamDao.createTeamInKlassTeam(targetKlassId,teamId);
+            }
             courseDao.setTeamMainCourseId(teamShare.getSub_course_id(),teamShare.getMain_course_id());//为从课程添加主课程Id
-            shareTeamApplicationDao.setStatus(shareId,1);//
+            shareTeamApplicationDao.setStatus(shareId,1);//将共享申请状态置为同意
             //发通知
         }
     }
 
 
 
-//    public List<ShareApplicationEntity> getShareSeminarRequest(HttpServletRequest request){
-//        JWTPayLoad jwtPayLoad=jwtDao.getJwtPayLoad(request);
-//        Long jwt_teacherId=jwtPayLoad.getId();
-//        return shareSeminarApplicationDao.getShareSeminarRequest(jwt_teacherId);
-//    }
 
-
-//    public void dealSeminarShare(Long shareId,String handleType){
-//        if(handleType.equals("refuse")){
-//            shareSeminarApplicationDao.setStatus(shareId,0);
-//            //发通知
-//        }
-//        else
-//        {
-//            shareSeminarApplicationDao.setStatus(shareId,1);
-//            //删除所有讨论课
-//            //发通知
-//        }
-//    }
 
 }

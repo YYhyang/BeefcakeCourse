@@ -80,4 +80,9 @@
         select id from team where team_serial=#{param1} and klass_serial=#{param2}
     </select>
 
+    <select id="getSomeMembersId" resultType="java.lang.Long">
+        select klass_student.student_id from klass_student left join team_student on team_student.student_id=klass_student.student_id
+        where klass_student.klass_id=#{klassId} and team_student.team_id=#{teamId} group by klass_student.student_id;
+    </select>
+
 </mapper>

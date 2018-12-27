@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import com.example.demo.Service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -88,9 +89,9 @@ public class StudentController {
     }
 
     @RequestMapping(value = "/student/active",method = RequestMethod.PUT)
-    public Boolean activateStudent(@PathVariable("studentId")Long studentId,@RequestParam("password")String password,@RequestParam("email")String email)
+    public Boolean activateStudent(@RequestParam("password")String password, @RequestParam("email")String email, HttpServletRequest request)
     {
-        return studentMapper.activateStudent(studentId,password,email);
+        return studentService.activeStudent(password,email,request);
     }
 }
 

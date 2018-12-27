@@ -39,4 +39,6 @@ public class StudentDao {
     {
         studentMapper.deleteStudent(studentId);
     }
+
+    public Boolean activateStudent(Long studentId, String password,  String email){return studentMapper.activateStudent(studentId, password, email);}
 }

@@ -54,4 +54,8 @@
     <select id="getTeamMainCourseId" resultType="java.lang.String">
         select team_main_course_id from course where id =#{courseId};
     </select>
+
+    <select id="getAllExistCourse" resultMap="CommonMapper.CourseMap">
+        select * from course ;
+    </select>
 </mapper>

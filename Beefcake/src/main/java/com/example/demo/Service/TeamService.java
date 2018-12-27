@@ -163,6 +163,16 @@ public class TeamService {
         teamDao.changeTeamStatus(teamId,1);
         teamValidApplicationDao.changeApplicationStatus(teamId,1);
     }
-
+    //获取某一小组在某一班级下的构造
+    public TeamEntity getTeamInKlass(Long teamId,Long klassId){
+        TeamEntity teamInKlass = teamDao.getTeamById(teamId);
+        List<Long> membersId = teamDao.getSomeMembersId(teamId,klassId);
+        List<StudentEntity> members = new ArrayList<>();
+        for(Long memberId:membersId){
+            members.add(studentDao.selectStudentById(memberId));
+        }
+        teamInKlass.setMembers(members);
+        return teamInKlass;
+    }
 
 }

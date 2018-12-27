@@ -1,10 +1,14 @@
 package com.example.demo.Mapper;
 
 import com.example.demo.Entity.TeacherEntity;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Mapper
+@Component
 public interface TeacherMapper {
 
     public Boolean createTeacher(@Param("account") String account, @Param("password") String password, @Param("teacher_name") String teacher_name, @Param("email") String email);

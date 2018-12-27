@@ -4,6 +4,7 @@ import com.example.demo.DTO.CourseDTO;
 import com.example.demo.DTO.KlassDTO;
 import com.example.demo.DTO.ShareRequestIdDTO;
 import com.example.demo.DTO.TeamDTO;
+import com.example.demo.Dao.CourseDao;
 import com.example.demo.Dao.JwtDao;
 import com.example.demo.Dao.ShareSeminarApplicationDao;
 import com.example.demo.Dao.ShareTeamApplicationDao;
@@ -34,6 +35,8 @@ public class CourseController {
     private ShareTeamApplicationDao shareTeamApplicationDao;
     @Autowired
     JwtDao jwtDao;
+    @Autowired
+    CourseDao courseDao;
 
     @RequestMapping(value = "/course",method = RequestMethod.POST)//创建课程
     public IdVO createCourse(@RequestBody CourseDTO course,HttpServletRequest request)
@@ -70,6 +73,22 @@ public class CourseController {
             courses.add(course);
         }
         return courses;
+    }
+
+    @RequestMapping(value = "/course",method = RequestMethod.PUT)
+    public List<AllExistCourseVO> AllExistCourse()
+    {
+        List<AllExistCourseVO> allCourses = new ArrayList<>();
+        List<CourseEntity> courseEntities = courseDao.getAllExistCourse();
+        for(CourseEntity courseEntity:courseEntities){
+            AllExistCourseVO course = new AllExistCourseVO();
+            course.setId(courseEntity.getId());
+            course.setName(courseEntity.getCourse_name());
+            course.setTecherId(courseEntity.getTeacher().getId());
+            course.setTeacherName(courseEntity.getTeacher().getTeacher_name());
+            allCourses.add(course);
+        }
+        return allCourses;
     }
 
     @RequestMapping(value="/course/{courseId}/round",method = RequestMethod.GET)

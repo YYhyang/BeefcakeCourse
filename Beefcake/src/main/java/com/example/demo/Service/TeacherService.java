@@ -1,16 +1,29 @@
 package com.example.demo.Service;
 
+import com.example.demo.Dao.JwtDao;
 import com.example.demo.Dao.TeacherDao;
 import com.example.demo.Entity.TeacherEntity;
+import com.example.demo.Sercurity.JWTPayLoad;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Component
 public class TeacherService {
     @Autowired
     private TeacherDao teacherDao;
+    @Autowired
+    private JwtDao jwtDao;
+
+    public boolean activeTeacher(String password, HttpServletRequest request)
+    {
+        JWTPayLoad jwtPayLoad=jwtDao.getJwtPayLoad(request);
+        Long jwt_teacherId = jwtPayLoad.getId();
+        System.out.println("Id:"+jwt_teacherId);
+        return teacherDao.activateTeacher(jwt_teacherId,password);
+    }
 
     public Boolean createTeacher(String account,String password,String teacher_name,String email){return teacherDao.createTeacher(account,password,teacher_name,email);}
 

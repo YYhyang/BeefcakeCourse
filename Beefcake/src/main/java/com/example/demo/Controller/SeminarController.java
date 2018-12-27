@@ -116,10 +116,16 @@ public class SeminarController {
         return vo;
     }
 
-    @RequestMapping(value = "/seminar/{seminarId}/team/{teamId}/seminarscore",method = RequestMethod.POST)//给一个小组的展示打分
-    public boolean setPresentationScore(@PathVariable("seminarId")Long seminarId,@PathVariable("teamId")Long teamId,@RequestParam("presentationScore")double presentationScore)
+    @RequestMapping(value = "/seminar/{seminarId}/class/{classId}/seminarscore",method = RequestMethod.POST)//给一个小组的展示打分
+    public String createPresentationScore(@PathVariable("seminarId")Long seminarId,@PathVariable("classId")Long classId,@RequestParam("teamId")Long teamId,@RequestParam("presentationScore")double presentationScore)
     {
-        return seminarService.setPresentationScore(seminarId, teamId, presentationScore);
+        return seminarService.setPresentationScore(seminarId, classId, teamId,presentationScore)?"success":"fail";
+    }
+
+    @RequestMapping(value = "/seminar/{seminarId}/class/{classId}/seminarscore",method = RequestMethod.PUT)//给一个小组的展示打分
+    public boolean setPresentationScore(@PathVariable("seminarId")Long seminarId,@PathVariable("classId")Long classId,@RequestParam("teamId")Long teamId,@RequestParam("presentationScore")double presentationScore)
+    {
+        return seminarService.updatePresentationScore(seminarId, classId, teamId,presentationScore);
     }
 
 
@@ -131,8 +137,14 @@ public class SeminarController {
     }
 
     @RequestMapping(value = "/seminar/end",method = RequestMethod.POST)
-    public boolean setQuestionScore(@RequestParam("klassSeminarId")Long klassSeminarId)
+    public String setQuestionScore(@RequestParam("seminarId")Long seminarId,@RequestParam("klassId")Long klassId)
     {
-        return seminarService.setQuestionScore(klassSeminarId);
+        Long klassSeminarId=seminarDao.getKlassSeminarIdByClassIdAndSeminarId(klassId,seminarId);
+         seminarService.setQuestionScore(klassSeminarId);
+         boolean b=seminarDao.setStatus(seminarId,klassId,2);
+         if(b)
+             return "success";
+         else
+             return "fail";
     }
 }

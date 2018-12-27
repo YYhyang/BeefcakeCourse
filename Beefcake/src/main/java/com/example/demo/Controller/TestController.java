@@ -36,11 +36,9 @@ public class TestController {
     }
     @RequestMapping("admin")
     public String admin(){return "Admin";}
-    @RequestMapping(value = "/test1",method = RequestMethod.POST)
-    public List<TeamMemberDTO>  test(@RequestBody List<TeamMemberDTO> members)
+    @RequestMapping(value = "/test1",method = RequestMethod.GET)
+    public boolean  test(@RequestParam("teamId")Long teamId)
     {
-        if(members==null)
-            System.out.println("members is null");
-        return members;
+        return teamService.isValid(teamId);
     }
 }

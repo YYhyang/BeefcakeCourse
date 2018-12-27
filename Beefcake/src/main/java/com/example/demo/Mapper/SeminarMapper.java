@@ -36,4 +36,6 @@ public interface SeminarMapper {
     public boolean setQuestionScore(@Param("klassSeminarId") Long klassSeminarId, @Param("teamId") Long teamId, @Param("questionScore") double questionScore);
    public int getStatus(@Param("seminarId")Long seminarId,@Param("classId")Long classId);
     public boolean createQuestionScore(@Param("klassSeminarId") Long klassSeminarId, @Param("teamId") Long teamId, @Param("questionScore") double questionScore);
+
+    public boolean updatePresentationScore(@Param("klass_seminar_id") Long klassSeminarId, @Param("teamId") Long teamId, @Param("presentationScore") double presentationScore);
 }
