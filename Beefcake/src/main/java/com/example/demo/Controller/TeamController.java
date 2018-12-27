@@ -1,7 +1,9 @@
 package com.example.demo.Controller;
 
 import com.example.demo.DTO.StudentIdDTO;
+import com.example.demo.DTO.TeamMemberDTO;
 import com.example.demo.DTO.TeamRequestDTO;
+import com.example.demo.DTO.createTeamDTO;
 import com.example.demo.Entity.ClassEntity;
 import com.example.demo.Entity.CourseEntity;
 import com.example.demo.Entity.StudentEntity;
@@ -17,6 +19,7 @@ import com.example.demo.VO.StudentInTeamVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,8 +30,8 @@ public class TeamController {
     private TeamService teamService;
 
     @RequestMapping(value="/team",method = RequestMethod.POST)  //新建队伍
-    public Long postTeam(@RequestParam("teamName") String teamName, @RequestParam("courseId") Long courseId, @RequestParam("klassId") Long klassId , @RequestParam("leaderId") Long leaderId){
-        return teamService.postTeam(klassId,courseId,leaderId,teamName,1); //创建时默认为合法
+    public Long postTeam(@RequestBody createTeamDTO team, HttpServletRequest request){
+        return teamService.postTeam(team.getKlassId(),team.getCourseId(),team.getTeamName(),team.getMembers(),request); //创建时默认为合法
     }
 
     @RequestMapping(value="/team/{teamId}",method = RequestMethod.GET)  //获取队伍信息(测试通过）
@@ -66,7 +69,7 @@ public class TeamController {
         //给最终返回VO类赋值
         GetTeamByIdVO team = new GetTeamByIdVO();
         team.setId(teamEntity.getId());
-        team.setName(teamEntity.getKlass().getId()+"-"+teamEntity.getTeam_serial()+" "+teamEntity.getTeam_name());
+        team.setName(teamEntity.getKlass().getKlass_serial()+"-"+teamEntity.getTeam_serial()+" "+teamEntity.getTeam_name());
         team.setStatus(teamEntity.getStatus());
         team.setKlass(klass);
         team.setCourse(course);
@@ -74,12 +77,6 @@ public class TeamController {
         team.setMembers(members);
 
         return team;
-    }
-
-    //尚未完善
-    @RequestMapping(value="/team/{teamId}",method = RequestMethod.POST)  //修改队伍
-    public void updateTeam(){
-
     }
 
     @RequestMapping(value="/team/{teamId}",method = RequestMethod.DELETE)  //按ID删除队伍及队长解散队伍(测试成功）

@@ -19,13 +19,25 @@ public class UserService {
             return false;
     }
 
-    public String forgetPassword(String account) //待修改  应发送邮件
+    public String forgetPassword(String account) //返回密码
     {
         if(!(userMapper.studentForgetPassword(account)==null)){
             return userMapper.studentForgetPassword(account).getPassword();
         }
         else if(!(userMapper.teacherForgetPassword(account)==null)){
             return userMapper.teacherForgetPassword(account).getPassword();
+        }
+        else
+            return "";
+    }
+
+    public String getEmail(String account)
+    {
+        if(!(userMapper.studentForgetPassword(account)==null)){
+            return userMapper.studentForgetPassword(account).getEmail();
+        }
+        else if(!(userMapper.teacherForgetPassword(account)==null)){
+            return userMapper.teacherForgetPassword(account).getEmail();
         }
         else
             return "";

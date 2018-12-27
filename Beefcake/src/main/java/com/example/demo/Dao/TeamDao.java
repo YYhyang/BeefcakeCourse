@@ -1,6 +1,7 @@
 package com.example.demo.Dao;
 
 
+import com.example.demo.DTO.TeamMemberDTO;
 import com.example.demo.Entity.StudentEntity;
 import com.example.demo.strategy.AndOrStrategy;
 import com.example.demo.strategy.CourseMemberLimitStrategy;
@@ -20,12 +21,17 @@ public class TeamDao {
     @Autowired
     public TeamMapper teamMapper;
 
-    public boolean postTeam(Long klassId, Long courseId, Long leaderId, String teamName, int status){
-        return teamMapper.postTeam(klassId,courseId,leaderId,teamName,status);
+    public Integer getMaxTeamSerial(Long klassId){return teamMapper.getMaxTeamSerial(klassId);}
+
+    public boolean postTeam(Long klassId, Long courseId, Long leaderId, String teamName,Integer teamSerial,Integer klassSerial){
+        return teamMapper.postTeam(klassId, courseId, leaderId, teamName,teamSerial,klassSerial);
     }
 
-    public Long returnId(Long klassId, Long courseId, String teamName){
-        return teamMapper.returnId(klassId,courseId,teamName);
+    public boolean createTeamInKlassTeam(Long klassId,Long teamId){return teamMapper.createTeamInKlassTeam(klassId, teamId);}
+    public boolean createTeamInTeamStudent(Long teamId,Long studentId){return teamMapper.createTeamInTeamStudent(teamId, studentId);}
+
+    public Long returnId(Integer team_serial, Integer klass_serial){
+        return teamMapper.returnId(team_serial,klass_serial);
     }
 
     public TeamEntity getTeamById(Long teamId) {

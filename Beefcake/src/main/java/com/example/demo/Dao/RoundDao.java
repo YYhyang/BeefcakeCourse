@@ -19,9 +19,7 @@ public class RoundDao {
         return roundMapper.getAllRoundId(courseId);
     }
 
-    public RoundEntity getRoundById(Long roundId){
-        return roundMapper.getRoundById(roundId);
-    }
+    public boolean createEnrollNumber(Long klassId,Long roundId,int enrollNumber){return roundMapper.createEnrollNumber(klassId, roundId, enrollNumber);}
 
 
     public List<SeminarEntity> findAllSeminarByRoundId(Long roundId){

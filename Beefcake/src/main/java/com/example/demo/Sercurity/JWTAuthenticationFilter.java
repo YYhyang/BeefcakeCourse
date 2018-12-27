@@ -35,10 +35,10 @@ public class JWTAuthenticationFilter extends BasicAuthenticationFilter {
         if(token!=null&&token.startsWith("Bearer "))
         {
             String authToken=token.replace("Bearer ","");
-            System.out.println(authToken);
+            System.out.println("Token at Authentication"+authToken);
             JWTPayLoad jwtPayLoad=jwtService.verifyJwt(authToken);
             if(jwtPayLoad==null)
-                System.out.println("jwtPayLoad is null");
+                System.out.println("jwtPayLoad is null at AuthenticationFilter");
             if(jwtPayLoad!=null){
                 UserEntity user=jwtPayLoad.toUser();
                 user.setAuthorities(getAuthorities(user.getRole()));

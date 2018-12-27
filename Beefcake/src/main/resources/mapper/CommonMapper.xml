@@ -40,6 +40,7 @@
         <id column="id" property="id"/>
         <result column="team_name" property="team_name"/>
         <result column="team_serial" property="team_serial"/>
+        <result column="klass_serial" property="class_serial"/>
         <result column="status" property="status"/>
         <association property="course" column="course_id" select="selectCourse"/>
         <association property="klass" column="klass_id" select="selectClass"/>

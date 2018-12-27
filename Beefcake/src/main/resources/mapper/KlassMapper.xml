@@ -17,4 +17,12 @@
     <select id="getKlassId" resultType="java.lang.Long">
         select id from klass where course_id=#{courseId} and grade=#{grade} and klass_serial=#{klassSerial}
     </select>
+
+    <select id="getKlassSerial" resultType="java.lang.Integer">
+        select klass_serial from klass where id=#{klassId}
+    </select>
+
+    <delete id="deleteKlass">
+        delete from klass where id = #{klassId}
+    </delete>
 </mapper>

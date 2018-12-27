@@ -2,7 +2,9 @@ package com.example.demo.Service;
 
 import com.example.demo.Dao.*;
 import com.example.demo.Entity.*;
+import com.example.demo.Mapper.TeamMapper;
 import com.example.demo.Sercurity.JWTPayLoad;
+import com.example.demo.VO.TeamSimpleVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -30,6 +32,8 @@ public class CourseService {
     @Autowired
     private JwtDao jwtDao;
     @Autowired
+    private TeamMapper teamMapper;
+    @Autowired
     private ShareSeminarApplicationDao shareSeminarApplicationDao;
     @Autowired
     private ShareTeamApplicationDao shareTeamApplicationDao;
@@ -49,7 +53,7 @@ public class CourseService {
         List<RoundEntity> rounds = new ArrayList<>();
         List<ClassEntity> klasses = new ArrayList<>();
         for(Long roundId:allRoundId){
-            rounds.add(roundDao.getRoundById(roundId));
+            rounds.add(roundDao.getRoundByRoundId(roundId));
         }
         for(Long klassId:allKlassId){
             klasses.add(klassService.getKlassById(klassId));
@@ -69,7 +73,11 @@ public class CourseService {
             List<CourseEntity> courseEntities = new ArrayList<>();
             List<Long> coursesId = klassStudentDao.getCoursesIdByStudentId(jwt_Id);
             for(Long courseId:coursesId){
-                courseEntities.add(courseDao.getCourseById(courseId));
+                CourseEntity course=courseDao.getCourseById(courseId);
+                Long klassId=klassStudentDao.getKlassIdByStudentId(courseId,jwt_Id);
+                ClassEntity klass=klassDao.getKlassById(klassId);
+                course.setKlassName(klass.getGrade()+"-"+klass.getKlass_serial());
+                courseEntities.add(course);
             }
             return courseEntities;
         }
@@ -82,21 +90,17 @@ public class CourseService {
         courseDao.deleteCourse(courseId);
     }
 
-    public List<TeamEntity> getAllTeam(Long courseId){
-        List<ClassEntity> klasses = getCourseById(courseId).getKlasses();
-        List<TeamEntity> teams = new ArrayList<>();
-        for(ClassEntity klass:klasses){
-            for(TeamEntity team:klass.getTeams()){
-                teams.add(team);
-            }
+    public List<TeamSimpleVO> getAllTeam(Long courseId){
+        List<TeamSimpleVO> vos=teamMapper.getTeamByCourseId(courseId);
+        for(TeamSimpleVO vo:vos)
+        {
+            vo.setSerial_name(vo.getKlass_serial()+"-"+vo.getTeam_serial());
         }
-        return teams;
+       return vos;
     }
 
-    public TeamEntity getMyTeam(Long courseId,HttpServletRequest request){
-        JWTPayLoad jwtPayLoad=jwtDao.getJwtPayLoad(request);
-        Long jwt_studentId=jwtPayLoad.getId() ;
-        Long teamId=klassStudentDao.getTeamId(courseId,jwt_studentId);
+    public TeamEntity getMyTeam(Long courseId,Long studentId){
+        Long teamId=klassStudentDao.getTeamId(courseId,studentId);
         return teamService.getTeamById(teamId);
     }
 
@@ -109,46 +113,42 @@ public class CourseService {
         return studentEntities;
     }
 
-    public void createSeminarShare(Long mainCourseId,Long subCourseId){
-        //判断是否已经分享
-        if(shareSeminarApplicationDao.getId(mainCourseId,subCourseId)!=null) {
-            String status = shareSeminarApplicationDao.getShareSeminarApplication(mainCourseId, subCourseId).getStatus(); //若未查到抛出异常
-            if (status.equals("0")) {
-                shareSeminarApplicationDao.setStatusNull(mainCourseId, subCourseId);
-            }
-        }
-        else{
-            Long subCourseTeacherId = courseDao.getTeacherId(subCourseId);
-            shareSeminarApplicationDao.createShareSeminarApplication(mainCourseId, subCourseId, subCourseTeacherId);
-        }
-    }
 
     public void createTeamShare(Long mainCourseId,Long subCourseId){
-        if (shareTeamApplicationDao.getId(mainCourseId, subCourseId) != null) {
-            String status = shareTeamApplicationDao.getShareTeamApplication(mainCourseId,subCourseId).getStatus();
-            if(status.equals("0")){
-                shareTeamApplicationDao.setStatusNull(mainCourseId,subCourseId);
+        //主课程才可操作
+        if(courseDao.getTeamMainCourseId(mainCourseId)==null) {
+            if (shareTeamApplicationDao.getId(mainCourseId, subCourseId) != null) {
+                String status = shareTeamApplicationDao.getShareTeamApplication(mainCourseId, subCourseId).getStatus();
+                if (status.equals("0")) {
+                    shareTeamApplicationDao.setStatusNull(mainCourseId, subCourseId);
+                }
+            } else {
+                Long subCourseTeacherId = courseDao.getTeacherId(subCourseId);
+                shareTeamApplicationDao.createShareTeamApplication(mainCourseId, subCourseId, subCourseTeacherId);
             }
-        }
-        else{
-            Long subCourseTeacherId = courseDao.getTeacherId(subCourseId);
-            shareTeamApplicationDao.createShareTeamApplication(mainCourseId,subCourseId,subCourseTeacherId);
         }
     }
 
     public void deleteTeamShare(Long teamShareId){
         ShareApplicationEntity shareApplicationEntity = shareTeamApplicationDao.getShareById(teamShareId);
         if (shareApplicationEntity.getStatus().equals("1")){
-            courseDao.deleteTeamMainCourseId(shareApplicationEntity.getSub_course_id());
-        }
+            courseDao.deleteTeamMainCourseId(shareApplicationEntity.getSub_course_id());//从课程的主课程Id删除
+
+            //对从课程的小组相关信息删除
+        }//若该分享有效
+
         shareTeamApplicationDao.deleteTeamShare(teamShareId);
+        //将共享信息删除
     }
 
-    public void deleteSeminarShare(Long seminarShareId){
-        ShareApplicationEntity shareApplicationEntity = shareSeminarApplicationDao.getShareById(seminarShareId);
-        if (shareApplicationEntity.getStatus().equals("1")){
-            courseDao.deleteSeminarMainCourseId(shareApplicationEntity.getSub_course_id());
-        }
-        shareSeminarApplicationDao.deleteSeminarShare(seminarShareId);
+
+    public void deleteAllTeams(Long courseId){
+
     }
+
+
+
+    public List<RoundEntity> getRoundByCourseId(Long courseId){return courseDao.getRoundByCourseId(courseId);}
+
+
 }

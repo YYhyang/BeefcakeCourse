@@ -12,6 +12,7 @@ public class TeamEntity {
     private String team_name;
     private StudentEntity leader;
     private int team_serial;
+    private int class_serial;
     private ClassEntity klass;
     private CourseEntity course;
     private List<StudentEntity> members;

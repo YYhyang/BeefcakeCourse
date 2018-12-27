@@ -44,8 +44,8 @@
         select id from round where course_id=#{courseId}
     </select>
 
-    <select id="getRoundById" resultType="com.example.demo.Entity.RoundEntity">
-        select * from round where id=#{roundId}
+    <select id="returnId" resultType="java.lang.Long">
+        select id from round where course_id=#{param1} and round_serial=#{param2}
     </select>
 
     <insert id="createRound">
@@ -68,4 +68,9 @@
     <update id="changeSignUpnum">
         update klass_round set enroll_number=#{param3} WHERE klass_id=#{param1} AND round_id=#{param2}
     </update>
+
+    <insert id="createEnrollNumber">
+        insert into klass_round (klass_id,round_id,enroll_number) values (#{param1},#{param2},#{param3});
+    </insert>
+
 </mapper>

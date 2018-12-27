@@ -34,5 +34,6 @@ public interface SeminarMapper {
     public double getScoreByTeamId(@Param("teamId") Long teamId);
     public String findPresentation(@Param("klassSeminarId") Long klassSeminarId, @Param("teamId") Long teamId);
     public boolean setQuestionScore(@Param("klassSeminarId") Long klassSeminarId, @Param("teamId") Long teamId, @Param("questionScore") double questionScore);
+   public int getStatus(@Param("seminarId")Long seminarId,@Param("classId")Long classId);
     public boolean createQuestionScore(@Param("klassSeminarId") Long klassSeminarId, @Param("teamId") Long teamId, @Param("questionScore") double questionScore);
 }

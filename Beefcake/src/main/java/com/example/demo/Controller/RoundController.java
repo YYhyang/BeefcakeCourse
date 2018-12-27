@@ -66,7 +66,7 @@ public class RoundController {
         return roundService.changeRound(roundId, changeRoundDTO);
     }
 
-    @RequestMapping(value = "/round",method = RequestMethod.POST)//有问题,没有把每个班的报名次数存进去
+    @RequestMapping(value = "/round",method = RequestMethod.POST)//未测试
     public boolean createRound(@RequestParam("round_serial")int round_serial, @RequestParam("courseId")Long courseId)
     {
         return roundService.createRound(round_serial,courseId);
@@ -87,6 +87,9 @@ public class RoundController {
             vo.setRound_order(score.getRound().getRound_serial());
             vo.setTeam_id(score.getTeam().getId());
             vo.setTeam_name(score.getTeam().getTeam_name());
+            int team_serial=score.getTeam().getTeam_serial();
+            int class_serial=score.getTeam().getClass_serial();
+            vo.setTeam_serial_name(String.valueOf(class_serial)+"-"+String.valueOf(team_serial));
             VoList.add(vo);
         }
         return VoList;

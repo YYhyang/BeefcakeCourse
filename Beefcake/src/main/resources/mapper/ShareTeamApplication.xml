@@ -10,6 +10,10 @@
         select * from share_team_application where id = #{Id}
     </select>
 
+    <select id="getShareTeamRequest" resultType="com.example.demo.Entity.ShareApplicationEntity">
+        select * from share_team_application where sub_course_teacher_id=#{subTeacherId} and status is null;
+    </select>
+
     <update id="setStatusNull">
         update share_team_application set status = null  where main_course_id = #{mainCourseId} and sub_course_id =#{subCourseId};
     </update>
@@ -33,4 +37,12 @@
     <delete id="deleteTeamShare">
         delete from share_team_application where id = #{Id};
     </delete>
+
+    <update id="setStatus">
+        update share_team_application set status=#{status} where id=#{shareId};
+    </update>
+
+    <select id="getShareTeamById" resultType="com.example.demo.Entity.ShareApplicationEntity">
+        select * from share_team_application where id= #{shareId};
+    </select>
 </mapper>

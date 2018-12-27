@@ -1,5 +1,6 @@
 package com.example.demo.Mapper;
 
+import com.example.demo.VO.TeamSimpleVO;
 import com.example.demo.strategy.AndOrStrategy;
 import com.example.demo.strategy.CourseMemberLimitStrategy;
 import com.example.demo.strategy.MemberLimitStrategy;
@@ -15,9 +16,16 @@ import java.util.List;
 @Component
 public interface TeamMapper {
 
-    public boolean postTeam(@Param("klassId") Long klassId, @Param("courseId") Long courseId, @Param("leaderId") Long leaderId, @Param("teamName") String teamName, @Param("status") int status);
+    public List<TeamSimpleVO> getTeamByCourseId(@Param("courseId")Long courseId);
 
-    public Long returnId(@Param("klassId") Long klassId, @Param("courseId") Long courseId, @Param("teamName") String teamName);
+    public boolean postTeam(@Param("klassId") Long klassId, @Param("courseId") Long courseId, @Param("leaderId") Long leaderId, @Param("teamName") String teamName
+                           , @Param("teamSerial")Integer teamSerial,@Param("klassSerial")Integer klassSerial);
+
+    public boolean createTeamInKlassTeam(@Param("klassId")Long klassId,@Param("teamId")Long teamId);
+
+    public boolean createTeamInTeamStudent(@Param("teamId")Long teamId,@Param("studentId")Long studentId);
+
+    public Long returnId(@Param("teamSerial") Integer teamSerial, @Param("klassSerial") Integer klassSerial);
 
     public TeamEntity getTeamById(@Param("teamId") Long teamId);
 
@@ -44,4 +52,7 @@ public interface TeamMapper {
     public List<AndOrStrategy> getOrStrategy(@Param("strategyId")Long strategyId);
 
     public List<TeamStrategy> getStrategyByCourseId(@Param("courseId")Long courseId);
+
+    public int getMaxTeamSerial(@Param("klassId")Long klassId);
+
 }

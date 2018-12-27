@@ -16,4 +16,6 @@ public interface QuestionMapper {
     public boolean askQuestion(@Param("klassSeminarId")Long klassSeminarId,@Param("attendanceId")Long attendanceId,@Param("teamId")Long teamId,@Param("studentId")Long studentId);
     //给学生打分
     public boolean score(@Param("questionId")Long questionId,@Param("score")double score);
+    //教师抽取提问
+    public QuestionEntity getQuestion(@Param("attendanceId")Long attendanceId,@Param("teamId")Long teamId);
 }

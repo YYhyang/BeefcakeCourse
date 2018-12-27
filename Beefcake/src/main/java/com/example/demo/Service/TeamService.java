@@ -1,12 +1,16 @@
 package com.example.demo.Service;
 
+import com.example.demo.DTO.TeamMemberDTO;
 import com.example.demo.Dao.*;
 import com.example.demo.Entity.StudentEntity;
 import com.example.demo.Entity.TeamEntity;
+import com.example.demo.Sercurity.JWTPayLoad;
 import com.example.demo.strategy.TeamStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -26,13 +30,35 @@ public class TeamService {
     private MemberLimitDao memberLimitDao;
     @Autowired
     private TeamValidApplicationDao teamValidApplicationDao;
+    @Autowired
+    private KlassDao klassDao;
+    @Autowired
+    private JwtDao jwtDao;
 
-    public Long postTeam(Long klassId, Long courseId, Long leaderId, String teamName, int status) {
-        if (teamDao.postTeam(klassId, courseId, leaderId, teamName, status)) {
+   public Long postTeam(Long klassId, Long courseId, String teamName, List<TeamMemberDTO>members, HttpServletRequest request) {
+        /*if (teamDao.postTeam(klassId, courseId, leaderId, teamName, members)) {
             return teamDao.returnId(klassId, courseId, teamName);
         } else
-            return new Long((long) 0);
+            return new Long((long) 0);*/
+       JWTPayLoad jwtPayLoad=jwtDao.getJwtPayLoad(request);
+       Long jwt_leaderId = jwtPayLoad.getId();
+        Integer team_serial=teamDao.getMaxTeamSerial(klassId)+1;
+        Integer klass_serial=klassDao.getKlassSerial(klassId);
 
+        boolean post=teamDao.postTeam(klassId,courseId,jwt_leaderId,teamName,team_serial,klass_serial);
+
+        Long teamId=teamDao.returnId(team_serial,klass_serial);
+
+        boolean create=teamDao.createTeamInKlassTeam(klassId,teamId);
+
+        for(TeamMemberDTO member:members){
+            teamDao.createTeamInTeamStudent(teamId,member.getId());
+        }
+        teamDao.createTeamInTeamStudent(teamId,jwt_leaderId);
+        boolean valid=isValid(teamId);
+        if(!valid)
+            teamDao.changeTeamStatus(teamId,0);
+        return teamId;
     }
 
     public TeamEntity getTeamById(Long teamId) {
@@ -45,6 +71,10 @@ public class TeamService {
         teamEntity.setMembers(members);
         return teamEntity;
     }//获得队伍信息
+
+    public TeamEntity getTeamWithoutMember(Long teamId){
+       return teamDao.getTeamById(teamId);
+    }
 
     public List<TeamEntity> getAllTeamByKlassId(Long klassId) {
         List<TeamEntity> teamEntities = new ArrayList<>();

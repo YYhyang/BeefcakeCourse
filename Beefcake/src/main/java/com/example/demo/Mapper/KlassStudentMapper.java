@@ -20,6 +20,8 @@ public interface KlassStudentMapper {
 
     public Long getTeamId(@Param("classId") Long classId, @Param("studentId") Long studentId);
 
+    public Long getKlassIdByStudentId(@Param("courseId")Long courseId,@Param("studentId")Long studentId);
+
     public List<Long> getNoTeamStudentsId(@Param("courseId") Long courseId);
 
     public List<Long> getCoursesIdByStudentId(@Param("studentId") Long studentId);

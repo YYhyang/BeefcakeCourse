@@ -21,6 +21,7 @@ public class CourseEntity {
     private Timestamp team_end_time;
     private Long team_main_course_id;
     private Long seminar_main_course_id;
+    private String klassName;
     private List<ClassEntity> klasses;
     private List<RoundEntity> rounds;
 }

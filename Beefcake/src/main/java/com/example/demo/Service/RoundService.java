@@ -2,11 +2,10 @@ package com.example.demo.Service;
 
 import com.example.demo.DTO.changeRoundDTO;
 import com.example.demo.DTO.changeRoundScoreDTO;
+import com.example.demo.Dao.KlassDao;
 import com.example.demo.Dao.RoundDao;
-import com.example.demo.Entity.RoundEntity;
-import com.example.demo.Entity.RoundscoreEntity;
-import com.example.demo.Entity.SeminarEntity;
-import com.example.demo.Entity.UserEntity;
+import com.example.demo.Entity.*;
+import com.example.demo.Mapper.RoundMapper;
 import com.example.demo.Sercurity.JWTPayLoad;
 import com.example.demo.Sercurity.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +21,10 @@ import java.util.List;
 public class RoundService {
     @Autowired
     RoundDao roundDao;
+    @Autowired
+    RoundMapper roundMapper;
+    @Autowired
+    KlassDao klassDao;
 
     public List<SeminarEntity> findAllSeminarByRoundId(Long roundId) {
         return roundDao.findAllSeminarByRoundId(roundId);
@@ -56,6 +59,12 @@ public class RoundService {
 
     public boolean createRound(int round_serial, Long courseId) {
 
-        return roundDao.createRound(round_serial, courseId);
+        boolean create= roundDao.createRound(round_serial, courseId);
+        Long roundId=roundMapper.returnId(courseId,round_serial);
+        List<Long>ids=klassDao.getAllKlassId(courseId);
+        for(Long classId:ids){
+            roundDao.createEnrollNumber(classId,roundId,1);
+        }
+        return create;
     }
 }

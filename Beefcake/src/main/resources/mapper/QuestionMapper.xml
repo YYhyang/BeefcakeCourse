@@ -4,9 +4,23 @@
 <!-- 指定工作空间，要与接口名相同，源代码没有去看，猜测应该是通过"这里的namespace.下边方法的id"来定位方法的 -->
 <mapper namespace="com.example.demo.Mapper.QuestionMapper">
 
+    <resultMap id="QuestionMap" type="com.example.demo.Entity.QuestionEntity">
+        <id column="id" property="id"/>
+        <result column="klass_seminar_id" property="klass_seminar_id"/>
+        <result column="attendance_id" property="attendance_id"/>
+        <result column="is_selected" property="is_selected"/>
+        <result column="score" property="score"/>
+        <association property="team" column="team_id" select="CommonMapper.selectTeam"/>
+        <association property="student" column="student_id" select="CommonMapper.selectStudent"/>
+    </resultMap>
 
-    <select id="getAllQuestion" resultType="com.example.demo.Entity.QuestionEntity">
-        SELECT id,klass_seminar_id,attendance_id,team_id,student_id,is_selected,score FROM question WHERE klass_seminar_id=#{klassSeminarId}
+
+    <select id="getAllQuestion" resultMap="QuestionMap">
+        SELECT * FROM question WHERE klass_seminar_id=#{klassSeminarId} and is_selected=1
+    </select>
+
+    <select id="getQuestion" resultMap="QuestionMap">
+        SELECT * FROM question WHERE attendance_id=#{param1} and team_id!=#{param2} and is_selected=0 ORDER BY RAND() LIMIT 1
     </select>
 
     <insert id="askQuestion">

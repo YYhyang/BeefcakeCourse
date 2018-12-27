@@ -21,6 +21,11 @@ public class SeminarDao {
         return seminarMapper.createSeminar(courseId, roundId, seminarName, introduction, maxTeam, visible, order, start, end);
     }
 
+    public int getStatus(Long seminarId,Long classId)
+    {
+        return seminarMapper.getStatus(seminarId, classId);
+    }
+
     public boolean changeSeminar(Long courseId, Long roundId, String seminarName,
                                  String introduction, int maxTeam, int visible,
                                  int order, Date start,Date end,Long seminarId)

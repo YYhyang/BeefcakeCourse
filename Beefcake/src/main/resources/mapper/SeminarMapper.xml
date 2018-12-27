@@ -71,6 +71,10 @@
         select presentation_score from seminar_score where klass_seminar_id=#{param1} and team_id=#{param2}
     </select>
 
+    <select id="getStatus" resultType="java.lang.Integer">
+        select status from klass_seminar where seminar_id=#{param1} and klass_id=#{param2}
+    </select>
+
     <update id="changeReportDDL">
         update klass_seminar set report_ddl=#{param3} where seminar_id=#{param1} and klass_id=#{param2}
     </update>

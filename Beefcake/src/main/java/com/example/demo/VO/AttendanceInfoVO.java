@@ -8,6 +8,6 @@ import lombok.NoArgsConstructor;
 public class AttendanceInfoVO {
     private Long id;
     private Long teamId;
-    private int teamSerial;
-    private int classSerial;
+    private String teamSerialName;
+    private int order;
 }

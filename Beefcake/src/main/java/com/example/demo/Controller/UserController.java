@@ -2,6 +2,7 @@ package com.example.demo.Controller;
 
 import com.example.demo.Mapper.UserMapper;
 import com.example.demo.Service.UserService;
+import com.example.demo.Service.utils.MailUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -23,9 +24,14 @@ public class UserController {
     }*/
 
     @RequestMapping(value="/user/password",method = RequestMethod.GET)
-    public String forgetPassword(@RequestParam("account") String account)//暂时先返回密码  待修改
+    public String forgetPassword(@RequestParam("account") String account) throws Exception
     {
-        return userService.forgetPassword(account);
+        String Password=userService.forgetPassword(account);
+        String email=userService.getEmail(account);
+        if(email.equals(""))
+            return ("fail");
+        MailUtils.sendEmail(email,Password);
+        return ("success");
     }
 
     @RequestMapping(value = "/user/information",method = RequestMethod.GET)//获取个人信息

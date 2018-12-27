@@ -1,43 +1,93 @@
 package com.example.demo.Controller;
 
-import org.springframework.web.bind.annotation.*;
+import com.example.demo.Dao.TeamDao;
+import com.example.demo.Entity.CourseEntity;
+import com.example.demo.Entity.ShareApplicationEntity;
+import com.example.demo.Entity.TeamEntity;
+import com.example.demo.Entity.TeamValidApplicationEntity;
+import com.example.demo.Service.CourseService;
+import com.example.demo.Service.RequestService;
+import com.example.demo.VO.MasterCourseVO;
+import com.example.demo.VO.TeamShareRequestVO;
+import com.example.demo.VO.TeamValidApplicationVO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 public class RequestController {
 
-    @RequestMapping(value = "/request/share",method = RequestMethod.GET)//获得共享申请列表
-    public void getAllShare(@RequestParam("handletype")String handletype)
-    {
+    @Autowired
+    RequestService requestService;
+    @Autowired
+    CourseService courseService;
+    @Autowired
+    TeamDao teamDao;
 
+    @RequestMapping(value = "/request/teamshare",method = RequestMethod.GET)//获得共享申请列表
+    public List<TeamShareRequestVO> getAllTeamShare(HttpServletRequest request)
+    {
+        List<TeamShareRequestVO> teamShareRequests = new ArrayList<>();
+        List<ShareApplicationEntity> teamShares = requestService.getShareTeamRequest(request);
+        for(ShareApplicationEntity teamShare:teamShares){
+            TeamShareRequestVO teamShareRequest = new TeamShareRequestVO();
+            teamShareRequest.setTeamShareId(teamShare.getId());
+
+            MasterCourseVO masterCourseVO = new MasterCourseVO();
+            CourseEntity masterCourse = courseService.getCourseById(teamShare.getMain_course_id());
+            masterCourseVO.setTeacherName(masterCourse.getTeacher().getTeacher_name());
+            masterCourseVO.setMasterCourseId(masterCourse.getId());
+            masterCourseVO.setMasterCourseName(masterCourse.getCourse_name());
+
+            teamShareRequest.setMasterCourse(masterCourseVO);
+
+            teamShareRequests.add(teamShareRequest);
+        }
+        return teamShareRequests;
     }
 
-    @RequestMapping(value = "/request/share/{shareId}",method = RequestMethod.GET)
-    public void getShare(@PathVariable("shareId")int shareId,@RequestParam("handletype")String handletype)
-    {
 
+
+    @RequestMapping(value = "/request/teamvalid",method = RequestMethod.GET)//获取组队申请信息
+    public List<TeamValidApplicationVO> getAllTeamRequest(HttpServletRequest request)
+    {
+        List<TeamValidApplicationEntity> teamValidApplicationEntities = requestService.getTeamValidRequest(request);
+        List<TeamValidApplicationVO> teamRequests = new ArrayList<>();
+        for(TeamValidApplicationEntity teamValidApplicationEntity:teamValidApplicationEntities){
+            TeamValidApplicationVO teamRequest = new TeamValidApplicationVO();
+            teamRequest.setRequestId(teamValidApplicationEntity.getId());
+            TeamEntity team = teamDao.getTeamById(teamValidApplicationEntity.getTeam_id());
+            teamRequest.setCourseName(team.getCourse().getCourse_name());
+            teamRequest.setLeaderName(team.getLeader().getStudent_name());
+            teamRequest.setTeamId(team.getId());
+            teamRequest.setTeamNo(team.getKlass().getKlass_serial()+"-"+team.getTeam_serial());
+            teamRequest.setReason(teamValidApplicationEntity.getReason());
+            teamRequests.add(teamRequest);
+        }
+        return teamRequests;
     }
 
-    @RequestMapping(value = "/request/{requestId}/share",method = RequestMethod.PUT)//根据id修改共享请求的状态
-    public void changeStatus(@PathVariable("requestId")int requestId)
-    {
 
+    @RequestMapping(value = "/request/teamshare",method = RequestMethod.PUT)//根据id修改组队共享请求的状态
+    public void dealTeamShare(@RequestParam("shareId")Long shareId,@RequestParam("handleType")String handleType)
+    {
+        requestService.dealTeamShare(shareId,handleType);
     }
 
-    @RequestMapping(value = "/request/team/teamvalid",method = RequestMethod.GET)//获取组队申请信息
-    public void getAllTeamRequest(@RequestParam("handletype")String handletype,@RequestParam("requesttype")String requesttype)
-    {
 
+
+
+    @RequestMapping(value = "/request/teamvalid",method = RequestMethod.PUT)//修改请求状态
+    public String dealTeamRequest(@RequestParam("requestId")Long requestId,@RequestParam("handleType")String handleType)
+    {
+        requestService.dealTeamRequest(requestId,handleType);
+        return "success";
     }
 
-    @RequestMapping(value = "/request/team/{teamId}/teamvalid",method = RequestMethod.GET)
-    public void getTeamRequest(@PathVariable("teamId")int teamId,@RequestParam("handletype")String handletype,@RequestParam("requesttype")String requesttype)
-    {
-
-    }
-
-    @RequestMapping(value = "/request/{requestId}/team/teamvalid",method = RequestMethod.PUT)//修改请求状态
-    public void changeTeam(@PathVariable("requestId")int requestId)
-    {
-
-    }
 }

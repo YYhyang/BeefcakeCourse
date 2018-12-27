@@ -6,12 +6,25 @@
         SELECT * FROM team WHERE id=#{teamId}
     </select>
 
+    <select id="getTeamByCourseId" resultType="com.example.demo.VO.TeamSimpleVO">
+        select id,team_name,team_serial,klass_serial from team where course_id=#{courseId}
+    </select>
+
     <select id="getAllTeamIdByKlassId" resultType="java.lang.Long">
         select id from team where klass_id=#{klassId}
     </select>
 
     <insert id="postTeam">
-        INSERT team(klass_id,course_id,leader_id,team_name,status,team_serial)
+        INSERT into team(klass_id,course_id,leader_id,team_name,team_serial,klass_serial,status)
+        values (#{param1},#{param2},#{param3},#{param4},#{param5},#{param6},1)
+    </insert>
+    
+    <insert id="createTeamInKlassTeam">
+        insert into klass_team (klass_id,team_id) values (#{param1},#{param2});
+    </insert>
+
+    <insert id="createTeamInTeamStudent">
+        insert into team_student(team_id,student_id) values (#{param1},#{param2});
     </insert>
 
     <delete id="deleteTeam">
@@ -57,6 +70,14 @@
 
     <select id="getStrategyByCourseId" resultType="com.example.demo.strategy.TeamStrategy">
         select course_id,strategy_name,strategy_id from team_strategy where course_id=#{courseId}
+    </select>
+
+    <select id="getMaxTeamSerial" resultType="java.lang.Integer">
+        select max(team_serial) from team where klass_id=#{klassId}
+    </select>
+
+    <select id="returnId" resultType="java.lang.Long">
+        select id from team where team_serial=#{param1} and klass_serial=#{param2}
     </select>
 
 </mapper>

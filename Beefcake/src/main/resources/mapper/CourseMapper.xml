@@ -23,8 +23,13 @@
         delete from course where id=#{courseId}
     </delete>
 
-    <select id="getCoursesByTeacherId" resultType="com.example.demo.Entity.CourseEntity">
+    <select id="getCoursesByTeacherId" resultMap="CommonMapper.CourseMap">
         select * from course where teacher_id=#{teacherId}
+    </select>
+
+    <select id="getTeamIdByCourseId" resultType="java.lang.Long">
+        select klass_team.team_id from klass_team LEFT JOIN klass_student on klass_team.klass_id=klass_student.klass_id
+        where klass_student.course_id=#{courseId} group by klass_team.team_id
     </select>
 
     <select id="getTeacherId" resultType="java.lang.Long">
@@ -38,4 +43,15 @@
     <update id="deleteSeminarMainCourseId">
         update course set seminar_main_course_id = null where id = #{courseId};
     </update>
+
+    <select id="getRoundByCourseId" resultMap="CommonMapper.RoundMap">
+        select * from round where course_id=#{courseId}
+    </select>
+    <update id="setTeamMainCourseId">
+        update course set team_main_course_id = #{teamMainCourseId} where id =#{courseId};
+    </update>
+
+    <select id="getTeamMainCourseId" resultType="java.lang.String">
+        select team_main_course_id from course where id =#{courseId};
+    </select>
 </mapper>

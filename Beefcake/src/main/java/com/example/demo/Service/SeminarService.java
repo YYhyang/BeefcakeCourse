@@ -8,6 +8,7 @@ import com.example.demo.Dao.SeminarDao;
 import com.example.demo.Entity.ClassEntity;
 import com.example.demo.Entity.SeminarEntity;
 import com.example.demo.Entity.SeminarScoreEntity;
+import com.example.demo.VO.KlassSeminarInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

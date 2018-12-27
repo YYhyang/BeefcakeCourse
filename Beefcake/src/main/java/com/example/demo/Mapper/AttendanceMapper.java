@@ -35,4 +35,8 @@ public interface AttendanceMapper {
 
     public boolean setStatus(@Param("attendanceId")Long attendanceId, @Param("status")int status);
 
+    public AttendanceEntity getAttendanceById(@Param("attendanceId")Long attendanceId);
+
+    public boolean startPresentation(@Param("attendanceId")Long attendanceId);
+
 }

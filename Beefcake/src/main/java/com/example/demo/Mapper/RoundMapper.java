@@ -24,5 +24,6 @@ public interface RoundMapper {
                                     @Param("questionScore")double questionScore,@Param("finalScore")double finalScore);
     public boolean createSignUpnum(@Param("klassId")Long klassId,@Param("roundId")Long roundId);
     public List<Long> getAllRoundId(@Param("courseId") Long courseId);
-    public RoundEntity getRoundById(@Param("roundId")Long roundId);
+    public Long returnId(@Param("courseId")Long courseId,@Param("round_serial")int round_serial);
+    public boolean createEnrollNumber(@Param("klassId")Long klassId,@Param("roundId")Long roundId,@Param("enrollNumber")int enrollNumber);
 }

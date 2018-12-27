@@ -4,11 +4,13 @@ import com.example.demo.DTO.CreateSeminarDTO;
 import com.example.demo.DTO.changeReportDTO;
 import com.example.demo.DTO.changeSeminarRoundDTO;
 import com.example.demo.DTO.changeSeminarStatusDTO;
+import com.example.demo.Dao.SeminarDao;
 import com.example.demo.Entity.ClassEntity;
 import com.example.demo.Entity.SeminarEntity;
 import com.example.demo.Entity.SeminarScoreEntity;
 import com.example.demo.Service.SeminarService;
 import com.example.demo.VO.KlassInTeamVO;
+import com.example.demo.VO.KlassSeminarInfo;
 import com.example.demo.VO.SeminarInfoVO;
 import com.example.demo.VO.SeminarScoreInfoVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,8 @@ import java.util.List;
 public class SeminarController {
     @Autowired
     private SeminarService seminarService;
+    @Autowired
+    private SeminarDao seminarDao;
     @RequestMapping(value = "/seminar",method = RequestMethod.POST)
     public boolean createSeminar(@RequestBody CreateSeminarDTO dto)
     {
@@ -68,6 +72,20 @@ public class SeminarController {
         return vo;
     }
 
+    @RequestMapping(value = "/seminar/{seminarId}/class/{classId}",method = RequestMethod.GET)
+    public KlassSeminarInfo getSeminarByKlassSeminarId(@PathVariable("seminarId")Long seminarId,@PathVariable("classId")Long classId)
+    {
+        KlassSeminarInfo vo=new KlassSeminarInfo();
+        SeminarEntity seminarEntity=seminarService.getSeminarBySeminarId(seminarId);
+        vo.setSeminarName(seminarEntity.getSeminar_name());
+        vo.setIntroduction(seminarEntity.getIntroduction());
+        vo.setRound(seminarEntity.getRound().getRound_serial());
+        vo.setSeminarSerial(seminarEntity.getSeminar_serial());
+        vo.setKlassSeminarId(seminarDao.getKlassSeminarIdByClassIdAndSeminarId(classId,seminarId));
+        vo.setStatus(seminarDao.getStatus(seminarId, classId));
+        return vo;
+    }
+
     @RequestMapping(value = "/seminar/{seminarId}/class/{classId}",method = RequestMethod.PUT)
     public boolean changeDDL(@PathVariable("seminarId")Long seminarId,@PathVariable("classId")Long classId,@RequestBody changeReportDTO dto){
         return seminarService.changeReportDDL(seminarId, classId, dto.getReportDDL());
@@ -103,6 +121,8 @@ public class SeminarController {
     {
         return seminarService.setPresentationScore(seminarId, teamId, presentationScore);
     }
+
+
 
     @RequestMapping(value = "/seminar/{seminarId}/team/{teamId}/seminarscore",method = RequestMethod.PUT)//给一个小组的报告打分
     public boolean setReportScore(@PathVariable("seminarId")Long seminarId,@PathVariable("teamId")Long teamId,@RequestParam("reportScore")double reportScore)

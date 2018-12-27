@@ -24,6 +24,14 @@ public class ShareTeamApplicationDao {
         return  shareTeamApplicationMapper.getShareTeamApplication(mainCourseId,subCourseId);
     }
 
+    public ShareApplicationEntity getShareTeamById(Long shareId){
+        return shareTeamApplicationMapper.getShareTeamById(shareId);
+    }
+
+    public List<ShareApplicationEntity> getShareTeamRequest(Long subTeacherId){
+        return shareTeamApplicationMapper.getShareTeamRequest(subTeacherId);
+    }
+
     public ShareApplicationEntity getShareById(Long Id){
         return shareTeamApplicationMapper.getShareById(Id);
     }
@@ -38,5 +46,9 @@ public class ShareTeamApplicationDao {
 
     public void deleteTeamShare(Long Id){
         shareTeamApplicationMapper.deleteTeamShare(Id);
+    }
+
+    public void setStatus(Long shareId,int status){
+        shareTeamApplicationMapper.setStatus(shareId,status);
     }
 }

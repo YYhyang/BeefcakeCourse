@@ -17,6 +17,10 @@
         team_student.team_id where klass_team.klass_id=#{classId} and team_student.student_id=#{studentId}
     </select>
 
+    <select id="getKlassIdByStudentId" resultType="java.lang.Long">
+        select klass_id from klass_student where course_id=#{param1} and student_id=#{param2}
+    </select>
+
     <insert id="addTeamMember">
         insert into  team_student(team_id,student_id) values(#{param3},#{param2})
     </insert>

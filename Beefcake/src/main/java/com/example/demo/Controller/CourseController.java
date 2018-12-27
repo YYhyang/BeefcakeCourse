@@ -4,9 +4,11 @@ import com.example.demo.DTO.CourseDTO;
 import com.example.demo.DTO.KlassDTO;
 import com.example.demo.DTO.ShareRequestIdDTO;
 import com.example.demo.DTO.TeamDTO;
+import com.example.demo.Dao.JwtDao;
 import com.example.demo.Dao.ShareSeminarApplicationDao;
 import com.example.demo.Dao.ShareTeamApplicationDao;
 import com.example.demo.Entity.*;
+import com.example.demo.Sercurity.JWTPayLoad;
 import com.example.demo.Service.CourseService;
 import com.example.demo.Service.KlassService;
 import com.example.demo.VO.*;
@@ -30,6 +32,8 @@ public class CourseController {
     private ShareSeminarApplicationDao shareSeminarApplicationDao;
     @Autowired
     private ShareTeamApplicationDao shareTeamApplicationDao;
+    @Autowired
+    JwtDao jwtDao;
 
     @RequestMapping(value = "/course",method = RequestMethod.POST)//创建课程
     public IdVO createCourse(@RequestBody CourseDTO course,HttpServletRequest request)
@@ -61,6 +65,8 @@ public class CourseController {
             GetAllCourseVO course = new GetAllCourseVO();
             course.setId(courseEntity.getId());
             course.setName(courseEntity.getCourse_name());
+            course.setTeacherName(courseEntity.getTeacher().getTeacher_name());
+            course.setClassName(courseEntity.getKlassName());
             courses.add(course);
         }
         return courses;
@@ -70,7 +76,8 @@ public class CourseController {
     public List<RoundVO> getAllRound(@PathVariable("courseId")Long courseId)
     {
         List<RoundVO> rounds = new ArrayList<>();
-        for(RoundEntity roundEntity:courseService.getCourseById(courseId).getRounds())
+        List<RoundEntity> roundlist=courseService.getRoundByCourseId(courseId);
+        for(RoundEntity roundEntity:roundlist)
         {
             RoundVO round=new RoundVO();
             round.setId(roundEntity.getId());
@@ -90,8 +97,6 @@ public class CourseController {
         course.setPresentationWeight(courseEntity.getQuestion_percentage());
         course.setQuestionWeight(courseEntity.getQuestion_percentage());
         course.setReportWeight(courseEntity.getReport_percentage());
-        //course.setMaxMemberNumber();
-        //course.setMinMemberNumber();
         course.setStartTeamTime(courseEntity.getTeam_start_time());
         course.setEndTeamTime(courseEntity.getTeam_end_time());
         return course;
@@ -103,25 +108,33 @@ public class CourseController {
         courseService.deleteCourse(courseId);
     }
 
-    @RequestMapping(value = "/course/{courseId}/team",method = RequestMethod.GET)
-    public List<TeamVO> getAllTeam(@PathVariable("courseId")Long courseId)
+    @RequestMapping(value = "/course/{courseId}/team",method = RequestMethod.GET)//很慢
+    public List<TeamSimpleVO> getAllTeam(@PathVariable("courseId")Long courseId)
     {
         //获得所有初始Team类
-        List<TeamEntity> teamEntities = courseService.getAllTeam(courseId);
-        //给返回VO类赋值
-        List<TeamVO> teams = new ArrayList<>();
-        for(TeamEntity teamEntity:teamEntities){
-            teams.add(TeamEntityToTeamVO(teamEntity));
+        List<TeamSimpleVO> teamEntities = courseService.getAllTeam(courseId);
+        /*List<TeamVO> teamvo=new ArrayList<>();
+        for(TeamEntity team:teamEntities){
+            TeamVO vo=TeamEntityToTeamVO(team);
+            teamvo.add(vo);
         }
-        return teams;
+        return teamvo;*/
+        return  teamEntities;
     }
 
 
     @RequestMapping(value = "/course/{courseId}/myTeam",method = RequestMethod.GET)
     public TeamVO getMyTeam(@PathVariable("courseId")Long courseId, HttpServletRequest request)
     {
-        TeamEntity teamEntity = courseService.getMyTeam(courseId,request);
-        return TeamEntityToTeamVO(teamEntity);
+        JWTPayLoad jwtPayLoad=jwtDao.getJwtPayLoad(request);
+        Long jwt_studentId=jwtPayLoad.getId() ;
+        TeamEntity teamEntity = courseService.getMyTeam(courseId,jwt_studentId);
+        TeamVO vo= TeamEntityToTeamVO(teamEntity);
+        if(vo.getLeader().getId()==jwt_studentId)
+            vo.setIsLeader("yes");
+        else
+            vo.setIsLeader("no");
+        return vo;
     }
 
 
@@ -161,7 +174,7 @@ public class CourseController {
         IdVO idVO = new IdVO();
         idVO.setId(id);
         return idVO;
-    }
+    }//传入学生名单待实现
 
 
     @RequestMapping(value = "/course/{courseId}/seminarshare",method = RequestMethod.GET)//获取所有共享
@@ -232,27 +245,24 @@ public class CourseController {
         courseService.deleteTeamShare(teamShareId);
     }
 
-    @RequestMapping(value = "/course/seminarshare/{seminarShareId}",method = RequestMethod.DELETE)//取消讨论课共享
-    public void deleteSemianrShare(@PathVariable("seminarShareId")Long seminarShareId)
-    {
-        courseService.deleteSeminarShare(seminarShareId);
-    }
 
-    @RequestMapping(value = "/course/{courseId}/seminarsharerequest",method = RequestMethod.POST)//发起讨论课共享请求
-    public void createSeminarShare(@PathVariable("courseId")Long courseId, @RequestBody ShareRequestIdDTO shareRequestIdDTO)
-    {
-         courseService.createSeminarShare(courseId,shareRequestIdDTO.getSubCourseId());
-    }
 
     @RequestMapping(value= "/course/{courseId}/teamsharerequest",method = RequestMethod.POST)//发起组队共享请求
     public void createTeamShare(@PathVariable("courseId")Long courseId,@RequestBody ShareRequestIdDTO shareRequestIdDTO){
         courseService.createTeamShare(courseId,shareRequestIdDTO.getSubCourseId());
     }
-    
+
+    @RequestMapping(value = "/course/{courseId}/class/{classId}/team",method = RequestMethod.POST)
+    public IdVO createTeam(@PathVariable("courseId")Long courseId, @PathVariable("classId")Long classId, @RequestBody TeamDTO teamDTO)
+    {
+        IdVO idVO = new IdVO();
+        idVO.setId(courseId);
+        return idVO;
+    }//有关小组 待完善
 
     public TeamVO TeamEntityToTeamVO(TeamEntity teamEntity){
         TeamVO teamVO = new TeamVO();
-        teamVO.setName(teamEntity.getKlass().getId()+"-"+teamEntity.getTeam_serial()+" "+teamEntity.getTeam_name());
+        teamVO.setName(teamEntity.getKlass().getKlass_serial()+"-"+teamEntity.getTeam_serial()+" "+teamEntity.getTeam_name());
         teamVO.setStatus(teamEntity.getStatus());
         //给TeamVO里的Leader赋值
         StudentEntity leaderEntity = teamEntity.getLeader();

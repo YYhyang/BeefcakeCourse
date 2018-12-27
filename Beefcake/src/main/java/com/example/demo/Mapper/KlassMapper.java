@@ -18,4 +18,8 @@ public interface KlassMapper {
     public void createKlass(@Param("courseId")Long courseId,@Param("grade")int grade,@Param("klassSerial")int klassSerial,@Param("klassTime")String klassTime,@Param("klassLocation")String klassLocation);
 
     public Long getKlassId(@Param("courseId")Long courseId,@Param("grade")int grade,@Param("klassSerial")int klassSerial);
+
+    public Integer getKlassSerial(@Param("klassId")Long klassId);
+
+    public void deleteKlass(@Param("KlassId")Long KlassId);
 }

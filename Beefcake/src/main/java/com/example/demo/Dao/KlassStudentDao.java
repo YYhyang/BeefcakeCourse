@@ -28,6 +28,8 @@ public class KlassStudentDao {
         klassStudentMapper.deleteTeamMember(studentId,teamId);
     }//为某班级下的某学生删除小组信息
 
+    public Long getKlassIdByStudentId(Long courseId,Long studentId){return klassStudentMapper.getKlassIdByStudentId(courseId, studentId);}
+
     public Long getTeamId(Long courseId, Long studentId){
         return klassStudentMapper.getTeamId(courseId,studentId);
     }

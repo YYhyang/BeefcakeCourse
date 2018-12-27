@@ -1,6 +1,7 @@
 package com.example.demo.Mapper;
 
 import com.example.demo.Entity.CourseEntity;
+import com.example.demo.Entity.RoundEntity;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
@@ -27,5 +28,12 @@ public interface CourseMapper {
 
     public void deleteTeamMainCourseId(@Param("courseId") Long courseId);
 
-    public void deleteSeminarMainCourseId(@Param("courseId") Long courseId);
+
+    public List<RoundEntity> getRoundByCourseId(@Param("courseId")Long courseId);
+
+    public List<Long>getTeamIdByCourseId(@Param("courseId")Long courseId);
+
+    public void setTeamMainCourseId(@Param("courseId")Long courseId,@Param("teamMainCourseId")Long teamMainCourseId);
+
+    public String getTeamMainCourseId(@Param("courseId")Long courseId);
 }

@@ -27,4 +27,9 @@ public class KlassDao {
     public Long getKlassId(Long courseId,int grade,int klassSerial){
         return klassMapper.getKlassId(courseId,grade,klassSerial);
     }
+
+    public Integer getKlassSerial(Long klassId){return klassMapper.getKlassSerial(klassId);}
+    public void deleteKlass(Long klassId){
+        klassMapper.deleteKlass(klassId);
+    }
 }
