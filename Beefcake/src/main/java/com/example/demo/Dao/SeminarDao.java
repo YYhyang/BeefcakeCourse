@@ -2,10 +2,12 @@ package com.example.demo.Dao;
 
 import com.example.demo.Entity.SeminarEntity;
 import com.example.demo.Entity.SeminarScoreEntity;
+import com.example.demo.Mapper.KlassMapper;
 import com.example.demo.Mapper.SeminarMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.Date;
 import java.util.List;
 
@@ -13,12 +15,30 @@ import java.util.List;
 public class SeminarDao {
     @Autowired
     private SeminarMapper seminarMapper;
+    @Autowired
+    private KlassMapper klassMapper;
 
-    public boolean createSeminar(Long courseId, Long roundId, String seminarName,
+    public Long createSeminar(Long courseId, Long roundId, String seminarName,
                                  String introduction, int maxTeam, int visible,
-                                 int order, Date start,Date end)
+                                  Date start,Date end)
     {
-        return seminarMapper.createSeminar(courseId, roundId, seminarName, introduction, maxTeam, visible, order, start, end);
+        Integer order=seminarMapper.getMaxSerial(courseId);
+        if(order==null)
+            order=1;
+        else
+            order++;
+         seminarMapper.createSeminar(courseId, roundId, seminarName, introduction, maxTeam, visible, order, start, end);
+         return seminarMapper.returnId(courseId,roundId,order);
+    }
+
+    public boolean insertIntoKlassSeminar(Long courseId,Long seminarId){
+        List<Long> klassIds=klassMapper.getAllKlassId(courseId);
+        for(Long id:klassIds)
+        {
+            if(!seminarMapper.insertIntoKlassSeminar(id,seminarId,0))
+                return false;
+        }
+        return true;
     }
 
     public int getStatus(Long seminarId,Long classId)
@@ -26,11 +46,11 @@ public class SeminarDao {
         return seminarMapper.getStatus(seminarId, classId);
     }
 
-    public boolean changeSeminar(Long courseId, Long roundId, String seminarName,
+    public boolean changeSeminar(Long courseId, String seminarName,
                                  String introduction, int maxTeam, int visible,
-                                 int order, Date start,Date end,Long seminarId)
+                                 Date start,Date end,Long seminarId)
     {
-        return seminarMapper.changeSeminar(courseId, roundId, seminarName, introduction, maxTeam, visible, order, start, end, seminarId);
+        return seminarMapper.changeSeminar(courseId, seminarName, introduction, maxTeam, visible, start, end, seminarId);
     }
 
     public List<Long> getClassIdBySeminarId(Long seminarId)

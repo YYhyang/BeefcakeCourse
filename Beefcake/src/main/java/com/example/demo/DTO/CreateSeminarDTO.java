@@ -14,7 +14,7 @@ public class CreateSeminarDTO {
     String introduction;
     int maxTeam;
     int visible;
-    int order;
+    int roundOrder;//所属轮次
     Date start;
     Date end;
 }

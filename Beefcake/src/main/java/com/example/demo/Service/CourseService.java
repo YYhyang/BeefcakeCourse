@@ -48,6 +48,7 @@ public class CourseService {
     }
 
 
+
     public CourseEntity getCourseById(Long courseId){
         CourseEntity course= courseDao.getCourseById(courseId);
         List<Long> allRoundId = roundDao.getAllRoundId(courseId);
@@ -93,18 +94,36 @@ public class CourseService {
         courseDao.deleteCourse(courseId);
     }
 
-    public List<TeamSimpleVO> getAllTeam(Long courseId){
-        List<TeamSimpleVO> vos=teamMapper.getTeamByCourseId(courseId);
-        for(TeamSimpleVO vo:vos)
-        {
-            vo.setSerial_name(vo.getKlass_serial()+"-"+vo.getTeam_serial());
-        }
-       return vos;
+    public List<TeamEntity> getAllTeam(Long courseId){
+        Long teamMainCourseId = courseDao.getTeamMainCourseId(courseId); //判断是否为从课程
+        List<Long> allTeamsId = getAllTeamsId(courseId);
+        List<TeamEntity>  allTeams = new ArrayList<>();
+        if(teamMainCourseId!=null)//若为从课程 则筛选学生
+            for(Long teamId : allTeamsId){
+                allTeams.add(teamService.getTeamInCourse(teamId, courseId));
+            }
+        else
+            for(Long teamId:allTeamsId){
+                allTeams.add(teamDao.getTeamById(teamId));
+            }
+        return allTeams;
     }
 
     public TeamEntity getMyTeam(Long courseId,Long studentId){
-        Long teamId=klassStudentDao.getTeamId(courseId,studentId);
-        return teamService.getTeamById(teamId);
+        List<Long> klassesId = klassDao.getAllKlassId(courseId);
+        Long teamId = null;
+        for(Long klassId:klassesId){
+            teamId = klassStudentDao.getTeamId(klassId,studentId);
+            if(teamId!=null)
+                break;
+        }
+        Long teamMainCourseId = courseDao.getTeamMainCourseId(courseId);
+        TeamEntity myTeam;
+        if(teamMainCourseId==null)
+            myTeam = teamService.getTeamById(teamId);
+        else
+            myTeam = teamService.getTeamInCourse(teamId,courseId);
+        return myTeam;
     }
 
     public List<StudentEntity> getNoTeamStudents(Long courseId){

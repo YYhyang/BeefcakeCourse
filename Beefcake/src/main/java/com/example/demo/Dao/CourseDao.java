@@ -52,7 +52,7 @@ public class CourseDao {
     public void setTeamMainCourseId(Long courseId,Long teamMainCourseId){
         courseMapper.setTeamMainCourseId(courseId,teamMainCourseId);
     }
-    public String getTeamMainCourseId(Long courseId){return courseMapper.getTeamMainCourseId(courseId);}
+    public Long getTeamMainCourseId(Long courseId){return courseMapper.getTeamMainCourseId(courseId);}
 
     public List<CourseEntity> getAllExistCourse(){
         return courseMapper.getAllExistCourse();

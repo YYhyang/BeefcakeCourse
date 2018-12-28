@@ -127,33 +127,35 @@ public class CourseController {
         courseService.deleteCourse(courseId);
     }
 
-    @RequestMapping(value = "/course/{courseId}/team",method = RequestMethod.GET)//很慢
+    @RequestMapping(value = "/course/{courseId}/team",method = RequestMethod.GET)
     public List<TeamSimpleVO> getAllTeam(@PathVariable("courseId")Long courseId)
     {
         //获得所有初始Team类
-        List<TeamSimpleVO> teamEntities = courseService.getAllTeam(courseId);
-        /*List<TeamVO> teamvo=new ArrayList<>();
-        for(TeamEntity team:teamEntities){
-            TeamVO vo=TeamEntityToTeamVO(team);
-            teamvo.add(vo);
+        List<TeamEntity> teamEntities = courseService.getAllTeam(courseId);
+        List<TeamSimpleVO> teams = new ArrayList<>();
+        for(TeamEntity teamEntity:teamEntities){
+            TeamSimpleVO team = new TeamSimpleVO();
+            team.setId(teamEntity.getId());
+            team.setSerial_name(teamEntity.getClass_serial()+"-"+teamEntity.getTeam_serial());
+            team.setTeam_name(teamEntity.getTeam_name());
+            team.setStatus(teamEntity.getStatus());
+            teams.add(team);
         }
-        return teamvo;*/
-        return  teamEntities;
-    }
-
+        return  teams;
+    }//已更改 测试完成
 
     @RequestMapping(value = "/course/{courseId}/myTeam",method = RequestMethod.GET)
     public TeamVO getMyTeam(@PathVariable("courseId")Long courseId, HttpServletRequest request)
     {
         JWTPayLoad jwtPayLoad=jwtDao.getJwtPayLoad(request);
-        Long jwt_studentId=jwtPayLoad.getId() ;
+        Long jwt_studentId=jwtPayLoad.getId();
         TeamEntity teamEntity = courseService.getMyTeam(courseId,jwt_studentId);
-        TeamVO vo= TeamEntityToTeamVO(teamEntity);
-        if(vo.getLeader().getId()==jwt_studentId)
-            vo.setIsLeader("yes");
+        TeamVO myTeam = TeamEntityToTeamVO(teamEntity);
+        if(myTeam.getLeader()!=null&&myTeam.getLeader().getId()==jwt_studentId)
+            myTeam.setIsLeader("yes");
         else
-            vo.setIsLeader("no");
-        return vo;
+            myTeam.setIsLeader("no");
+        return myTeam;
     }
 
 
@@ -193,39 +195,9 @@ public class CourseController {
         IdVO idVO = new IdVO();
         idVO.setId(id);
         return idVO;
-    }//传入学生名单待实现
-
-
-    @RequestMapping(value = "/course/{courseId}/seminarshare",method = RequestMethod.GET)//获取所有共享
-    public List<SeminarShareVO> getSeminarShare(@PathVariable("courseId")Long courseId)
-    {
-        List<Long> seminarSharesId = shareSeminarApplicationDao.getSeminarSharesId(courseId);
-        List<SeminarShareVO> seminars = new ArrayList<>();
-        for(Long seminarShareId:seminarSharesId){
-
-            SeminarShareVO seminar = new SeminarShareVO();
-            MasterCourseVO masterCourse = new MasterCourseVO();
-            ReceiveCourseVO receiveCourse = new ReceiveCourseVO();
-
-            ShareApplicationEntity shareSeminar=shareSeminarApplicationDao.getShareById(seminarShareId);
-            CourseEntity mainCourse=courseService.getCourseById(shareSeminar.getMain_course_id());
-            CourseEntity subCourse=courseService.getCourseById(shareSeminar.getSub_course_id());
-
-            masterCourse.setMasterCourseId(shareSeminar.getMain_course_id());
-            masterCourse.setMasterCourseName(mainCourse.getCourse_name());
-            masterCourse.setTeacherName(mainCourse.getTeacher().getTeacher_name());
-            receiveCourse.setReceiveCourseId(shareSeminar.getSub_course_id());
-            receiveCourse.setReceiveCourseName(subCourse.getCourse_name());
-            receiveCourse.setTeacherName(subCourse.getTeacher().getTeacher_name());
-
-            seminar.setSeminarShareId(seminarShareId);
-            seminar.setMasterCourse(masterCourse);
-            seminar.setReceiveCourse(receiveCourse);
-
-            seminars.add(seminar);
-        }
-        return seminars;
     }
+
+
 
     @RequestMapping(value = "/course/{courseId}/teamshare",method = RequestMethod.GET)//获取所有共享
     public List<TeamShareVO> getTeamShare(@PathVariable("courseId")Long courseId)
@@ -271,16 +243,9 @@ public class CourseController {
         courseService.createTeamShare(courseId,shareRequestIdDTO.getSubCourseId());
     }
 
-    @RequestMapping(value = "/course/{courseId}/class/{classId}/team",method = RequestMethod.POST)
-    public IdVO createTeam(@PathVariable("courseId")Long courseId, @PathVariable("classId")Long classId, @RequestBody TeamDTO teamDTO)
-    {
-        IdVO idVO = new IdVO();
-        idVO.setId(courseId);
-        return idVO;
-    }//有关小组 待完善
-
     public TeamVO TeamEntityToTeamVO(TeamEntity teamEntity){
         TeamVO teamVO = new TeamVO();
+        teamVO.setId(teamEntity.getId());
         teamVO.setName(teamEntity.getKlass().getKlass_serial()+"-"+teamEntity.getTeam_serial()+" "+teamEntity.getTeam_name());
         teamVO.setStatus(teamEntity.getStatus());
         //给TeamVO里的Leader赋值

@@ -57,14 +57,15 @@ public class RoundService {
         return roundDao.changeRoundScore(roundId,teamId,dto.getPresentationScore(),dto.getReportScore(),dto.getQuestionScore(),finalScore);
     }
 
-    public boolean createRound(int round_serial, Long courseId) {
+    public Long createRound(int round_serial, Long courseId) {
 
-        boolean create= roundDao.createRound(round_serial, courseId);
+        roundDao.createRound(round_serial, courseId);
         Long roundId=roundMapper.returnId(courseId,round_serial);
         List<Long>ids=klassDao.getAllKlassId(courseId);
         for(Long classId:ids){
             roundDao.createEnrollNumber(classId,roundId,1);
         }
-        return create;
+        Long id=roundMapper.returnId(courseId,round_serial);
+        return id;
     }
 }

@@ -14,7 +14,7 @@
 
     <select id="getTeamId" resultType="java.lang.Long">
         select klass_team.team_id from klass_team LEFT JOIN team_student on klass_team.team_id=
-        team_student.team_id where klass_team.klass_id=#{classId} and team_student.student_id=#{studentId}
+        team_student.team_id where klass_team.klass_id=#{klassId} and team_student.student_id=#{studentId}
     </select>
 
     <select id="getKlassIdByStudentId" resultType="java.lang.Long">

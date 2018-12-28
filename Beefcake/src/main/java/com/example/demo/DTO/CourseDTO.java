@@ -15,9 +15,6 @@ public class CourseDTO {
     private int presentationWeight;
     private int questionWeight;
     private int reportWeight;
-    private int minMemberNumber;
-    private int maxMemberNumber;
     private String startTeamTime;
     private String endTeamTime;
-    private List<Map<String,String>> conflictCourses;
 }

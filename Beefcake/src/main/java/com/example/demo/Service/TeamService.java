@@ -175,4 +175,34 @@ public class TeamService {
         return teamInKlass;
     }
 
+    //获取某一小组在某一课程下的构造（从课程）
+    public TeamEntity getTeamInCourse(Long teamId,Long courseId){
+        TeamEntity teamInCourse = teamDao.getTeamById(teamId);
+        List<Long> membersId = teamDao.getPartMembersId(teamId,courseId);
+        if(!leaderExist(teamInCourse,membersId))
+            teamInCourse.setLeader(null);
+        return setMembers(teamInCourse,membersId);
+    }
+
+    //为小组添加成员
+    public TeamEntity setMembers(TeamEntity teamEntity,List<Long> membersId){
+        List<StudentEntity> members = new ArrayList<>();
+        for(Long memberId:membersId){
+            members.add(studentDao.selectStudentById(memberId));
+        }
+        teamEntity.setMembers(members);
+        return teamEntity;
+    }
+
+    //判断该组组长是否在该队中(从课程)
+    boolean leaderExist(TeamEntity teamEntity,List<Long> membersId){
+        boolean leaderExist = false;
+        Long leaderId =teamEntity.getLeader().getId();
+        for(Long memberId:membersId) {
+            if (leaderId == memberId)
+                leaderExist = true;
+        }
+        return leaderExist;
+    }
+
 }

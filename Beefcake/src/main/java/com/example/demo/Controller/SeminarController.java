@@ -29,7 +29,7 @@ public class SeminarController {
     public boolean createSeminar(@RequestBody CreateSeminarDTO dto)
     {
         return seminarService.createSeminar(dto);
-    }
+    }//过了
 
     @RequestMapping(value = "/seminar/{seminarId}/class",method = RequestMethod.GET)//获取讨论课所属的班级(测试通过)
     public List<KlassInTeamVO> getClass(@PathVariable("seminarId")Long seminarId)
@@ -69,6 +69,9 @@ public class SeminarController {
         vo.setMaxTeam(seminarEntity.getMax_team());
         vo.setStart(seminarEntity.getEnroll_start_time());
         vo.setEnd(seminarEntity.getEnroll_end_time());
+        vo.setVisible(seminarEntity.getIs_visible());
+        vo.setRoundOrder(seminarEntity.getRound().getRound_serial());
+        vo.setRoundId(seminarEntity.getRound().getId());
         return vo;
     }
 

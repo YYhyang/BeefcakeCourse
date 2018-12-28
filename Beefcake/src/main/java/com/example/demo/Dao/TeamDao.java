@@ -161,4 +161,7 @@ public class TeamDao {
     public List<Long> getSomeMembersId(Long teamId,Long klassId){
         return teamMapper.getSomeMembersId(teamId,klassId);
     }
+
+    public List<Long> getPartMembersId(Long teamId, Long courseId) {return teamMapper.getPartMembersId(teamId,courseId);
+    }
 }

@@ -45,13 +45,13 @@
     </update>
 
     <select id="getRoundByCourseId" resultMap="CommonMapper.RoundMap">
-        select * from round where course_id=#{courseId}
+        select * from round where course_id=#{courseId} order by round_serial
     </select>
     <update id="setTeamMainCourseId">
         update course set team_main_course_id = #{teamMainCourseId} where id =#{courseId};
     </update>
 
-    <select id="getTeamMainCourseId" resultType="java.lang.String">
+    <select id="getTeamMainCourseId" resultType="java.lang.Long">
         select team_main_course_id from course where id =#{courseId};
     </select>
 

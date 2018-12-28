@@ -3,6 +3,7 @@ package com.example.demo.Controller;
 import com.example.demo.DTO.TeamMemberDTO;
 import com.example.demo.Dao.CourseDao;
 import com.example.demo.Entity.CourseEntity;
+import com.example.demo.Entity.StudentEntity;
 import com.example.demo.Entity.UserEntity;
 import com.example.demo.Mapper.*;
 import com.example.demo.Sercurity.MyUserService;
@@ -37,8 +38,8 @@ public class TestController {
     @RequestMapping("admin")
     public String admin(){return "Admin";}
     @RequestMapping(value = "/test1",method = RequestMethod.GET)
-    public boolean  test(@RequestParam("teamId")Long teamId)
+    public StudentEntity test(@RequestParam("account")String account)
     {
-        return teamService.isValid(teamId);
+        return klassMapper.selectStudentByAccount(account);
     }
 }

@@ -57,4 +57,6 @@ public interface TeamMapper {
 
     public List<Long> getSomeMembersId(@Param("teamId")Long teamId,@Param("klassId")Long klassId);
 
+    List<Long> getPartMembersId(@Param("teamId")Long teamId,@Param("courseId")Long courseId);
+
 }

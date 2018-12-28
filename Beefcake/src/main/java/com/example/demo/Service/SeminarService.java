@@ -22,19 +22,32 @@ public class SeminarService {
     private SeminarDao seminarDao;
     @Autowired
     private KlassDao klassDao;
+    @Autowired
+    private RoundService roundService;
 
     public boolean createSeminar(CreateSeminarDTO createSeminarDTO)
     {
-        return seminarDao.createSeminar(createSeminarDTO.getCourseId(),createSeminarDTO.getRoundId(),createSeminarDTO.getSeminarName(),
-                                        createSeminarDTO.getIntroduction(),createSeminarDTO.getMaxTeam(),createSeminarDTO.getVisible(),
-                                        createSeminarDTO.getOrder(),createSeminarDTO.getStart(),createSeminarDTO.getEnd());
+        Long seminarId;
+        if(createSeminarDTO.getRoundId()!=-1){
+             seminarId= seminarDao.createSeminar(createSeminarDTO.getCourseId(),createSeminarDTO.getRoundId(),createSeminarDTO.getSeminarName(),
+                                        createSeminarDTO.getIntroduction(),createSeminarDTO.getMaxTeam(),createSeminarDTO.getVisible()
+                ,createSeminarDTO.getStart(),createSeminarDTO.getEnd());
+             return seminarDao.insertIntoKlassSeminar(createSeminarDTO.getCourseId(),seminarId);
+        }
+        else{
+            Long roundId=roundService.createRound(createSeminarDTO.getRoundOrder(),createSeminarDTO.getCourseId());
+             seminarId= seminarDao.createSeminar(createSeminarDTO.getCourseId(),roundId,createSeminarDTO.getSeminarName(),
+                    createSeminarDTO.getIntroduction(),createSeminarDTO.getMaxTeam(),createSeminarDTO.getVisible(),
+                    createSeminarDTO.getStart(),createSeminarDTO.getEnd());
+             return seminarDao.insertIntoKlassSeminar(createSeminarDTO.getCourseId(),seminarId);
+        }
     }
 
     public boolean changeSeminar(Long seminarId, CreateSeminarDTO createSeminarDTO)
     {
-        return seminarDao.changeSeminar(createSeminarDTO.getCourseId(),createSeminarDTO.getRoundId(),createSeminarDTO.getSeminarName(),
-                createSeminarDTO.getIntroduction(),createSeminarDTO.getMaxTeam(),createSeminarDTO.getVisible(),
-                createSeminarDTO.getOrder(),createSeminarDTO.getStart(),createSeminarDTO.getEnd(),seminarId);
+        return seminarDao.changeSeminar(createSeminarDTO.getCourseId(),createSeminarDTO.getSeminarName(),
+                createSeminarDTO.getIntroduction(),createSeminarDTO.getMaxTeam(),createSeminarDTO.getVisible()
+                ,createSeminarDTO.getStart(),createSeminarDTO.getEnd(),seminarId);
     }
 
     public boolean deleteSeminar(Long seminarId){

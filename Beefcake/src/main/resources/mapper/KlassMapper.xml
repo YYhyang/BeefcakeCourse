@@ -14,8 +14,20 @@
         insert into klass(course_id,grade,klass_serial,klass_time,klass_location) values (#{courseId},#{grade},#{klassSerial},#{klassTime},#{klassLocation})
     </insert>
 
+    <insert id="createStudent">
+        insert into student(account,password,is_active,student_name) values (#{param1},#{param2},#{param3},#{param4})
+    </insert>
+
+    <insert id="insertStudentIntoKlassStudent">
+        insert into klass_student(klass_id,student_id,course_id) values (#{param1},#{param2},#{param3})
+    </insert>
+
     <select id="getKlassId" resultType="java.lang.Long">
         select id from klass where course_id=#{courseId} and grade=#{grade} and klass_serial=#{klassSerial}
+    </select>
+
+    <select id="selectStudentByAccount" resultType="com.example.demo.Entity.StudentEntity">
+        select * from student where account=#{account}
     </select>
 
     <select id="getKlassSerial" resultType="java.lang.Integer">

@@ -1,6 +1,7 @@
 package com.example.demo.Dao;
 
 import com.example.demo.Entity.ClassEntity;
+import com.example.demo.Entity.StudentEntity;
 import com.example.demo.Mapper.KlassMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -31,5 +32,22 @@ public class KlassDao {
     public Integer getKlassSerial(Long klassId){return klassMapper.getKlassSerial(klassId);}
     public void deleteKlass(Long klassId){
         klassMapper.deleteKlass(klassId);
+    }
+
+    public void createStudent(StudentEntity student)
+    {
+        klassMapper.createStudent(student.getAccount(),student.getPassword(),student.getIs_active(),student.getStudent_name());
+    }
+
+
+
+    public StudentEntity selectStudentByAccount(String account)
+    {
+        return klassMapper.selectStudentByAccount(account);
+    }
+
+    public void insertStudentIntoKlassStudent(Long klassId,Long studentId,Long courseId)
+    {
+        klassMapper.insertStudentIntoKlassStudent(klassId, studentId, courseId);
     }
 }

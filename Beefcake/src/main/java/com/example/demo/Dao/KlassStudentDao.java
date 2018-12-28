@@ -30,9 +30,9 @@ public class KlassStudentDao {
 
     public Long getKlassIdByStudentId(Long courseId,Long studentId){return klassStudentMapper.getKlassIdByStudentId(courseId, studentId);}
 
-    public Long getTeamId(Long courseId, Long studentId){
-        return klassStudentMapper.getTeamId(courseId,studentId);
-    }
+    public Long getTeamId(Long klassId, Long studentId){
+        return klassStudentMapper.getTeamId(klassId,studentId);
+    }//只能用班级和学生查询
 
     public List<Long> getNoTeamStudentsId(Long courseId){
         return klassStudentMapper.getNoTeamStudentsId(courseId);

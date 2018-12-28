@@ -11,6 +11,9 @@ public class SeminarInfoVO {
     Long id;
     String seminarName;
     String introduction;
+    int visible;
+    Long roundId;
+    int roundOrder;
     int maxTeam;
     int order;
     Date start;

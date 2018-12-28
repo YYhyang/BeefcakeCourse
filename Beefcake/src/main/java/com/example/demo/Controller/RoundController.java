@@ -67,7 +67,7 @@ public class RoundController {
     }
 
     @RequestMapping(value = "/round",method = RequestMethod.POST)//未测试
-    public boolean createRound(@RequestParam("round_serial")int round_serial, @RequestParam("courseId")Long courseId)
+    public Long createRound(@RequestParam("round_serial")int round_serial, @RequestParam("courseId")Long courseId)
     {
         return roundService.createRound(round_serial,courseId);
     }

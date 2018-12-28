@@ -15,12 +15,15 @@ public interface SeminarMapper {
     public boolean createSeminar(@Param("courseId") Long courseId, @Param("roundId") Long roundId, @Param("seminarName") String seminarName,
                                  @Param("introduction") String introduction, @Param("max_team") int maxTeam, @Param("isVisible") int visible,
                                  @Param("seminarSerial") int order, @Param("enrollStart") Date start, @Param("enrollEnd") Date end);
+    public Integer getMaxSerial(@Param("courseId")Long courseId);
+    public boolean insertIntoKlassSeminar(@Param("klassId")Long klassId,@Param("seminarId")Long seminarId,@Param("status")int status);
     public List<Long> getClassIdBySeminarId(@Param("seminarId") Long seminarId);
     public Long getClassIdByTeamId(@Param("teamId") Long teamId);
+    public Long returnId(@Param("courseId")Long courseId,@Param("roundId")Long roundId,@Param("order")int order);
     public Long getKlassSeminarIdByClassIdAndSeminarId(@Param("classId") Long classId, @Param("seminarId") Long seminarId);
-    public boolean changeSeminar(@Param("courseId") Long courseId, @Param("roundId") Long roundId, @Param("seminarName") String seminarName,
+    public boolean changeSeminar(@Param("courseId") Long courseId, @Param("seminarName") String seminarName,
                                  @Param("introduction") String introduction, @Param("max_team") int maxTeam, @Param("isVisible") int visible,
-                                 @Param("seminarSerial") int order, @Param("enrollStart") Date start, @Param("enrollEnd") Date end, @Param("seminarId") Long seminarId);
+                                  @Param("enrollStart") Date start, @Param("enrollEnd") Date end, @Param("seminarId") Long seminarId);
 
     public boolean deleteSeminar(@Param("seminarId") Long seminarId);
     public SeminarScoreEntity getScoreByKlassSeminarIdAndTeamId(@Param("klass_seminar_id") Long klassSeminarId, @Param("teamId") Long teamId);

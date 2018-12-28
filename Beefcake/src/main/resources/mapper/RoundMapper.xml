@@ -49,7 +49,7 @@
     </select>
 
     <insert id="createRound">
-        insert into round(course_id,round_serial) values(#{arg1},#{arg0})
+        insert into round(course_id,round_serial,presentation_score_method,report_score_method,question_score_method) values(#{arg1},#{arg0},0,0,0)
     </insert>
 
 

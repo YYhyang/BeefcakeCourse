@@ -39,6 +39,10 @@
         insert into seminar_score(klass_seminar_id,team_id,question_score) values (#{param1},#{param2},#{param3})
     </insert>
 
+    <insert id="insertIntoKlassSeminar">
+        insert into klass_seminar(klass_id,seminar_id,status) values (#{param1},#{param2},#{param3})
+    </insert>
+
     <select id="getClassIdBySeminarId" resultType="java.lang.Long">
         SELECT klass_id from klass_seminar where seminar_id=#{seminarId}
     </select>
@@ -75,6 +79,14 @@
         select status from klass_seminar where seminar_id=#{param1} and klass_id=#{param2}
     </select>
 
+    <select id="getMaxSerial" resultType="java.lang.Integer">
+        select max(seminar_serial) from seminar where course_id=#{courseId}
+    </select>
+
+    <select id="returnId" resultType="java.lang.Long">
+        select id from seminar where course_id=#{param1} and round_id=#{param2} and seminar_serial=#{param3}
+    </select>
+
     <update id="changeReportDDL">
         update klass_seminar set report_ddl=#{param3} where seminar_id=#{param1} and klass_id=#{param2}
     </update>
@@ -97,14 +109,12 @@
 
     <update id="changeSeminar">
         update seminar set course_id=#{param1},
-                            round_id=#{param2},
-                            seminar_name=#{param3},
-                            introduction=#{param4},
-                            max_team=#{param5},
-                            is_visible=#{param6},
-                            seminar_serial=#{param7},
-                            enroll_start_time=#{param8},
-                            enroll_end_time=#{param9} where id=#{param10}
+                            seminar_name=#{param2},
+                            introduction=#{param3},
+                            max_team=#{param4},
+                            is_visible=#{param5},
+                            enroll_start_time=#{param6},
+                            enroll_end_time=#{param7} where id=#{param8}
     </update>
 
     <delete id="deleteSeminar">

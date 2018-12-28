@@ -35,7 +35,7 @@ public interface CourseMapper {
 
     public void setTeamMainCourseId(@Param("courseId")Long courseId,@Param("teamMainCourseId")Long teamMainCourseId);
 
-    public String getTeamMainCourseId(@Param("courseId")Long courseId);
+    public Long getTeamMainCourseId(@Param("courseId")Long courseId);
 
     public List<CourseEntity> getAllExistCourse();
 }
