@@ -1,8 +1,8 @@
-package com.example.demo.Mapper;
+package com.example.demo.mapper;
 
-import com.example.demo.Entity.StudentEntity;
-import com.example.demo.Entity.TeacherEntity;
-import com.example.demo.Entity.UserEntity;
+import com.example.demo.entity.StudentEntity;
+import com.example.demo.entity.TeacherEntity;
+import com.example.demo.entity.UserEntity;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;

@@ -1,8 +1,8 @@
-package com.example.demo.Controller;
+package com.example.demo.controller;
 
-import com.example.demo.Mapper.UserMapper;
-import com.example.demo.Service.UserService;
-import com.example.demo.Service.utils.MailUtils;
+import com.example.demo.mapper.UserMapper;
+import com.example.demo.service.UserService;
+import com.example.demo.service.utils.MailUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -17,20 +17,15 @@ public class UserController {
     public UserService userService;
     @Autowired
     public UserMapper userMapper;
-    /*@RequestMapping(value = "/user/login",method = RequestMethod.POST)
-    public boolean login(@RequestParam("username") String account, @RequestParam("password") String password)
-    {
-        return userService.userLogin(account,password);
-    }*/
-
     @RequestMapping(value="/user/password",method = RequestMethod.GET)
     public String forgetPassword(@RequestParam("account") String account) throws Exception
     {
-        String Password=userService.forgetPassword(account);
+        String passWord=userService.forgetPassword(account);
         String email=userService.getEmail(account);
-        if(email.equals(""))
+        if("".equals(email)) {
             return ("fail");
-        MailUtils.sendEmail(email,Password);
+        }
+        MailUtils.sendEmail(email,passWord);
         return ("success");
     }
 

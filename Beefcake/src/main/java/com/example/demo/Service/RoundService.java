@@ -1,21 +1,14 @@
-package com.example.demo.Service;
+package com.example.demo.service;
 
-import com.example.demo.DTO.changeRoundDTO;
-import com.example.demo.DTO.changeRoundScoreDTO;
-import com.example.demo.Dao.KlassDao;
-import com.example.demo.Dao.RoundDao;
-import com.example.demo.Entity.*;
-import com.example.demo.Mapper.RoundMapper;
-import com.example.demo.Sercurity.JWTPayLoad;
-import com.example.demo.Sercurity.JwtService;
+import com.example.demo.dto.changeRoundDTO;
+import com.example.demo.dto.changeRoundScoreDTO;
+import com.example.demo.dao.KlassDao;
+import com.example.demo.dao.RoundDao;
+import com.example.demo.entity.*;
+import com.example.demo.mapper.RoundMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 @Component
 public class RoundService {
@@ -45,11 +38,12 @@ public class RoundService {
     public boolean changeRound(Long roundId, changeRoundDTO changeRoundDTO)
     {
         boolean roundinfo=roundDao.changeRoundInfo(roundId,changeRoundDTO.getPresentation_score_method(),changeRoundDTO.getReport_score_method(),changeRoundDTO.getQuestion_score_method());
-        boolean klass_roundInfo=roundDao.changeSignUpnum(roundId,changeRoundDTO.getClassRoundDTOList());
-        if(roundinfo&&klass_roundInfo)
+        boolean klassRoundInfo=roundDao.changeSignUpnum(roundId,changeRoundDTO.getClassRoundDTOList());
+        if(roundinfo&&klassRoundInfo) {
             return true;
-        else
+        } else {
             return false;
+        }
     }
 
     public boolean changeRoundScore(Long roundId, Long teamId, changeRoundScoreDTO dto){
@@ -57,15 +51,15 @@ public class RoundService {
         return roundDao.changeRoundScore(roundId,teamId,dto.getPresentationScore(),dto.getReportScore(),dto.getQuestionScore(),finalScore);
     }
 
-    public Long createRound(int round_serial, Long courseId) {
+    public Long createRound(int roundSerial, Long courseId) {
 
-        roundDao.createRound(round_serial, courseId);
-        Long roundId=roundMapper.returnId(courseId,round_serial);
+        roundDao.createRound(roundSerial, courseId);
+        Long roundId=roundMapper.returnId(courseId,roundSerial);
         List<Long>ids=klassDao.getAllKlassId(courseId);
         for(Long classId:ids){
             roundDao.createEnrollNumber(classId,roundId,1);
         }
-        Long id=roundMapper.returnId(courseId,round_serial);
+        Long id=roundMapper.returnId(courseId,roundSerial);
         return id;
     }
 }

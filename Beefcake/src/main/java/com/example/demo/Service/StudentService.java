@@ -1,14 +1,13 @@
-package com.example.demo.Service;
+package com.example.demo.service;
 
-import com.example.demo.Dao.JwtDao;
-import com.example.demo.Dao.StudentDao;
-import com.example.demo.Entity.StudentEntity;
-import com.example.demo.Sercurity.JWTPayLoad;
+import com.example.demo.dao.JwtDao;
+import com.example.demo.dao.StudentDao;
+import com.example.demo.entity.StudentEntity;
+import com.example.demo.sercurity.JWTPayLoad;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @Component
@@ -34,9 +33,9 @@ public class StudentService {
         return studentDao.selectStudentById(studentId);
     }
 
-    public Boolean putStudentInfo(Long studentId,String account,String student_name,String email )
+    public Boolean putStudentInfo(Long studentId,String account,String studentName,String email )
     {
-        return studentDao.putStudentInfo(studentId,account,student_name,email);
+        return studentDao.putStudentInfo(studentId,account,studentName,email);
     }
 
     public Boolean putStudentPassword(Long studentId )
@@ -52,7 +51,7 @@ public class StudentService {
     public boolean activeStudent(String password, String email, HttpServletRequest request)
     {
         JWTPayLoad jwtPayLoad=jwtDao.getJwtPayLoad(request);
-        Long jwt_studentId = jwtPayLoad.getId();
-        return studentDao.activateStudent(jwt_studentId,password,email);
+        Long jwtStudentId = jwtPayLoad.getId();
+        return studentDao.activateStudent(jwtStudentId,password,email);
     }
 }

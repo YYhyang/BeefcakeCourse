@@ -1,7 +1,7 @@
-package com.example.demo.Mapper;
+package com.example.demo.mapper;
 
-import com.example.demo.Entity.CourseEntity;
-import com.example.demo.Entity.RoundEntity;
+import com.example.demo.entity.CourseEntity;
+import com.example.demo.entity.RoundEntity;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;

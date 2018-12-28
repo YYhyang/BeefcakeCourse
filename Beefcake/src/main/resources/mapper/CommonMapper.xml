@@ -4,7 +4,7 @@
 <!-- 指定工作空间，要与接口名相同，源代码没有去看，猜测应该是通过"这里的namespace.下边方法的id"来定位方法的 -->
 <mapper namespace="CommonMapper">
 
-    <resultMap id="CourseMap" type="com.example.demo.Entity.CourseEntity">
+    <resultMap id="CourseMap" type="com.example.demo.entity.CourseEntity">
         <id column="id" property="id"/>
         <result column="course_name" property="course_name"/>
         <result column="introduction" property="introduction"/>
@@ -18,7 +18,7 @@
         <association column="teacher_id" property="teacher" select="selectTeacher"/>
     </resultMap>
 
-    <resultMap id="RoundMap" type="com.example.demo.Entity.RoundEntity">
+    <resultMap id="RoundMap" type="com.example.demo.entity.RoundEntity">
         <id column="id" property="id"/>
         <result column="round_serial" property="round_serial"/>
         <result column="presentation_score_method" property="presentation_score_method"/>
@@ -27,7 +27,7 @@
         <association property="course" column="course_id" select="selectCourse"/>
     </resultMap>
 
-    <resultMap id="ClassMap" type="com.example.demo.Entity.ClassEntity">
+    <resultMap id="ClassMap" type="com.example.demo.entity.ClassEntity">
         <id column="id" property="id"/>
         <result column="grade" property="grade"/>
         <result column="klass_serial" property="klass_serial"/>
@@ -36,7 +36,7 @@
         <association property="course" column="course_id" select="selectCourse"/>
     </resultMap>
 
-    <resultMap id="TeamMap" type="com.example.demo.Entity.TeamEntity">
+    <resultMap id="TeamMap" type="com.example.demo.entity.TeamEntity">
         <id column="id" property="id"/>
         <result column="team_name" property="team_name"/>
         <result column="team_serial" property="team_serial"/>
@@ -47,11 +47,11 @@
         <association property="leader" column="leader_id" select="selectStudent"/>
     </resultMap>
 
-    <select id="selectStudent" resultType="com.example.demo.Entity.StudentEntity">
+    <select id="selectStudent" resultType="com.example.demo.entity.StudentEntity">
         SELECT * FROM student WHERE id=#{id}
     </select>
 
-    <select id="selectTeacher" resultType="com.example.demo.Entity.TeacherEntity">
+    <select id="selectTeacher" resultType="com.example.demo.entity.TeacherEntity">
         SELECT * FROM teacher WHERE id=#{id}
     </select>
 

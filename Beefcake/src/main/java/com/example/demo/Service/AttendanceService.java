@@ -1,9 +1,9 @@
-package com.example.demo.Service;
+package com.example.demo.service;
 
-import com.example.demo.Dao.AttendanceDao;
-import com.example.demo.Entity.AttendanceEntity;
-import com.example.demo.Mapper.AttendanceMapper;
-import com.example.demo.VO.FileVO;
+import com.example.demo.dao.AttendanceDao;
+import com.example.demo.entity.AttendanceEntity;
+import com.example.demo.mapper.AttendanceMapper;
+import com.example.demo.vo.FileVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -42,13 +42,16 @@ public class AttendanceService {
                 if (!dest.getParentFile().exists()) {
                     dest.getParentFile().mkdirs();// 新建文件夹
                 }
-                file.transferTo(dest);// 文件写入
+                // 文件写入
+                file.transferTo(dest);
                 FileVO vo=new FileVO();
                 vo.setUrl(path);
                 return vo;
             }
             else
+            {
                 return new FileVO();
+            }
         }
     }
 
@@ -58,7 +61,7 @@ public class AttendanceService {
         return attendanceMapper.signUp(klassSeminarId,presentationOrder,teamId);
     }
 
-    public boolean postReport(Long attendanceId,String report_name,String report_url){return attendanceDao.postReport(attendanceId,report_name,report_url);}
+    public boolean postReport(Long attendanceId,String reportName,String reportUrl){return attendanceDao.postReport(attendanceId,reportName,reportUrl);}
 
     public boolean nextTeam(Long attendanceId1,Long attendanceId2)
     {

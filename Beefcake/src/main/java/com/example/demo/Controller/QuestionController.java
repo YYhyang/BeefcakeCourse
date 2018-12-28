@@ -1,9 +1,9 @@
-package com.example.demo.Controller;
+package com.example.demo.controller;
 
-import com.example.demo.Entity.QuestionEntity;
-import com.example.demo.Mapper.QuestionMapper;
-import com.example.demo.Service.QuestionService;
-import com.example.demo.VO.SelectQuestionVO;
+import com.example.demo.entity.QuestionEntity;
+import com.example.demo.mapper.QuestionMapper;
+import com.example.demo.service.QuestionService;
+import com.example.demo.vo.SelectQuestionVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,9 +35,9 @@ public class QuestionController {
        QuestionEntity question=questionService.getQuestion(attendanceId,teamId);
        vo.setQuestion_id(question.getId());
        vo.setStudentName(question.getStudent().getStudent_name());
-       int team_serial=question.getTeam().getTeam_serial();
-       int class_serial=question.getTeam().getClass_serial();
-       vo.setTeamClassSerial(String.valueOf(class_serial)+"-"+String.valueOf(team_serial));
+       int teamSerial=question.getTeam().getTeam_serial();
+       int classSerial=question.getTeam().getClass_serial();
+       vo.setTeamClassSerial(String.valueOf(classSerial)+"-"+String.valueOf(teamSerial));
        return vo;
    }
 

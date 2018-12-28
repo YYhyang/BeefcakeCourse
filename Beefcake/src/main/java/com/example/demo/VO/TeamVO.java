@@ -1,4 +1,4 @@
-package com.example.demo.VO;
+package com.example.demo.vo;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,7 +10,7 @@ import java.util.List;
 public class TeamVO {
     Long id;
     String name;
-    int status;
+    Integer status;
     StudentInTeamVO leader;
     List<StudentInTeamVO> members;
     String isLeader;

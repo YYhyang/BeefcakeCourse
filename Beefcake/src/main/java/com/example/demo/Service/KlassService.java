@@ -1,11 +1,10 @@
-package com.example.demo.Service;
+package com.example.demo.service;
 
-import com.example.demo.Dao.KlassDao;
-import com.example.demo.Dao.StudentDao;
-import com.example.demo.Dao.TeamDao;
-import com.example.demo.Entity.ClassEntity;
-import com.example.demo.Entity.StudentEntity;
-import com.example.demo.Service.utils.ExcelUtils;
+import com.example.demo.dao.KlassDao;
+import com.example.demo.dao.StudentDao;
+import com.example.demo.entity.ClassEntity;
+import com.example.demo.entity.StudentEntity;
+import com.example.demo.service.utils.ExcelUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -78,12 +77,15 @@ public class KlassService {
             //student.setUserId(Integer.valueOf(String.valueOf(lo.get(0))));  // 主键是自增的
             String account=String.valueOf(lo.get(0));
             account=account.replaceAll("[^0-9]","");
-            if(!account.matches("[0-9]+"))
+            if(!account.matches("[0-9]+")) {
                 continue;
-            student.setAccount(account);     // 表格的第一列
+            }
+            // 表格的第一列
+            student.setAccount(account);
             StudentEntity temp=klassDao.selectStudentByAccount(student.getAccount());
             if(temp==null) {
-                student.setStudent_name((String.valueOf(lo.get(1))));   // 表格的第二列
+                // 表格的第二列
+                student.setStudent_name((String.valueOf(lo.get(1))));
                 student.setIs_active(0);
                 student.setPassword("123456");
                 klassDao.createStudent(student);

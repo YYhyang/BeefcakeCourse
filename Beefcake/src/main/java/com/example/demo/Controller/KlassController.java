@@ -1,12 +1,10 @@
-package com.example.demo.Controller;
+package com.example.demo.controller;
 
-import com.example.demo.Dao.KlassDao;
-import com.example.demo.Service.KlassService;
+import com.example.demo.dao.KlassDao;
+import com.example.demo.service.KlassService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
 
 @RestController
 public class KlassController {

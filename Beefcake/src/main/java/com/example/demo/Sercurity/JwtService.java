@@ -1,6 +1,6 @@
-package com.example.demo.Sercurity;
+package com.example.demo.sercurity;
 
-import com.example.demo.Entity.UserEntity;
+import com.example.demo.entity.UserEntity;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Component;
 

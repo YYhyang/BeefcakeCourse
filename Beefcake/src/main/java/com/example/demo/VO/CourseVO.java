@@ -1,4 +1,4 @@
-package com.example.demo.VO;
+package com.example.demo.vo;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,21 +11,21 @@ import java.util.Date;
 public class CourseVO {
     String name;
     String intro;
-    double presentationWeight;
-    double questionWeight;
-    double reportWeight;
-    int minMemberNumber;
-    int maxMemberNumber;
+    Double presentationWeight;
+    Double questionWeight;
+    Double reportWeight;
+    Integer minMemberNumber;
+    Integer maxMemberNumber;
     String startTeamTime;
     String endTeamTime;
 
     public void setStartTeamTime(Date date){
-        SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd HH:MM:ss");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:MM:ss");
         startTeamTime = dateFormat.format(date);
     }
 
     public void setEndTeamTime(Date date){
-        SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd HH:MM:ss");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:MM:ss");
         endTeamTime = dateFormat.format(date);
     }
 }

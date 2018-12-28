@@ -1,7 +1,7 @@
-package com.example.demo.Dao;
+package com.example.demo.dao;
 
-import com.example.demo.Entity.ShareApplicationEntity;
-import com.example.demo.Mapper.ShareTeamApplicationMapper;
+import com.example.demo.entity.ShareApplicationEntity;
+import com.example.demo.mapper.ShareTeamApplicationMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -32,8 +32,8 @@ public class ShareTeamApplicationDao {
         return shareTeamApplicationMapper.getShareTeamRequest(subTeacherId);
     }
 
-    public ShareApplicationEntity getShareById(Long Id){
-        return shareTeamApplicationMapper.getShareById(Id);
+    public ShareApplicationEntity getShareById(Long id){
+        return shareTeamApplicationMapper.getShareById(id);
     }
 
     public void createShareTeamApplication(Long mainCourseId,Long subCourseId,Long subCourseTeacherId){
@@ -44,8 +44,8 @@ public class ShareTeamApplicationDao {
         return shareTeamApplicationMapper.getTeamSharesId(courseId);
     }
 
-    public void deleteTeamShare(Long Id){
-        shareTeamApplicationMapper.deleteTeamShare(Id);
+    public void deleteTeamShare(Long id){
+        shareTeamApplicationMapper.deleteTeamShare(id);
     }
 
     public void setStatus(Long shareId,int status){

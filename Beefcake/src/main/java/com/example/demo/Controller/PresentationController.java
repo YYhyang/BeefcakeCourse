@@ -1,24 +1,21 @@
-package com.example.demo.Controller;
+package com.example.demo.controller;
 
-import com.example.demo.Entity.AttendanceEntity;
-import com.example.demo.Mapper.AttendanceMapper;
-import com.example.demo.Service.AttendanceService;
-import com.example.demo.Service.utils.FileUtils;
-import com.example.demo.VO.AttendanceInfoVO;
-import com.example.demo.VO.FileVO;
+import com.example.demo.entity.AttendanceEntity;
+import com.example.demo.mapper.AttendanceMapper;
+import com.example.demo.service.AttendanceService;
+import com.example.demo.service.utils.FileUtils;
+import com.example.demo.vo.AttendanceInfoVO;
+import com.example.demo.vo.FileVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 public class PresentationController {
@@ -127,19 +124,22 @@ public class PresentationController {
     public String nextTeam(@RequestParam("attendanceId1")Long attendanceId1,@RequestParam("attendanceId2")Long attendanceId2)
     {
         boolean b=attendanceService.nextTeam(attendanceId1, attendanceId2);
-        if(b)
+        if(b) {
             return"success";
-        else
+        } else {
             return "fail";
+        }
     }
 
     @RequestMapping(value = "/attendance/start",method = RequestMethod.PUT)
     public String startSeminar(@RequestParam("attendanceId")Long attendanceId)
     {
         boolean set=attendanceMapper.setStatus(attendanceId,1);
-        if(set)
+        if(set) {
             return "success";
-        else return "fail";
+        } else {
+            return "fail";
+        }
     }
 
     @RequestMapping(value="/seminar/{seminarId}/class/{classId}/presentation",method = RequestMethod.POST)   //报名展示（测试通过）

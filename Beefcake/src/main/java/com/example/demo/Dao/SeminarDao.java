@@ -1,13 +1,12 @@
-package com.example.demo.Dao;
+package com.example.demo.dao;
 
-import com.example.demo.Entity.SeminarEntity;
-import com.example.demo.Entity.SeminarScoreEntity;
-import com.example.demo.Mapper.KlassMapper;
-import com.example.demo.Mapper.SeminarMapper;
+import com.example.demo.entity.SeminarEntity;
+import com.example.demo.entity.SeminarScoreEntity;
+import com.example.demo.mapper.KlassMapper;
+import com.example.demo.mapper.SeminarMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import java.util.Date;
 import java.util.List;
 
@@ -23,10 +22,11 @@ public class SeminarDao {
                                   Date start,Date end)
     {
         Integer order=seminarMapper.getMaxSerial(courseId);
-        if(order==null)
+        if(order==null) {
             order=1;
-        else
+        } else {
             order++;
+        }
          seminarMapper.createSeminar(courseId, roundId, seminarName, introduction, maxTeam, visible, order, start, end);
          return seminarMapper.returnId(courseId,roundId,order);
     }
@@ -35,8 +35,9 @@ public class SeminarDao {
         List<Long> klassIds=klassMapper.getAllKlassId(courseId);
         for(Long id:klassIds)
         {
-            if(!seminarMapper.insertIntoKlassSeminar(id,seminarId,0))
+            if(!seminarMapper.insertIntoKlassSeminar(id,seminarId,0)) {
                 return false;
+            }
         }
         return true;
     }

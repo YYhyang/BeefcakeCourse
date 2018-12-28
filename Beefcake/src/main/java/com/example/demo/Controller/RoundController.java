@@ -1,19 +1,18 @@
-package com.example.demo.Controller;
+package com.example.demo.controller;
 
-import com.example.demo.DTO.changeRoundDTO;
-import com.example.demo.DTO.changeRoundScoreDTO;
-import com.example.demo.Entity.RoundEntity;
-import com.example.demo.Entity.RoundscoreEntity;
-import com.example.demo.Entity.SeminarEntity;
-import com.example.demo.Mapper.RoundMapper;
-import com.example.demo.Service.RoundService;
-import com.example.demo.VO.RoundInfoVO;
-import com.example.demo.VO.RoundScoreInfoVO;
-import com.example.demo.VO.RoundSeminarInfoVO;
+import com.example.demo.dto.changeRoundDTO;
+import com.example.demo.dto.changeRoundScoreDTO;
+import com.example.demo.entity.RoundEntity;
+import com.example.demo.entity.RoundscoreEntity;
+import com.example.demo.entity.SeminarEntity;
+import com.example.demo.mapper.RoundMapper;
+import com.example.demo.service.RoundService;
+import com.example.demo.vo.RoundInfoVO;
+import com.example.demo.vo.RoundScoreInfoVO;
+import com.example.demo.vo.RoundSeminarInfoVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,15 +28,15 @@ public class RoundController {
     public List<RoundSeminarInfoVO> getSeminar(@PathVariable("roundId")Long roundId)
     {
         List<SeminarEntity> seminarList=roundService.findAllSeminarByRoundId(roundId);
-        List<RoundSeminarInfoVO> VoList=new ArrayList<>();
+        List<RoundSeminarInfoVO> voList=new ArrayList<>();
         for(SeminarEntity temp:seminarList){
             RoundSeminarInfoVO vo=new RoundSeminarInfoVO();
             vo.setId(temp.getId());
             vo.setName(temp.getSeminar_name());
             vo.setOrder(temp.getSeminar_serial());
-            VoList.add(vo);
+            voList.add(vo);
         }
-        return VoList;
+        return voList;
 
     }
 
@@ -67,16 +66,16 @@ public class RoundController {
     }
 
     @RequestMapping(value = "/round",method = RequestMethod.POST)//未测试
-    public Long createRound(@RequestParam("round_serial")int round_serial, @RequestParam("courseId")Long courseId)
+    public Long createRound(@RequestParam("round_serial")int roundSerial, @RequestParam("courseId")Long courseId)
     {
-        return roundService.createRound(round_serial,courseId);
+        return roundService.createRound(roundSerial,courseId);
     }
 
     @RequestMapping(value = "/round/{roundId}/roundscore",method = RequestMethod.GET)//获取某轮的所有分数（通过）
     public List<RoundScoreInfoVO> getAllRoundScoreByRoundId(@PathVariable("roundId")Long roundId){
 
         List<RoundscoreEntity> scoreList=roundService.getAllRoundScoreByRoundId(roundId);
-        List<RoundScoreInfoVO> VoList=new ArrayList<>();
+        List<RoundScoreInfoVO> voList=new ArrayList<>();
         for(RoundscoreEntity score:scoreList){
             RoundScoreInfoVO vo=new RoundScoreInfoVO();
             vo.setPresentation_score(score.getPresentation_score());
@@ -87,12 +86,12 @@ public class RoundController {
             vo.setRound_order(score.getRound().getRound_serial());
             vo.setTeam_id(score.getTeam().getId());
             vo.setTeam_name(score.getTeam().getTeam_name());
-            int team_serial=score.getTeam().getTeam_serial();
-            int class_serial=score.getTeam().getClass_serial();
-            vo.setTeam_serial_name(String.valueOf(class_serial)+"-"+String.valueOf(team_serial));
-            VoList.add(vo);
+            int teamSerial= score.getTeam().getTeam_serial();
+            int classSerial= score.getTeam().getClass_serial();
+            vo.setTeam_serial_name(String.valueOf(classSerial)+"-"+String.valueOf(teamSerial));
+            voList.add(vo);
         }
-        return VoList;
+        return voList;
 
     }
     @RequestMapping(value = "/round/{roundId}/team/{teamId}/roundscore",method = RequestMethod.GET)//获取某个组的轮次成绩（通过）

@@ -1,10 +1,7 @@
-package com.example.demo.Sercurity;
+package com.example.demo.sercurity;
 
-import com.example.demo.Entity.UserEntity;
+import com.example.demo.entity.UserEntity;
 import lombok.Data;
-import org.springframework.security.core.GrantedAuthority;
-
-import java.util.List;
 
 @Data
 public class JWTPayLoad {
@@ -19,12 +16,12 @@ public class JWTPayLoad {
 
     }
 
-    public JWTPayLoad(Long id,String username,int role,int is_active,String name)
+    public JWTPayLoad(Long id,String username,int role,int isActive,String name)
     {
         this.id=id;
         this.username=username;
         this.role=role;
-        this.is_active=is_active;
+        this.is_active=isActive;
         this.name=name;
     }
     public UserEntity toUser()

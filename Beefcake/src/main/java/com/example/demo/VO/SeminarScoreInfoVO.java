@@ -1,4 +1,4 @@
-package com.example.demo.VO;
+package com.example.demo.vo;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,8 +8,8 @@ import lombok.NoArgsConstructor;
 public class SeminarScoreInfoVO {
     private Long team_id;
     private String teamName;
-    private double presentation_score;
-    private double report_score;
-    private double question_score;
-    private double total_score;
+    private Double presentation_score;
+    private Double report_score;
+    private Double question_score;
+    private Double total_score;
 }

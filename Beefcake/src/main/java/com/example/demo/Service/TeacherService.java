@@ -1,9 +1,9 @@
-package com.example.demo.Service;
+package com.example.demo.service;
 
-import com.example.demo.Dao.JwtDao;
-import com.example.demo.Dao.TeacherDao;
-import com.example.demo.Entity.TeacherEntity;
-import com.example.demo.Sercurity.JWTPayLoad;
+import com.example.demo.dao.JwtDao;
+import com.example.demo.dao.TeacherDao;
+import com.example.demo.entity.TeacherEntity;
+import com.example.demo.sercurity.JWTPayLoad;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -20,12 +20,11 @@ public class TeacherService {
     public boolean activeTeacher(String password, HttpServletRequest request)
     {
         JWTPayLoad jwtPayLoad=jwtDao.getJwtPayLoad(request);
-        Long jwt_teacherId = jwtPayLoad.getId();
-        System.out.println("Id:"+jwt_teacherId);
-        return teacherDao.activateTeacher(jwt_teacherId,password);
+        Long jwtTeacherId = jwtPayLoad.getId();
+        return teacherDao.activateTeacher(jwtTeacherId,password);
     }
 
-    public Boolean createTeacher(String account,String password,String teacher_name,String email){return teacherDao.createTeacher(account,password,teacher_name,email);}
+    public Boolean createTeacher(String account,String password,String teacherName,String email){return teacherDao.createTeacher(account,password,teacherName,email);}
 
     public List<TeacherEntity> getAllTeacher()
     {
@@ -39,8 +38,8 @@ public class TeacherService {
         return teacherDao.searchTeacherByAccount(identity);
     }
 
-    public Boolean putTeacherInfo(Long teacherId,String account,String teacher_name,String email ) {
-        return teacherDao.putTeacherInfo(teacherId,account,teacher_name,email);
+    public Boolean putTeacherInfo(Long teacherId,String account,String teacherName,String email ) {
+        return teacherDao.putTeacherInfo(teacherId,account,teacherName,email);
     }
 
     public TeacherEntity getTeacherById(Long teacherId){

@@ -1,7 +1,7 @@
-package com.example.demo.Dao;
+package com.example.demo.dao;
 
-import com.example.demo.Sercurity.JWTPayLoad;
-import com.example.demo.Sercurity.JwtService;
+import com.example.demo.sercurity.JWTPayLoad;
+import com.example.demo.sercurity.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -26,8 +26,9 @@ public class JwtDao {
                 System.out.println("jwtPayLoad is null");
                 return null;
             }
-            else
+            else {
                 return jwtPayLoad;
+            }
         }
         System.out.println("token is null");
         return null;

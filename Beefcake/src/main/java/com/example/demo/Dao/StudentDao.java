@@ -1,7 +1,7 @@
-package com.example.demo.Dao;
+package com.example.demo.dao;
 
-import com.example.demo.Entity.StudentEntity;
-import com.example.demo.Mapper.StudentMapper;
+import com.example.demo.entity.StudentEntity;
+import com.example.demo.mapper.StudentMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -25,9 +25,9 @@ public class StudentDao {
 
     public List<StudentEntity> searchStudentByAccount(String identity){ return studentMapper.searchStudentByAccount(identity); }
 
-    public Boolean putStudentInfo(Long studentId,String account,String student_name,String email )
+    public Boolean putStudentInfo(Long studentId,String account,String studentName,String email )
     {
-        return studentMapper.putStudentInfo(studentId,account,student_name,email);
+        return studentMapper.putStudentInfo(studentId,account,studentName,email);
     }
 
     public Boolean putStudentPassword(Long studentId )

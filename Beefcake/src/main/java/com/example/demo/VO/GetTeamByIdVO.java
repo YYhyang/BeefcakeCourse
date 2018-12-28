@@ -1,4 +1,4 @@
-package com.example.demo.VO;
+package com.example.demo.vo;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,5 +14,5 @@ public class GetTeamByIdVO {
     private KlassInTeamVO klass;
     private StudentInTeamVO leader;
     private List<StudentInTeamVO> members;
-    private int status;
+    private Integer status;
 }

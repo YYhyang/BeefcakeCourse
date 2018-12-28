@@ -1,8 +1,6 @@
-package com.example.demo.Sercurity;
+package com.example.demo.sercurity;
 
-import com.example.demo.Entity.UserEntity;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
+import com.example.demo.entity.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -18,7 +16,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 
 public class JWTAuthenticationFilter extends BasicAuthenticationFilter {
@@ -37,8 +34,9 @@ public class JWTAuthenticationFilter extends BasicAuthenticationFilter {
             String authToken=token.replace("Bearer ","");
             System.out.println("Token at Authentication"+authToken);
             JWTPayLoad jwtPayLoad=jwtService.verifyJwt(authToken);
-            if(jwtPayLoad==null)
+            if(jwtPayLoad==null) {
                 System.out.println("jwtPayLoad is null at AuthenticationFilter");
+            }
             if(jwtPayLoad!=null){
                 UserEntity user=jwtPayLoad.toUser();
                 user.setAuthorities(getAuthorities(user.getRole()));
@@ -46,15 +44,6 @@ public class JWTAuthenticationFilter extends BasicAuthenticationFilter {
                 authentication=new UsernamePasswordAuthenticationToken(user.getUsername(),null,getAuthorities(user.getRole()));
 
                 authentication.setDetails(user);
-
-                //以下为测试
-                /*UserEntity userEntity2=(UserEntity)authentication.getDetails();
-                System.out.println("Test2: ");
-                System.out.println(userEntity2.getId());
-                System.out.println(userEntity2.getUsername());
-                System.out.println(userEntity2.getPassword());
-                System.out.println(userEntity2.getAuthorities());
-                System.out.println(userEntity2.getRole());*/
 
 
                 SecurityContextHolder.getContext().setAuthentication(authentication);

@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <!-- 指定工作空间，要与接口名相同，源代码没有去看，猜测应该是通过"这里的namespace.下边方法的id"来定位方法的 -->
-<mapper namespace="com.example.demo.Mapper.UserMapper">
-    <resultMap id="StudentMap" type="com.example.demo.Entity.UserEntity">
+<mapper namespace="com.example.demo.mapper.UserMapper">
+    <resultMap id="StudentMap" type="com.example.demo.entity.UserEntity">
         <id column="id" property="id"/>
         <result column="account" property="Username"/>
         <result column="password" property="password"/>
@@ -11,7 +11,7 @@
         <result column="student_name" property="name"/>
     </resultMap>
 
-    <resultMap id="TeacherMap" type="com.example.demo.Entity.UserEntity">
+    <resultMap id="TeacherMap" type="com.example.demo.entity.UserEntity">
         <id column="id" property="id"/>
         <result column="account" property="Username"/>
         <result column="password" property="password"/>
@@ -27,27 +27,27 @@
         select id,account,password,is_active,teacher_name from teacher where account=#{account}
     </select>
 
-    <select id="studentLogin" resultType="com.example.demo.Entity.StudentEntity">
+    <select id="studentLogin" resultType="com.example.demo.entity.StudentEntity">
         SELECT * FROM student WHERE account=#{account} AND password=#{password}
     </select>
 
-    <select id="teacherLogin" resultType="com.example.demo.Entity.TeacherEntity">
+    <select id="teacherLogin" resultType="com.example.demo.entity.TeacherEntity">
         SELECT * FROM teacher WHERE account=#{account} AND password=#{password}
     </select>
 
-    <select id="studentForgetPassword" resultType="com.example.demo.Entity.StudentEntity">
+    <select id="studentForgetPassword" resultType="com.example.demo.entity.StudentEntity">
         SELECT * FROM  student WHERE account=#{account}
     </select>
 
-    <select id="teacherForgetPassword" resultType="com.example.demo.Entity.TeacherEntity">
+    <select id="teacherForgetPassword" resultType="com.example.demo.entity.TeacherEntity">
         SELECT * FROM  teacher WHERE account=#{account}
     </select>
 
-    <select id="studentGetInfo" resultType="com.example.demo.Entity.StudentEntity">
+    <select id="studentGetInfo" resultType="com.example.demo.entity.StudentEntity">
         SELECT * FROM student WHERE account=#{account}
     </select>
 
-    <select id="teacherGetInfo" resultType="com.example.demo.Entity.TeacherEntity">
+    <select id="teacherGetInfo" resultType="com.example.demo.entity.TeacherEntity">
         SELECT * FROM teacher WHERE account=#{account}
     </select>
 

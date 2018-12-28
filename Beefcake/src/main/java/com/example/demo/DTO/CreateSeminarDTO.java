@@ -1,4 +1,4 @@
-package com.example.demo.DTO;
+package com.example.demo.dto;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,9 +12,10 @@ public class CreateSeminarDTO {
     Long roundId;
     String seminarName;
     String introduction;
-    int maxTeam;
-    int visible;
-    int roundOrder;//所属轮次
+    Integer maxTeam;
+    Integer visible;
+    //所属轮次
+    Integer roundOrder;
     Date start;
     Date end;
 }

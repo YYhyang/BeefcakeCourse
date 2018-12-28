@@ -1,4 +1,4 @@
-package com.example.demo.VO;
+package com.example.demo.vo;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -6,11 +6,17 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class KlassSeminarInfo {
-    private Long klassSeminarId;//唯一表示id
-    private int round;//第几轮
-    private String seminarName;//名字
-    private String introduction;//简介
-    private int seminarSerial;//本轮第几次
-    private int status;//0未开始1正在进行2已经结束
+    //唯一表示id
+    private Long klassSeminarId;
+    //第几轮
+    private int round;
+    //名字
+    private String seminarName;
+    //简介
+    private String introduction;
+    //本轮第几次
+    private int seminarSerial;
+    //0未开始1正在进行2已经结束
+    private int status;
 
 }

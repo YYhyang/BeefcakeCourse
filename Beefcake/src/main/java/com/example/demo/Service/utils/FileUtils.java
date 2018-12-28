@@ -1,13 +1,10 @@
-package com.example.demo.Service.utils;
+package com.example.demo.service.utils;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.ws.Response;
 import java.io.*;
 import java.net.URLEncoder;
-import java.util.List;
 import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -16,7 +13,7 @@ public class FileUtils {
     public static String uploadFile(MultipartFile file,String type) throws IOException {
         String fileName = file.getOriginalFilename();
         String filePath;
-        if (type.equals("ppt")) {
+        if ("ppt".equals(type)) {
             filePath = "${program.filePath.ppt}";
         }
         else{

@@ -1,10 +1,10 @@
-package com.example.demo.Service;
+package com.example.demo.service;
 
-import com.example.demo.Dao.*;
-import com.example.demo.Entity.ShareApplicationEntity;
-import com.example.demo.Entity.TeamEntity;
-import com.example.demo.Entity.TeamValidApplicationEntity;
-import com.example.demo.Sercurity.JWTPayLoad;
+import com.example.demo.dao.*;
+import com.example.demo.entity.ShareApplicationEntity;
+import com.example.demo.entity.TeamEntity;
+import com.example.demo.entity.TeamValidApplicationEntity;
+import com.example.demo.sercurity.JWTPayLoad;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -32,44 +32,51 @@ public class RequestService {
 
     public List<ShareApplicationEntity> getShareTeamRequest(HttpServletRequest request){
         JWTPayLoad jwtPayLoad=jwtDao.getJwtPayLoad(request);
-        Long jwt_teacherId=jwtPayLoad.getId();
-        return shareTeamApplicationDao.getShareTeamRequest(jwt_teacherId);
+        Long jwtTeacherId=jwtPayLoad.getId();
+        return shareTeamApplicationDao.getShareTeamRequest(jwtTeacherId);
     }
 
     public List<TeamValidApplicationEntity> getTeamValidRequest(HttpServletRequest request){
         JWTPayLoad jwtPayLoad=jwtDao.getJwtPayLoad(request);
-        Long jwt_teacherId=jwtPayLoad.getId();
-        return teamValidApplicationDao.getTeamValidRequests(jwt_teacherId);
+        Long jwtTeacherId=jwtPayLoad.getId();
+        return teamValidApplicationDao.getTeamValidRequests(jwtTeacherId);
     }
 
 
     public void dealTeamRequest(Long requestId,String handleType){
         TeamValidApplicationEntity teamValidApplicationEntity = teamValidApplicationDao.getTeamValidRequest(requestId);
-        if(handleType.equals("refuse")){
+        if("refuse".equals(handleType)){
 
-            teamValidApplicationDao.changeApplicationStatus(requestId,0); //将申请状态置为拒绝
-            teamDao.changeTeamStatus(teamValidApplicationEntity.getTeam_id(),0);//将小组状态置为不合格
+            //将申请状态置为拒绝
+            teamValidApplicationDao.changeApplicationStatus(requestId,0);
+            //将小组状态置为不合格
+            teamDao.changeTeamStatus(teamValidApplicationEntity.getTeam_id(),0);
             //发通知
         }
         else
         {
-            teamService.approveTeam(teamValidApplicationEntity.getTeam_id());//老师同意组队
+            //老师同意组队
+            teamService.approveTeam(teamValidApplicationEntity.getTeam_id());
             //发通知
         }
     }//处理小组申请
 
     public void dealTeamShare(Long shareId,String handleType){
         ShareApplicationEntity teamShare = shareTeamApplicationDao.getShareTeamById(shareId);
-        if(handleType.equals("refuse")){
-            shareTeamApplicationDao.setStatus(shareId,0);//将小组分享状态置为拒绝
+        if("refuse".equals(handleType)){
+            //将小组分享状态置为拒绝
+            shareTeamApplicationDao.setStatus(shareId,0);
             //发通知
         }
         else
         {
-            courseService.deleteAllTeams(teamShare.getSub_course_id());//从课程删除课程下所有小组
+            //从课程删除课程下所有小组
+            courseService.deleteAllTeams(teamShare.getSub_course_id());
 
-            List<Long> mainCourseTeamsId = courseService.getAllTeamsId(teamShare.getMain_course_id());//获取主课程所有小组id
-            List<Long> subCourseKlassesId = klassDao.getAllKlassId(teamShare.getSub_course_id());     //获取从课程所有课程id
+            //获取主课程所有小组id
+            List<Long> mainCourseTeamsId = courseService.getAllTeamsId(teamShare.getMain_course_id());
+            //获取从课程所有课程id
+            List<Long> subCourseKlassesId = klassDao.getAllKlassId(teamShare.getSub_course_id());
 
             //建立从课程和主课程小组关系
             for(Long teamId:mainCourseTeamsId){
@@ -82,11 +89,14 @@ public class RequestService {
                         targetKlassId = klassId;
                     }
                 }
-                if(targetKlassId!=null)
+                if(targetKlassId!=null) {
                     teamDao.createTeamInKlassTeam(targetKlassId,teamId);
+                }
             }
-            courseDao.setTeamMainCourseId(teamShare.getSub_course_id(),teamShare.getMain_course_id());//为从课程添加主课程Id
-            shareTeamApplicationDao.setStatus(shareId,1);//将共享申请状态置为同意
+            //为从课程添加主课程Id
+            courseDao.setTeamMainCourseId(teamShare.getSub_course_id(),teamShare.getMain_course_id());
+            //将共享申请状态置为同意
+            shareTeamApplicationDao.setStatus(shareId,1);
             //发通知
         }
     }

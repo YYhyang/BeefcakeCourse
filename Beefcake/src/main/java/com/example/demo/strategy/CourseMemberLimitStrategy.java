@@ -1,6 +1,5 @@
 package com.example.demo.strategy;
 
-import com.example.demo.Entity.TeamEntity;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -16,16 +15,20 @@ public class CourseMemberLimitStrategy {
  {
      if(this.max_member==0)
      {
-         if(size>=min_member)
-             return true;
-         else
-             return false;
+         if(size>=min_member){
+             return true;}
+         else{
+             return false;}
      }
      else
      {
          if(min_member<=size&&size>=max_member)
+         {
              return true;
-         else return false;
+         }
+         else {
+             return false;
+         }
      }
  }
 

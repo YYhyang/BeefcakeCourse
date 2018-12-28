@@ -1,12 +1,9 @@
-package com.example.demo.Entity;
+package com.example.demo.entity;
 
-import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-import java.util.List;
 
 public class UserEntity implements UserDetails {
     private Long id;
@@ -15,7 +12,8 @@ public class UserEntity implements UserDetails {
     private Boolean enabled=true;
     private String name;
     private int is_active;
-    private int role;//0为学生，1为老师
+    //0为学生，1为老师
+    private int role;
     private Collection<? extends GrantedAuthority>authorities;
     private Boolean accountNonExpired=true;
     private Boolean accountNonLocked=true;

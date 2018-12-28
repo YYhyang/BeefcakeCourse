@@ -1,4 +1,4 @@
-package com.example.demo.Entity;
+package com.example.demo.entity;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,9 +14,9 @@ public class CourseEntity {
     private TeacherEntity teacher;
     private String course_name;
     private String introduction;
-    private int presentation_percentage;
-    private int question_percentage;
-    private int report_percentage;
+    private Double presentation_percentage;
+    private Double question_percentage;
+    private Double report_percentage;
     private Date team_start_time;
     private Timestamp team_end_time;
     private Long team_main_course_id;

@@ -1,14 +1,13 @@
-package com.example.demo.Service;
+package com.example.demo.service;
 
-import com.example.demo.DTO.CreateSeminarDTO;
-import com.example.demo.DTO.changeSeminarRoundDTO;
-import com.example.demo.DTO.changeSeminarStatusDTO;
-import com.example.demo.Dao.KlassDao;
-import com.example.demo.Dao.SeminarDao;
-import com.example.demo.Entity.ClassEntity;
-import com.example.demo.Entity.SeminarEntity;
-import com.example.demo.Entity.SeminarScoreEntity;
-import com.example.demo.VO.KlassSeminarInfo;
+import com.example.demo.dto.CreateSeminarDTO;
+import com.example.demo.dto.changeSeminarRoundDTO;
+import com.example.demo.dto.changeSeminarStatusDTO;
+import com.example.demo.dao.KlassDao;
+import com.example.demo.dao.SeminarDao;
+import com.example.demo.entity.ClassEntity;
+import com.example.demo.entity.SeminarEntity;
+import com.example.demo.entity.SeminarScoreEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -86,10 +85,11 @@ public class SeminarService {
 
         Long klassSeminarId=seminarDao.getKlassSeminarIdByClassIdAndSeminarId(classId,seminarId);
         String score=String.valueOf(seminarDao.getScoreByKlassSeminarIdAndTeamId(klassSeminarId,teamId).getPresentation_score());
-        if(score==null)
+        if(score==null) {
             return seminarDao.setPresentationScore(klassSeminarId,teamId,presentationScore);
-        else
+        } else {
             return seminarDao.updatePresentationScore(klassSeminarId,teamId,presentationScore);
+        }
     }
 
     public boolean updatePresentationScore(Long seminarId, Long classId, Long teamId,double presentationScore)
@@ -112,8 +112,9 @@ public class SeminarService {
         for(Long teamId:teamIdList){
             double score=seminarDao.getScoreByTeamId(teamId);
                 temp=seminarDao.setQuestionScore(klassSeminarId,teamId,score);
-            if(!temp)
+            if(!temp) {
                 return temp;
+            }
         }
         return true;
     }

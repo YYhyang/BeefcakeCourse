@@ -1,10 +1,9 @@
-package com.example.demo.Mapper;
+package com.example.demo.mapper;
 
-import com.example.demo.Entity.AttendanceEntity;
+import com.example.demo.entity.AttendanceEntity;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 @Mapper
@@ -25,7 +24,7 @@ public interface AttendanceMapper {
     public boolean changeOrder(@Param("attendanceId")Long attendanceId,@Param("presentationOrder")int presentationOrder);
 
     //上传报告
-    public boolean postReport(@Param("attendanceId")Long attendanceId,@Param("report_name")String report_name,@Param("report_url")String report_url);
+    public boolean postReport(@Param("attendanceId")Long attendanceId,@Param("report_name")String reportName,@Param("report_url")String reportUrl);
 
     //取消报名
 

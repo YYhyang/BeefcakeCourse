@@ -1,15 +1,15 @@
-package com.example.demo.Controller;
+package com.example.demo.controller;
 
-import com.example.demo.Dao.TeamDao;
-import com.example.demo.Entity.CourseEntity;
-import com.example.demo.Entity.ShareApplicationEntity;
-import com.example.demo.Entity.TeamEntity;
-import com.example.demo.Entity.TeamValidApplicationEntity;
-import com.example.demo.Service.CourseService;
-import com.example.demo.Service.RequestService;
-import com.example.demo.VO.MasterCourseVO;
-import com.example.demo.VO.TeamShareRequestVO;
-import com.example.demo.VO.TeamValidApplicationVO;
+import com.example.demo.dao.TeamDao;
+import com.example.demo.entity.CourseEntity;
+import com.example.demo.entity.ShareApplicationEntity;
+import com.example.demo.entity.TeamEntity;
+import com.example.demo.entity.TeamValidApplicationEntity;
+import com.example.demo.service.CourseService;
+import com.example.demo.service.RequestService;
+import com.example.demo.vo.MasterCourseVO;
+import com.example.demo.vo.TeamShareRequestVO;
+import com.example.demo.vo.TeamValidApplicationVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;

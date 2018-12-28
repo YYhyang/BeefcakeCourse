@@ -1,11 +1,11 @@
-package com.example.demo.Controller;
+package com.example.demo.controller;
 
-import com.example.demo.DTO.CreateTeacherDTO;
-import com.example.demo.DTO.UserInfoDTO;
-import com.example.demo.Entity.TeacherEntity;
-import com.example.demo.Mapper.TeacherMapper;
-import com.example.demo.Service.TeacherService;
-import com.example.demo.VO.UserInfoVO;
+import com.example.demo.dto.CreateTeacherDTO;
+import com.example.demo.dto.UserInfoDTO;
+import com.example.demo.entity.TeacherEntity;
+import com.example.demo.mapper.TeacherMapper;
+import com.example.demo.service.TeacherService;
+import com.example.demo.vo.UserInfoVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,8 +32,10 @@ public class TeacherController {
             vo.setEmail(dto.getEmail());
             return vo;
         }
-        else
-            return new UserInfoVO();     //待异常处理之后
+        else {
+            //待异常处理之后
+            return new UserInfoVO();
+        }
     }
 
     @RequestMapping(value="/teacher",method = RequestMethod.GET)  //管理员获得所有教师信息
@@ -76,8 +78,10 @@ public class TeacherController {
             vo.setEmail(dto.getEmail());
             return vo;
         }
-        else
-            return new UserInfoVO();  //异常处理之后
+        else {
+            //异常处理之后
+            return new UserInfoVO();
+        }
     }
 
     @RequestMapping(value="/teacher/{teacherId}/password",method = RequestMethod.PUT)  //管理员重置某一教师的密码
@@ -91,8 +95,10 @@ public class TeacherController {
             vo.setEmail(teacher.getEmail());
             return vo;
         }
-        else
-            return new UserInfoVO();  //异常处理之后
+        else {
+            //异常处理之后
+            return new UserInfoVO();
+        }
     }
 
     @RequestMapping(value="/teacher/{teacherId}",method = RequestMethod.DELETE)  //管理员按ID删除某一教师

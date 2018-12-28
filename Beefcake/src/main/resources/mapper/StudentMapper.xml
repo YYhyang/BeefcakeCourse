@@ -2,17 +2,17 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <!-- 指定工作空间，要与接口名相同，源代码没有去看，猜测应该是通过"这里的namespace.下边方法的id"来定位方法的 -->
-<mapper namespace="com.example.demo.Mapper.StudentMapper">
+<mapper namespace="com.example.demo.mapper.StudentMapper">
 
-    <select id="getAllStudent" resultType="com.example.demo.Entity.StudentEntity" >
+    <select id="getAllStudent" resultType="com.example.demo.entity.StudentEntity" >
         SELECT * FROM student
     </select>
 
-    <select id="searchStudentByAccount" resultType="com.example.demo.Entity.StudentEntity" >
+    <select id="searchStudentByAccount" resultType="com.example.demo.entity.StudentEntity" >
         SELECT * FROM student WHERE account =#{account }
     </select>
 
-    <select id="searchStudentByName" resultType="com.example.demo.Entity.StudentEntity">
+    <select id="searchStudentByName" resultType="com.example.demo.entity.StudentEntity">
         SELECT * FROM student WHERE student_name =#{student_name }
     </select>
 
@@ -32,7 +32,7 @@
         update student set is_active=1,password=#{password},email=#{email} where id=${studentId}
     </update>
 
-    <select id="selectStudentById" resultType="com.example.demo.Entity.StudentEntity">
+    <select id="selectStudentById" resultType="com.example.demo.entity.StudentEntity">
         SELECT * FROM student WHERE id=#{studentId}
     </select>
 

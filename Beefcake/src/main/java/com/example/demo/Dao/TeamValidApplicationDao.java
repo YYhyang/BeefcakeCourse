@@ -1,7 +1,7 @@
-package com.example.demo.Dao;
+package com.example.demo.dao;
 
-import com.example.demo.Entity.TeamValidApplicationEntity;
-import com.example.demo.Mapper.TeamValidApplicationMapper;
+import com.example.demo.entity.TeamValidApplicationEntity;
+import com.example.demo.mapper.TeamValidApplicationMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

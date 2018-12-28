@@ -1,6 +1,5 @@
-package com.example.demo.DTO;
+package com.example.demo.dto;
 
-import com.example.demo.VO.StudentInTeamVO;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

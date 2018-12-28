@@ -1,7 +1,7 @@
 package com.example.demo.strategy;
 
-import com.example.demo.Entity.StudentEntity;
-import com.example.demo.Entity.TeamEntity;
+import com.example.demo.entity.StudentEntity;
+import com.example.demo.entity.TeamEntity;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -16,13 +16,16 @@ public class MemberLimitStrategy {
 
     public boolean isValid(TeamEntity team)
     {
-        int count=0;
+        //组长也要算
+        int count=1;
         List<StudentEntity> members=team.getMembers();
-        for(StudentEntity stu:members)
+        for(StudentEntity stu:members) {
             count++;
-        if(min_member<=count&&count<=max_member)
+        }
+        if(min_member<=count&&count<=max_member) {
             return true;
-        else
+        } else {
             return false;
+        }
     }
 }

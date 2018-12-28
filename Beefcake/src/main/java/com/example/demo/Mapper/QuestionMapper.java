@@ -1,6 +1,6 @@
-package com.example.demo.Mapper;
+package com.example.demo.mapper;
 
-import com.example.demo.Entity.QuestionEntity;
+import com.example.demo.entity.QuestionEntity;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;

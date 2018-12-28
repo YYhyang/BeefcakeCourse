@@ -1,18 +1,18 @@
-package com.example.demo.Controller;
+package com.example.demo.controller;
 
-import com.example.demo.DTO.CreateSeminarDTO;
-import com.example.demo.DTO.changeReportDTO;
-import com.example.demo.DTO.changeSeminarRoundDTO;
-import com.example.demo.DTO.changeSeminarStatusDTO;
-import com.example.demo.Dao.SeminarDao;
-import com.example.demo.Entity.ClassEntity;
-import com.example.demo.Entity.SeminarEntity;
-import com.example.demo.Entity.SeminarScoreEntity;
-import com.example.demo.Service.SeminarService;
-import com.example.demo.VO.KlassInTeamVO;
-import com.example.demo.VO.KlassSeminarInfo;
-import com.example.demo.VO.SeminarInfoVO;
-import com.example.demo.VO.SeminarScoreInfoVO;
+import com.example.demo.dto.CreateSeminarDTO;
+import com.example.demo.dto.changeReportDTO;
+import com.example.demo.dto.changeSeminarRoundDTO;
+import com.example.demo.dto.changeSeminarStatusDTO;
+import com.example.demo.dao.SeminarDao;
+import com.example.demo.entity.ClassEntity;
+import com.example.demo.entity.SeminarEntity;
+import com.example.demo.entity.SeminarScoreEntity;
+import com.example.demo.service.SeminarService;
+import com.example.demo.vo.KlassInTeamVO;
+import com.example.demo.vo.KlassSeminarInfo;
+import com.example.demo.vo.SeminarInfoVO;
+import com.example.demo.vo.SeminarScoreInfoVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -145,9 +145,10 @@ public class SeminarController {
         Long klassSeminarId=seminarDao.getKlassSeminarIdByClassIdAndSeminarId(klassId,seminarId);
          seminarService.setQuestionScore(klassSeminarId);
          boolean b=seminarDao.setStatus(seminarId,klassId,2);
-         if(b)
+         if(b) {
              return "success";
-         else
+         } else {
              return "fail";
+         }
     }
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.example.demo.Mapper.CourseMapper">
+<mapper namespace="com.example.demo.mapper.CourseMapper">
 
     <insert id="createCourse">
         insert into course (teacher_id,course_name,introduction,presentation_percentage,question_percentage,report_percentage,team_start_time,team_end_time) values (#{teacherId},#{courseName},#{introduction},#{pPercent},#{qPercent},#{rPercent},#{teamStartTime},#{teamEndTime});

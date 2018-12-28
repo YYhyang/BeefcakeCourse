@@ -1,6 +1,6 @@
-package com.example.demo.Service;
+package com.example.demo.service;
 
-import com.example.demo.Mapper.UserMapper;
+import com.example.demo.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -11,13 +11,6 @@ public class UserService {
 
     @Autowired
     public UserMapper userMapper;
-    public boolean userLogin(String account, String password)
-    {
-        if(!(userMapper.studentLogin(account,password)== null) || !(userMapper.teacherLogin(account,password)== null))
-            return true;
-        else
-            return false;
-    }
 
     public String forgetPassword(String account) //返回密码
     {
@@ -27,8 +20,9 @@ public class UserService {
         else if(!(userMapper.teacherForgetPassword(account)==null)){
             return userMapper.teacherForgetPassword(account).getPassword();
         }
-        else
+        else {
             return "";
+        }
     }
 
     public String getEmail(String account)
@@ -39,8 +33,9 @@ public class UserService {
         else if(!(userMapper.teacherForgetPassword(account)==null)){
             return userMapper.teacherForgetPassword(account).getEmail();
         }
-        else
+        else {
             return "";
+        }
     }
 
     public ArrayList<String> getInfo(String account)//分条返回账户
@@ -62,8 +57,9 @@ public class UserService {
             info.add(userMapper.teacherGetInfo(account).getPassword());
             return info;
         }
-        else
+        else {
             return info;
+        }
     }
 
     public void changePassword(String account, String password){

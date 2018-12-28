@@ -1,4 +1,4 @@
-package com.example.demo.Config;
+package com.example.demo.config;
 
 
 import com.alibaba.druid.pool.DruidDataSource;

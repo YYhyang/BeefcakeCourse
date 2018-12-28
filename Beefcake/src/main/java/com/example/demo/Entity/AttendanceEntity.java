@@ -1,7 +1,6 @@
-package com.example.demo.Entity;
+package com.example.demo.entity;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
 public class AttendanceEntity {

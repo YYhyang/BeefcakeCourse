@@ -1,10 +1,10 @@
-package com.example.demo.Dao;
+package com.example.demo.dao;
 
-import com.example.demo.DTO.classRoundDTO;
-import com.example.demo.Entity.RoundEntity;
-import com.example.demo.Entity.RoundscoreEntity;
-import com.example.demo.Entity.SeminarEntity;
-import com.example.demo.Mapper.RoundMapper;
+import com.example.demo.dto.classRoundDTO;
+import com.example.demo.entity.RoundEntity;
+import com.example.demo.entity.RoundscoreEntity;
+import com.example.demo.entity.SeminarEntity;
+import com.example.demo.mapper.RoundMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -33,8 +33,8 @@ public class RoundDao {
     public RoundscoreEntity getAllRoundScoreByRoundIdAndTeamId(Long roundId,Long teamId){return roundMapper.getAllRoundScoreByRoundIdAndTeamId(roundId, teamId);}
 
     public List<RoundscoreEntity> getAllRoundScoreByRoundId(Long roundId){return roundMapper.getAllRoundScoreByRoundId(roundId);}
-    public boolean createRound(int round_serial,Long courseId){
-        return roundMapper.createRound(round_serial, courseId);
+    public boolean createRound(int roundSerial,Long courseId){
+        return roundMapper.createRound(roundSerial, courseId);
     }
     public boolean changeRoundInfo(Long roundId,int presentation,int report,int question)
     {
@@ -46,8 +46,9 @@ public class RoundDao {
         boolean change;
         for(classRoundDTO temp:classRoundDTOList){
             change=roundMapper.changeSignUpnum(temp.getKlass_id(),roundId,temp.getEnroll_number());
-            if(!change)
+            if(!change) {
                 return false;
+            }
         }
         return true;
     }

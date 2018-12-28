@@ -1,10 +1,10 @@
-package com.example.demo.Mapper;
+package com.example.demo.mapper;
 
-import com.example.demo.VO.TeamSimpleVO;
+import com.example.demo.vo.TeamSimpleVO;
 import com.example.demo.strategy.AndOrStrategy;
 import com.example.demo.strategy.CourseMemberLimitStrategy;
 import com.example.demo.strategy.MemberLimitStrategy;
-import com.example.demo.Entity.TeamEntity;
+import com.example.demo.entity.TeamEntity;
 import com.example.demo.strategy.TeamStrategy;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;

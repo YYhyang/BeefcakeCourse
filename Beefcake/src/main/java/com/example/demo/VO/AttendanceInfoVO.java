@@ -1,4 +1,4 @@
-package com.example.demo.VO;
+package com.example.demo.vo;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,5 +10,5 @@ public class AttendanceInfoVO {
     private Long teamId;
     private String teamSerialName;
     private String pptStatus;
-    private int order;
+    private Integer order;
 }

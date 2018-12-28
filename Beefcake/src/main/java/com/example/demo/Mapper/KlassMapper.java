@@ -1,7 +1,7 @@
-package com.example.demo.Mapper;
+package com.example.demo.mapper;
 
-import com.example.demo.Entity.ClassEntity;
-import com.example.demo.Entity.StudentEntity;
+import com.example.demo.entity.ClassEntity;
+import com.example.demo.entity.StudentEntity;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
@@ -22,7 +22,7 @@ public interface KlassMapper {
 
     public Integer getKlassSerial(@Param("klassId")Long klassId);
 
-    public void deleteKlass(@Param("KlassId")Long KlassId);
+    public void deleteKlass(@Param("klassId")Long klassId);
 
     public StudentEntity selectStudentByAccount(@Param("account")String account);
 

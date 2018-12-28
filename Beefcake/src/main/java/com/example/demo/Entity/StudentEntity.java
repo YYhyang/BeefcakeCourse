@@ -1,8 +1,8 @@
-package com.example.demo.Entity;
+package com.example.demo.entity;
 
 public class StudentEntity {
     private Long id;
-    private String account;//是否需要待定
+    private String account;
     private String password;
     private String student_name;
     private int is_active;

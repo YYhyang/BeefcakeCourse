@@ -1,10 +1,9 @@
-package com.example.demo.Service;
+package com.example.demo.service;
 
-import com.example.demo.Dao.*;
-import com.example.demo.Entity.*;
-import com.example.demo.Mapper.TeamMapper;
-import com.example.demo.Sercurity.JWTPayLoad;
-import com.example.demo.VO.TeamSimpleVO;
+import com.example.demo.dao.*;
+import com.example.demo.entity.*;
+import com.example.demo.mapper.TeamMapper;
+import com.example.demo.sercurity.JWTPayLoad;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -34,17 +33,15 @@ public class CourseService {
     @Autowired
     private TeamMapper teamMapper;
     @Autowired
-    private ShareSeminarApplicationDao shareSeminarApplicationDao;
-    @Autowired
     private ShareTeamApplicationDao shareTeamApplicationDao;
     @Autowired
     private TeamDao teamDao;
 
     public Long createCourse(String courseName, String introduction, int pPercent, int qPercent, int rPercent, Date teamStartTime, Date teamEndTime, HttpServletRequest request){
         JWTPayLoad jwtPayLoad=jwtDao.getJwtPayLoad(request);
-        Long jwt_teacherId = jwtPayLoad.getId();
-        courseDao.createCourse(jwt_teacherId,courseName,introduction,pPercent,qPercent,rPercent,teamStartTime,teamEndTime);
-        return courseDao.getCourseId(jwt_teacherId,courseName);
+        Long jwtTeacherId = jwtPayLoad.getId();
+        courseDao.createCourse(jwtTeacherId,courseName,introduction,pPercent,qPercent,rPercent,teamStartTime,teamEndTime);
+        return courseDao.getCourseId(jwtTeacherId,courseName);
     }
 
 
@@ -70,15 +67,15 @@ public class CourseService {
     public List<CourseEntity> getCourse(HttpServletRequest request){
         int role;//老师或学生
         JWTPayLoad jwtPayLoad=jwtDao.getJwtPayLoad(request);
-        Long jwt_Id = jwtPayLoad.getId();
-        System.out.println(jwt_Id);
+        Long jwtId = jwtPayLoad.getId();
+        System.out.println(jwtId);
         role=jwtPayLoad.getRole();
         if(role==0){
             List<CourseEntity> courseEntities = new ArrayList<>();
-            List<Long> coursesId = klassStudentDao.getCoursesIdByStudentId(jwt_Id);
+            List<Long> coursesId = klassStudentDao.getCoursesIdByStudentId(jwtId);
             for(Long courseId:coursesId){
                 CourseEntity course=courseDao.getCourseById(courseId);
-                Long klassId=klassStudentDao.getKlassIdByStudentId(courseId,jwt_Id);
+                Long klassId=klassStudentDao.getKlassIdByStudentId(courseId,jwtId);
                 ClassEntity klass=klassDao.getKlassById(klassId);
                 course.setKlassName(klass.getGrade()+"-"+klass.getKlass_serial());
                 courseEntities.add(course);
@@ -86,7 +83,7 @@ public class CourseService {
             return courseEntities;
         }
         else {
-            return courseDao.getCoursesByTeacherId(jwt_Id);
+            return courseDao.getCoursesByTeacherId(jwtId);
         }
     }
 
@@ -95,17 +92,23 @@ public class CourseService {
     }
 
     public List<TeamEntity> getAllTeam(Long courseId){
-        Long teamMainCourseId = courseDao.getTeamMainCourseId(courseId); //判断是否为从课程
+        //判断是否为从课程
+        Long teamMainCourseId = courseDao.getTeamMainCourseId(courseId);
         List<Long> allTeamsId = getAllTeamsId(courseId);
         List<TeamEntity>  allTeams = new ArrayList<>();
-        if(teamMainCourseId!=null)//若为从课程 则筛选学生
+        //若为从课程 则筛选学生
+        if(teamMainCourseId!=null)
+        {
             for(Long teamId : allTeamsId){
                 allTeams.add(teamService.getTeamInCourse(teamId, courseId));
             }
+        }
         else
+        {
             for(Long teamId:allTeamsId){
                 allTeams.add(teamDao.getTeamById(teamId));
             }
+        }
         return allTeams;
     }
 
@@ -115,14 +118,20 @@ public class CourseService {
         for(Long klassId:klassesId){
             teamId = klassStudentDao.getTeamId(klassId,studentId);
             if(teamId!=null)
+            {
                 break;
+            }
         }
         Long teamMainCourseId = courseDao.getTeamMainCourseId(courseId);
         TeamEntity myTeam;
         if(teamMainCourseId==null)
+        {
             myTeam = teamService.getTeamById(teamId);
+        }
         else
+        {
             myTeam = teamService.getTeamInCourse(teamId,courseId);
+        }
         return myTeam;
     }
 
@@ -141,7 +150,7 @@ public class CourseService {
         if(courseDao.getTeamMainCourseId(mainCourseId)==null) {
             if (shareTeamApplicationDao.getId(mainCourseId, subCourseId) != null) {
                 String status = shareTeamApplicationDao.getShareTeamApplication(mainCourseId, subCourseId).getStatus();
-                if (status.equals("0")) {
+                if ("0".equals(status)) {
                     shareTeamApplicationDao.setStatusNull(mainCourseId, subCourseId);
                 }
             } else {
@@ -153,8 +162,9 @@ public class CourseService {
 
     public void deleteTeamShare(Long teamShareId){
         ShareApplicationEntity shareApplicationEntity = shareTeamApplicationDao.getShareById(teamShareId);
-        if (shareApplicationEntity.getStatus().equals("1")){
-            courseDao.deleteTeamMainCourseId(shareApplicationEntity.getSub_course_id());//从课程的主课程Id删除
+        if ("1".equals(shareApplicationEntity.getStatus())){
+            //从课程的主课程Id删除
+            courseDao.deleteTeamMainCourseId(shareApplicationEntity.getSub_course_id());
 
             //对从课程的小组相关信息删除
         }//若该分享有效

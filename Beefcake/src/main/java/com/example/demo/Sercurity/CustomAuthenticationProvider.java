@@ -1,4 +1,4 @@
-package com.example.demo.Sercurity;
+package com.example.demo.sercurity;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -9,11 +9,8 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.util.DigestUtils;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 public class CustomAuthenticationProvider implements AuthenticationProvider {
@@ -43,8 +40,9 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
         String realPassword=userDetails.getPassword();
 
-        if(!password.equals(realPassword))
+        if(!password.equals(realPassword)) {
             throw new BadCredentialsException("");
+        }
 
         Collection<?extends GrantedAuthority> authorities;
         authorities=userDetails.getAuthorities();

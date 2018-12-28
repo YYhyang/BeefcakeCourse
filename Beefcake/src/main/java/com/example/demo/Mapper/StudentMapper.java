@@ -1,6 +1,6 @@
-package com.example.demo.Mapper;
+package com.example.demo.mapper;
 
-import com.example.demo.Entity.StudentEntity;
+import com.example.demo.entity.StudentEntity;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
@@ -17,7 +17,7 @@ public interface StudentMapper {
 
     public List<StudentEntity> searchStudentByName(@Param("student_name") String identity);
 
-    public Boolean putStudentInfo(@Param("studentId") Long studentId, @Param("account") String account, @Param("student_name") String student_name, @Param("email") String email);
+    public Boolean putStudentInfo(@Param("studentId") Long studentId, @Param("account") String account, @Param("student_name") String studentName, @Param("email") String email);
 
     public Boolean putStudentPassword(@Param("studentId") Long stduentId);
 

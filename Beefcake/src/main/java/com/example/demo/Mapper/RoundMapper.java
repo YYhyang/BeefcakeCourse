@@ -1,8 +1,8 @@
-package com.example.demo.Mapper;
+package com.example.demo.mapper;
 
-import com.example.demo.Entity.RoundEntity;
-import com.example.demo.Entity.RoundscoreEntity;
-import com.example.demo.Entity.SeminarEntity;
+import com.example.demo.entity.RoundEntity;
+import com.example.demo.entity.RoundscoreEntity;
+import com.example.demo.entity.SeminarEntity;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Component;
@@ -17,13 +17,13 @@ public interface RoundMapper {
     public RoundEntity getRoundByRoundId(@Param("roundId")Long roundId);
     public RoundscoreEntity getAllRoundScoreByRoundIdAndTeamId(@Param("roundId")Long roundId,@Param("teamId")Long teamId);
     public List<RoundscoreEntity> getAllRoundScoreByRoundId(@Param("roundId")Long roundId);
-    public boolean createRound(@Param("round_serial")int round_serial,@Param("courseId")Long courseId);
+    public boolean createRound(@Param("round_serial")int roundSerial,@Param("courseId")Long courseId);
     public boolean changeRoundInfo(@Param("roundId")Long roundId,@Param("presentation")int presentation,@Param("report")int report,@Param("question")int question);
     public boolean changeSignUpnum(@Param("klassId")Long klassId,@Param("roundId")Long roundId,@Param("enrollNumber")int enrollNumber);
     public boolean changeRoundScore(@Param("roundId")Long roundId,@Param("teamId")Long teamId,@Param("presentationScore")double presentationScore,@Param("reportScore")double reportScore,
                                     @Param("questionScore")double questionScore,@Param("finalScore")double finalScore);
     public boolean createSignUpnum(@Param("klassId")Long klassId,@Param("roundId")Long roundId);
     public List<Long> getAllRoundId(@Param("courseId") Long courseId);
-    public Long returnId(@Param("courseId")Long courseId,@Param("round_serial")int round_serial);
+    public Long returnId(@Param("courseId")Long courseId,@Param("round_serial")int roundSerial);
     public boolean createEnrollNumber(@Param("klassId")Long klassId,@Param("roundId")Long roundId,@Param("enrollNumber")int enrollNumber);
 }

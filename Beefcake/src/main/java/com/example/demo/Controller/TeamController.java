@@ -1,21 +1,17 @@
-package com.example.demo.Controller;
+package com.example.demo.controller;
 
-import com.example.demo.DTO.StudentIdDTO;
-import com.example.demo.DTO.TeamMemberDTO;
-import com.example.demo.DTO.TeamRequestDTO;
-import com.example.demo.DTO.createTeamDTO;
-import com.example.demo.Entity.ClassEntity;
-import com.example.demo.Entity.CourseEntity;
-import com.example.demo.Entity.StudentEntity;
-import com.example.demo.Entity.TeamEntity;
-import com.example.demo.Service.CourseService;
-import com.example.demo.Service.KlassService;
-import com.example.demo.Service.StudentService;
-import com.example.demo.Service.TeamService;
-import com.example.demo.VO.CourseInTeamVO;
-import com.example.demo.VO.GetTeamByIdVO;
-import com.example.demo.VO.KlassInTeamVO;
-import com.example.demo.VO.StudentInTeamVO;
+import com.example.demo.dto.StudentIdDTO;
+import com.example.demo.dto.TeamRequestDTO;
+import com.example.demo.dto.createTeamDTO;
+import com.example.demo.entity.ClassEntity;
+import com.example.demo.entity.CourseEntity;
+import com.example.demo.entity.StudentEntity;
+import com.example.demo.entity.TeamEntity;
+import com.example.demo.service.TeamService;
+import com.example.demo.vo.CourseInTeamVO;
+import com.example.demo.vo.GetTeamByIdVO;
+import com.example.demo.vo.KlassInTeamVO;
+import com.example.demo.vo.StudentInTeamVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,7 +27,7 @@ public class TeamController {
 
     @RequestMapping(value="/team",method = RequestMethod.POST)  //新建队伍
     public Long postTeam(@RequestBody createTeamDTO team, HttpServletRequest request){
-        return teamService.postTeam(team.getKlassId(),team.getCourseId(),team.getTeamName(),team.getMembers(),request); //创建时默认为合法
+        return teamService.postTeam(team.getKlassId(),team.getCourseId(),team.getTeamName(),team.getMembers(),request);
     }
 
     @RequestMapping(value="/team/{teamId}",method = RequestMethod.GET)  //获取队伍信息(测试通过）

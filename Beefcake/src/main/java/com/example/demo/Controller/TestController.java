@@ -1,17 +1,12 @@
-package com.example.demo.Controller;
+package com.example.demo.controller;
 
-import com.example.demo.DTO.TeamMemberDTO;
-import com.example.demo.Dao.CourseDao;
-import com.example.demo.Entity.CourseEntity;
-import com.example.demo.Entity.StudentEntity;
-import com.example.demo.Entity.UserEntity;
-import com.example.demo.Mapper.*;
-import com.example.demo.Sercurity.MyUserService;
-import com.example.demo.Service.TeamService;
+import com.example.demo.dao.CourseDao;
+import com.example.demo.entity.StudentEntity;
+import com.example.demo.mapper.*;
+import com.example.demo.sercurity.MyUserService;
+import com.example.demo.service.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 public class TestController {

@@ -1,7 +1,7 @@
-package com.example.demo.Mapper;
+package com.example.demo.mapper;
 
-import com.example.demo.Entity.SeminarEntity;
-import com.example.demo.Entity.SeminarScoreEntity;
+import com.example.demo.entity.SeminarEntity;
+import com.example.demo.entity.SeminarScoreEntity;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Component;

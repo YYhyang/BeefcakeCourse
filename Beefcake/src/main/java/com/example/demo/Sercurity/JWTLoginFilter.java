@@ -1,13 +1,9 @@
-package com.example.demo.Sercurity;
+package com.example.demo.sercurity;
 
-import com.example.demo.Entity.UserEntity;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import com.example.demo.entity.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
@@ -17,7 +13,6 @@ import javax.servlet.FilterChain;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class JWTLoginFilter extends UsernamePasswordAuthenticationFilter {
     @Autowired
@@ -69,14 +64,16 @@ public class JWTLoginFilter extends UsernamePasswordAuthenticationFilter {
 
         String jwtString = jwtService.generateJwt(userEntity);
         System.out.println("jwtString: "+jwtString);
-        int is_active=userEntity.getIs_active();
+        int isActive=userEntity.getIs_active();
         String  role;
-        if(userEntity.getRole()==1)
+        if(userEntity.getRole()==1) {
             role="Teacher";
-        else role="Student";
+        } else {
+            role="Student";
+        }
         response.addHeader("token","Bearer "+jwtString);
         response.addHeader("role",role);
-        response.addHeader("active",String.valueOf(is_active));
+        response.addHeader("active",String.valueOf(isActive));
 
     }
 }

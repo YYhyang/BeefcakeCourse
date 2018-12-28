@@ -1,4 +1,4 @@
-package com.example.demo.DTO;
+package com.example.demo.dto;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class changeRoundScoreDTO {
-    private double presentationScore;
-    private double reportScore;
-    private double questionScore;
+    private Double presentationScore;
+    private Double reportScore;
+    private Double questionScore;
 }

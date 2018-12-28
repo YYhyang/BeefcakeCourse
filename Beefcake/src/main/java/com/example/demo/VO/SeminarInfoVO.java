@@ -1,4 +1,4 @@
-package com.example.demo.VO;
+package com.example.demo.vo;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,11 +11,11 @@ public class SeminarInfoVO {
     Long id;
     String seminarName;
     String introduction;
-    int visible;
+    Integer visible;
     Long roundId;
-    int roundOrder;
-    int maxTeam;
-    int order;
+    Integer roundOrder;
+    Integer maxTeam;
+    Integer order;
     Date start;
     Date end;
 }

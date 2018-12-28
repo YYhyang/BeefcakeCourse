@@ -1,11 +1,11 @@
-package com.example.demo.Controller;
+package com.example.demo.controller;
 
-import com.example.demo.DTO.UserInfoDTO;
-import com.example.demo.Entity.StudentEntity;
-import com.example.demo.Mapper.StudentMapper;
-import com.example.demo.VO.UserInfoVO;
+import com.example.demo.dto.UserInfoDTO;
+import com.example.demo.entity.StudentEntity;
+import com.example.demo.mapper.StudentMapper;
+import com.example.demo.vo.UserInfoVO;
 import org.springframework.web.bind.annotation.*;
-import com.example.demo.Service.StudentService;
+import com.example.demo.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.http.HttpServletRequest;
@@ -62,8 +62,10 @@ public class StudentController {
             vo.setEmail(dto.getEmail());
             return vo;
         }
-        else
-            return new UserInfoVO();  //异常处理之后
+        else {
+            //异常处理之后
+            return new UserInfoVO();
+        }
     }
 
     @RequestMapping(value= "/student/{studentId}/password",method = RequestMethod.PUT)
@@ -78,8 +80,10 @@ public class StudentController {
             vo.setEmail(student.getEmail());
             return vo;
         }
-        else
-            return new UserInfoVO();  //异常处理之后
+        else {
+            //异常处理之后
+            return new UserInfoVO();
+        }
     }
 
     @RequestMapping(value = "/student/{studentId}",method = RequestMethod.DELETE)
@@ -89,7 +93,7 @@ public class StudentController {
     }
 
     @RequestMapping(value = "/student/active",method = RequestMethod.PUT)
-    public Boolean activateStudent(@RequestParam("password")String password, @RequestParam("email")String email, HttpServletRequest request)
+    public boolean activateStudent(@RequestParam("password")String password, @RequestParam("email")String email, HttpServletRequest request)
     {
         return studentService.activeStudent(password,email,request);
     }

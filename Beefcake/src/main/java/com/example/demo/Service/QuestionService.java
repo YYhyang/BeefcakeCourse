@@ -1,11 +1,11 @@
-package com.example.demo.Service;
+package com.example.demo.service;
 
-import com.example.demo.Dao.JwtDao;
-import com.example.demo.Entity.QuestionEntity;
-import com.example.demo.Mapper.AttendanceMapper;
-import com.example.demo.Mapper.KlassStudentMapper;
-import com.example.demo.Mapper.QuestionMapper;
-import com.example.demo.Sercurity.JWTPayLoad;
+import com.example.demo.dao.JwtDao;
+import com.example.demo.entity.QuestionEntity;
+import com.example.demo.mapper.AttendanceMapper;
+import com.example.demo.mapper.KlassStudentMapper;
+import com.example.demo.mapper.QuestionMapper;
+import com.example.demo.sercurity.JWTPayLoad;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -32,10 +32,10 @@ public class QuestionService {
     public boolean askQuestion(Long seminarId, Long classId, Long attendanceId, HttpServletRequest request)
     {
         JWTPayLoad jwtPayLoad=jwtDao.getJwtPayLoad(request);
-        Long jwt_studentId=jwtPayLoad.getId() ;
+        Long jwtStudentId=jwtPayLoad.getId() ;
         Long klassSeminarId=attendanceMapper.findKlassSeminarId(seminarId, classId);
-        Long teamId=klassStudentMapper.getTeamId(classId,jwt_studentId);
-        return questionMapper.askQuestion(klassSeminarId,attendanceId,teamId,jwt_studentId);
+        Long teamId=klassStudentMapper.getTeamId(classId,jwtStudentId);
+        return questionMapper.askQuestion(klassSeminarId,attendanceId,teamId,jwtStudentId);
     }
 
     public QuestionEntity getQuestion(Long attendanceId,Long teamId)

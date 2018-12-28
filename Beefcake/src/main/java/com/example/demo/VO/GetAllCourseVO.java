@@ -1,4 +1,4 @@
-package com.example.demo.VO;
+package com.example.demo.vo;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,8 +7,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class GetAllCourseVO {
     private Long id;
-    private boolean isShareTeam;
-    private boolean isShareSeminar;
+    private Integer isShareTeam;
+    private Integer isShareSeminar;
     private String name;
     private String className;
     private Long classId;

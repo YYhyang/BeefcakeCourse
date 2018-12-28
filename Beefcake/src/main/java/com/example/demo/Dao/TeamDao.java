@@ -1,15 +1,12 @@
-package com.example.demo.Dao;
+package com.example.demo.dao;
 
 
-import com.example.demo.DTO.TeamMemberDTO;
-import com.example.demo.Entity.StudentEntity;
 import com.example.demo.strategy.AndOrStrategy;
 import com.example.demo.strategy.CourseMemberLimitStrategy;
 import com.example.demo.strategy.MemberLimitStrategy;
-import com.example.demo.Entity.TeamEntity;
-import com.example.demo.Mapper.TeamMapper;
+import com.example.demo.entity.TeamEntity;
+import com.example.demo.mapper.TeamMapper;
 import com.example.demo.strategy.TeamStrategy;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -30,8 +27,8 @@ public class TeamDao {
     public boolean createTeamInKlassTeam(Long klassId,Long teamId){return teamMapper.createTeamInKlassTeam(klassId, teamId);}
     public boolean createTeamInTeamStudent(Long teamId,Long studentId){return teamMapper.createTeamInTeamStudent(teamId, studentId);}
 
-    public Long returnId(Integer team_serial, Integer klass_serial){
-        return teamMapper.returnId(team_serial,klass_serial);
+    public Long returnId(Integer teamSerial, Integer klassSerial){
+        return teamMapper.returnId(teamSerial,klassSerial);
     }
 
     public TeamEntity getTeamById(Long teamId) {
@@ -76,46 +73,53 @@ public class TeamDao {
         {
             List<Long>ids=teamMapper.getMemberIdByCourseId(id,team.getId());
             int size=ids.size();
-            if(size!=0)
+            if(size!=0) {
                 sum++;
-            if(sum>1)
+            }
+            if(sum>1) {
                 return false;
+            }
         }
         return true;
     }
 
     public boolean isValidByOrStrategy(TeamEntity team,Long strategyId)
     {
-        List<AndOrStrategy> OrStrategies=teamMapper.getOrStrategy(strategyId);
-        for(AndOrStrategy OrStrategy:OrStrategies)
+        List<AndOrStrategy> orStrategies=teamMapper.getOrStrategy(strategyId);
+        for(AndOrStrategy orStrategy:orStrategies)
         {
-            if(OrStrategy.getStrategy_name().equals("MemberLimitStrategy"))
+            if("MemberLimitStrategy".equals(orStrategy.getStrategy_name()))
             {
-                boolean valid=isValidByMemberLimit(team,OrStrategy.getStrategy_id());
-                if(valid)
+                boolean valid=isValidByMemberLimit(team,orStrategy.getStrategy_id());
+                if(valid) {
                     return true;
+                }
             }
-            else if(OrStrategy.getStrategy_name().equals("CourseMemberLimitStrategy"))
+            else if("CourseMemberLimitStrategy".equals(orStrategy.getStrategy_name()))
             {
-                boolean valid=isValidByCourseMemberLimit(team,OrStrategy.getStrategy_id());
-                if(valid)
+                boolean valid=isValidByCourseMemberLimit(team,orStrategy.getStrategy_id());
+                if(valid) {
                     return true;
+                }
             }
-            else if(OrStrategy.getStrategy_name().equals("ConflictCourseStrategy"))
+            else if("ConflictCourseStrategy".equals(orStrategy.getStrategy_name()))
             {
-                boolean valid=isValidByConflictCourse(team,OrStrategy.getStrategy_id());
-                if(valid)
+                boolean valid=isValidByConflictCourse(team,orStrategy.getStrategy_id());
+                if(valid) {
                     return true;
+                }
             }
-            else if(OrStrategy.getStrategy_name().equals("TeamOrStrategy")) {
-                boolean valid=isValidByOrStrategy(team,OrStrategy.getStrategy_id());
-                if(valid)
+            else if("TeamOrStrategy".equals(orStrategy.getStrategy_name())) {
+                boolean valid=isValidByOrStrategy(team,orStrategy.getStrategy_id());
+                if(valid) {
                     return true;
+                }
             }
-            else if(OrStrategy.getStrategy_name().equals("TeamAndStrategy")){
-                boolean valid=isValidByAndStrategy(team,OrStrategy.getStrategy_id());
-                if(valid)
+            else if("TeamAndStrategy".equals(orStrategy.getStrategy_name())){
+                boolean valid=isValidByAndStrategy(team,orStrategy.getStrategy_id());
+                if(valid) {
                     return true;
+                }
             }
         }
         return false;
@@ -123,36 +127,41 @@ public class TeamDao {
 
     public boolean isValidByAndStrategy(TeamEntity team,Long strategyId)
     {
-        List<AndOrStrategy> AndStrategies=teamMapper.getAndStrategy(strategyId);
-        for(AndOrStrategy AndStrategy:AndStrategies)
+        List<AndOrStrategy> andStrategies=teamMapper.getAndStrategy(strategyId);
+        for(AndOrStrategy andStrategy:andStrategies)
         {
-            if(AndStrategy.getStrategy_name().equals("MemberLimitStrategy"))
+            if("MemberLimitStrategy".equals(andStrategy.getStrategy_name()))
             {
-                boolean valid=isValidByMemberLimit(team,AndStrategy.getStrategy_id());
-                if(!valid)
+                boolean valid=isValidByMemberLimit(team,andStrategy.getStrategy_id());
+                if(!valid) {
                     return false;
+                }
             }
-            else if(AndStrategy.getStrategy_name().equals("CourseMemberLimitStrategy"))
+            else if("CourseMemberLimitStrategy".equals(andStrategy.getStrategy_name()))
             {
-                boolean valid=isValidByCourseMemberLimit(team,AndStrategy.getStrategy_id());
-                if(!valid)
+                boolean valid=isValidByCourseMemberLimit(team,andStrategy.getStrategy_id());
+                if(!valid) {
                     return false;
+                }
             }
-            else if(AndStrategy.getStrategy_name().equals("ConflictCourseStrategy"))
+            else if("ConflictCourseStrategy".equals(andStrategy.getStrategy_name()))
             {
-                boolean valid=isValidByConflictCourse(team,AndStrategy.getStrategy_id());
-                if(!valid)
+                boolean valid=isValidByConflictCourse(team,andStrategy.getStrategy_id());
+                if(!valid) {
                     return false;
+                }
             }
-            else if(AndStrategy.getStrategy_name().equals("TeamOrStrategy")) {
-                boolean valid=isValidByOrStrategy(team,AndStrategy.getStrategy_id());
-                if(!valid)
+            else if("TeamOrStrategy".equals(andStrategy.getStrategy_name())) {
+                boolean valid=isValidByOrStrategy(team,andStrategy.getStrategy_id());
+                if(!valid) {
                     return false;
+                }
             }
-            else if(AndStrategy.getStrategy_name().equals("TeamAndStrategy")){
-                boolean valid=isValidByAndStrategy(team,AndStrategy.getStrategy_id());
-                if(!valid)
+            else if("TeamAndStrategy".equals(andStrategy.getStrategy_name())){
+                boolean valid=isValidByAndStrategy(team,andStrategy.getStrategy_id());
+                if(!valid) {
                     return false;
+                }
             }
         }
         return true;

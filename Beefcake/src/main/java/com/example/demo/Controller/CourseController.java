@@ -1,18 +1,16 @@
-package com.example.demo.Controller;
+package com.example.demo.controller;
 
-import com.example.demo.DTO.CourseDTO;
-import com.example.demo.DTO.KlassDTO;
-import com.example.demo.DTO.ShareRequestIdDTO;
-import com.example.demo.DTO.TeamDTO;
-import com.example.demo.Dao.CourseDao;
-import com.example.demo.Dao.JwtDao;
-import com.example.demo.Dao.ShareSeminarApplicationDao;
-import com.example.demo.Dao.ShareTeamApplicationDao;
-import com.example.demo.Entity.*;
-import com.example.demo.Sercurity.JWTPayLoad;
-import com.example.demo.Service.CourseService;
-import com.example.demo.Service.KlassService;
-import com.example.demo.VO.*;
+import com.example.demo.dto.CourseDTO;
+import com.example.demo.dto.KlassDTO;
+import com.example.demo.dto.ShareRequestIdDTO;
+import com.example.demo.dao.CourseDao;
+import com.example.demo.dao.JwtDao;
+import com.example.demo.dao.ShareTeamApplicationDao;
+import com.example.demo.entity.*;
+import com.example.demo.sercurity.JWTPayLoad;
+import com.example.demo.service.CourseService;
+import com.example.demo.service.KlassService;
+import com.example.demo.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,8 +27,6 @@ public class CourseController {
     private CourseService courseService;
     @Autowired
     private KlassService klassService;
-    @Autowired
-    private ShareSeminarApplicationDao shareSeminarApplicationDao;
     @Autowired
     private ShareTeamApplicationDao shareTeamApplicationDao;
     @Autowired
@@ -76,7 +72,7 @@ public class CourseController {
     }
 
     @RequestMapping(value = "/course",method = RequestMethod.PUT)
-    public List<AllExistCourseVO> AllExistCourse()
+    public List<AllExistCourseVO> allExistCourse()
     {
         List<AllExistCourseVO> allCourses = new ArrayList<>();
         List<CourseEntity> courseEntities = courseDao.getAllExistCourse();
@@ -148,13 +144,15 @@ public class CourseController {
     public TeamVO getMyTeam(@PathVariable("courseId")Long courseId, HttpServletRequest request)
     {
         JWTPayLoad jwtPayLoad=jwtDao.getJwtPayLoad(request);
-        Long jwt_studentId=jwtPayLoad.getId();
-        TeamEntity teamEntity = courseService.getMyTeam(courseId,jwt_studentId);
+        Long jwtStudentId=jwtPayLoad.getId();
+        TeamEntity teamEntity = courseService.getMyTeam(courseId,jwtStudentId);
         TeamVO myTeam = TeamEntityToTeamVO(teamEntity);
-        if(myTeam.getLeader()!=null&&myTeam.getLeader().getId()==jwt_studentId)
-            myTeam.setIsLeader("yes");
-        else
-            myTeam.setIsLeader("no");
+        if(myTeam.getLeader()!=null&&myTeam.getLeader().getId().equals(jwtStudentId))
+        {
+            myTeam.setIsLeader("yes")
+            ;}
+        else{
+            myTeam.setIsLeader("no");}
         return myTeam;
     }
 
@@ -189,7 +187,7 @@ public class CourseController {
     @RequestMapping(value = "/course/{courseId}/class",method = RequestMethod.POST)//创建班级
     public IdVO createKlass(@PathVariable("courseId")Long courseId, @RequestBody KlassDTO klassDTO)
     {
-        String s[] = klassDTO.getName().split("-");
+        String[] s = klassDTO.getName().split("-");
         klassService.createKlass(courseId,Integer.parseInt(s[0]),Integer.parseInt(s[1]),klassDTO.getTime(),klassDTO.getClassroom());
         Long id = klassService.getKlassId(courseId,Integer.parseInt(s[0]),Integer.parseInt(s[1]));
         IdVO idVO = new IdVO();

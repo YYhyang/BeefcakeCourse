@@ -1,9 +1,9 @@
-package com.example.demo.Config;
+package com.example.demo.config;
 
-import com.example.demo.Sercurity.CustomAuthenticationProvider;
-import com.example.demo.Sercurity.JWTAuthenticationFilter;
-import com.example.demo.Sercurity.JWTLoginFilter;
-import com.example.demo.Sercurity.MyUserService;
+import com.example.demo.sercurity.CustomAuthenticationProvider;
+import com.example.demo.sercurity.JWTAuthenticationFilter;
+import com.example.demo.sercurity.JWTLoginFilter;
+import com.example.demo.sercurity.MyUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -24,7 +24,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
-        //auth.userDetailsService(myUserService).passwordEncoder(new BCryptPasswordEncoder());
         auth.authenticationProvider(new CustomAuthenticationProvider(myUserService,new BCryptPasswordEncoder()));
     }
 

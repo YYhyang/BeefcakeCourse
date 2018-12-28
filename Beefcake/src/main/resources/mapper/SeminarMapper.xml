@@ -2,9 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <!-- 指定工作空间，要与接口名相同，源代码没有去看，猜测应该是通过"这里的namespace.下边方法的id"来定位方法的 -->
-<mapper namespace="com.example.demo.Mapper.SeminarMapper">
+<mapper namespace="com.example.demo.mapper.SeminarMapper">
 
-    <resultMap id="seminarMap" type="com.example.demo.Entity.SeminarEntity">
+    <resultMap id="seminarMap" type="com.example.demo.entity.SeminarEntity">
         <id column="id" property="id"/>
         <result column="seminar_name" property="seminar_name"/>
         <result column="introduction" property="introduction"/>
@@ -17,7 +17,7 @@
         <association column="round_id" property="round" select="CommonMapper.selectRound"/>
     </resultMap>
 
-    <resultMap id="SeminarScoreMap" type="com.example.demo.Entity.SeminarScoreEntity">
+    <resultMap id="SeminarScoreMap" type="com.example.demo.entity.SeminarScoreEntity">
         <id column="klass_seminar_id" property="klass_seminar_id"/>
         <result column="total_score" property="total_score"/>
         <result column="presentation_score" property="presentation_score"/>

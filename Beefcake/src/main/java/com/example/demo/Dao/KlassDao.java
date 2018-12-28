@@ -1,8 +1,8 @@
-package com.example.demo.Dao;
+package com.example.demo.dao;
 
-import com.example.demo.Entity.ClassEntity;
-import com.example.demo.Entity.StudentEntity;
-import com.example.demo.Mapper.KlassMapper;
+import com.example.demo.entity.ClassEntity;
+import com.example.demo.entity.StudentEntity;
+import com.example.demo.mapper.KlassMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

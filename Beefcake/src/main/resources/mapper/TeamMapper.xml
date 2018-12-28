@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.example.demo.Mapper.TeamMapper">
+<mapper namespace="com.example.demo.mapper.TeamMapper">
     <select id="getTeamById" resultMap="CommonMapper.TeamMap">
         SELECT * FROM team WHERE id=#{teamId}
     </select>
 
-    <select id="getTeamByCourseId" resultType="com.example.demo.VO.TeamSimpleVO">
+    <select id="getTeamByCourseId" resultType="com.example.demo.vo.TeamSimpleVO">
         select id,team_name,team_serial,klass_serial from team where course_id=#{courseId}
     </select>
 

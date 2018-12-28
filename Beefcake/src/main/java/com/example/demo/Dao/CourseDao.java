@@ -1,8 +1,8 @@
-package com.example.demo.Dao;
+package com.example.demo.dao;
 
-import com.example.demo.Entity.CourseEntity;
-import com.example.demo.Entity.RoundEntity;
-import com.example.demo.Mapper.CourseMapper;
+import com.example.demo.entity.CourseEntity;
+import com.example.demo.entity.RoundEntity;
+import com.example.demo.mapper.CourseMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
