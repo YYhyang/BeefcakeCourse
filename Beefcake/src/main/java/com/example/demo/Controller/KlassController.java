@@ -14,9 +14,10 @@ public class KlassController {
     KlassService klassService;
 
     @RequestMapping(value = "/class/{classId}" ,method = RequestMethod.PUT)  //导入学生名单
-    public void inputStudent(@PathVariable("classId")Long klassId,@RequestParam("courseId")Long courseId,@RequestParam("student") MultipartFile file)throws Exception
+    public boolean inputStudent(@PathVariable("classId")Long klassId,@RequestParam("courseId")Long courseId,@RequestParam("student") MultipartFile file)throws Exception
     {
         klassService.inputStudent(file,courseId,klassId);
+        return true;
     }
     @RequestMapping(value = "/class/{classId}",method = RequestMethod.DELETE)
     public void deleteKlass(@PathVariable("classId")Long klassId){

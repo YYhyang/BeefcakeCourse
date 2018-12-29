@@ -11,4 +11,8 @@
         update team_valid_application set status=#{status} where team_id=#{teamId};
     </update>
 
+    <select id="haveApplication" resultType="java.lang.Long">
+        select id from team_valid_application where team_id=#{teamId} and status=1;
+    </select>
+
 </mapper>

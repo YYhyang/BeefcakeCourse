@@ -11,22 +11,23 @@ import java.util.List;
 @Component
 public interface TeacherMapper {
 
-    public Boolean createTeacher(@Param("account") String account, @Param("password") String password, @Param("teacher_name") String teacherName, @Param("email") String email);
+    Boolean createTeacher(@Param("account") String account, @Param("password") String password, @Param("teacher_name") String teacherName, @Param("email") String email);
 
-    public List<TeacherEntity> getAllTeacher();
+    Boolean putTeacherInfo(@Param("teacherId") Long teacherId, @Param("account") String account, @Param("teacher_name") String teacherName, @Param("email") String email);
 
-    public List<TeacherEntity> searchTeacherByAccount(@Param("account") String identity);
+    Boolean putTeacherPassword(@Param("teacherId") Long teacherId);
 
-    public List<TeacherEntity> searchTeacherByName(@Param("teacher_name") String identity);
+    Boolean deleteTeacher(@Param("teacherId") Long teacherId);
 
-    public Boolean putTeacherInfo(@Param("teacherId") Long teacherId, @Param("account") String account, @Param("teacher_name") String teacherName, @Param("email") String email);
+    TeacherEntity selectTeacherById(@Param("teacherId") Long teacherId);
 
-    public Boolean putTeacherPassword(@Param("teacherId") Long teacherId);
+    List<TeacherEntity> getAllTeacher();
 
-    public Boolean deleteTeacher(@Param("teacherId") Long teacherId);
+    List<TeacherEntity> searchTeacherByAccount(@Param("account") String identity);
 
-    public Boolean activateTeacher(@Param("teacherId") Long teacherId, @Param("password") String password);
+    List<TeacherEntity> searchTeacherByName(@Param("teacher_name") String identity);
 
-    public TeacherEntity selectTeacherById(@Param("teacherId") Long teacherId);
+    //***************待分离***************
+    Boolean activateTeacher(@Param("teacherId") Long teacherId, @Param("password") String password);
 
 }

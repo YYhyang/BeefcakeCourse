@@ -146,7 +146,12 @@ public class CourseController {
         JWTPayLoad jwtPayLoad=jwtDao.getJwtPayLoad(request);
         Long jwtStudentId=jwtPayLoad.getId();
         TeamEntity teamEntity = courseService.getMyTeam(courseId,jwtStudentId);
-        TeamVO myTeam = TeamEntityToTeamVO(teamEntity);
+        TeamVO myTeam=new TeamVO();
+        if(teamEntity==null){
+            myTeam.setId(Long.valueOf(-1));
+            return myTeam;
+        }
+         myTeam = TeamEntityToTeamVO(teamEntity);
         if(myTeam.getLeader()!=null&&myTeam.getLeader().getId().equals(jwtStudentId))
         {
             myTeam.setIsLeader("yes")
@@ -240,6 +245,7 @@ public class CourseController {
     public void createTeamShare(@PathVariable("courseId")Long courseId,@RequestBody ShareRequestIdDTO shareRequestIdDTO){
         courseService.createTeamShare(courseId,shareRequestIdDTO.getSubCourseId());
     }
+
 
     public TeamVO TeamEntityToTeamVO(TeamEntity teamEntity){
         TeamVO teamVO = new TeamVO();

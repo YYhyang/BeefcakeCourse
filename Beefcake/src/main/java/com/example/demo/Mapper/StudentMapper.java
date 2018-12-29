@@ -11,21 +11,23 @@ import java.util.List;
 @Component
 public interface StudentMapper {
 
-    public List<StudentEntity> getAllStudent();
+    void deleteStudent(@Param("studentId") Long studentId);
 
-    public List<StudentEntity> searchStudentByAccount(@Param("account") String identity);
+    Boolean putStudentInfo(@Param("studentId") Long studentId, @Param("account") String account, @Param("student_name") String studentName, @Param("email") String email);
 
-    public List<StudentEntity> searchStudentByName(@Param("student_name") String identity);
+    Boolean putStudentPassword(@Param("studentId") Long stduentId);
 
-    public Boolean putStudentInfo(@Param("studentId") Long studentId, @Param("account") String account, @Param("student_name") String studentName, @Param("email") String email);
+    StudentEntity selectStudentById(@Param("studentId") Long studentId);
 
-    public Boolean putStudentPassword(@Param("studentId") Long stduentId);
+    List<StudentEntity> getAllStudent();
 
-    public void deleteStudent(@Param("studentId") Long studentId);
+    List<StudentEntity> searchStudentByAccount(@Param("account") String identity);
 
-    public Boolean activateStudent(@Param("studentId") Long studentId, @Param("password") String password, @Param("email") String email);
+    List<StudentEntity> searchStudentByName(@Param("student_name") String identity);
 
-    public StudentEntity selectStudentById(@Param("studentId") Long studentId);
+
+    //************待分离*************
+    Boolean activateStudent(@Param("studentId") Long studentId, @Param("password") String password, @Param("email") String email);
 
 }
 

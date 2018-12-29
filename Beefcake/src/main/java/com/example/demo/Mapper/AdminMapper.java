@@ -8,6 +8,6 @@ import org.springframework.stereotype.Component;
 @Component
 public interface AdminMapper {
 
-    public String login(@Param("account") String account, @Param("password") String password);
+    String login(@Param("account") String account, @Param("password") String password);
 
 }

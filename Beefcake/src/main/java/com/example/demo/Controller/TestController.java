@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.dao.CourseDao;
+import com.example.demo.dao.TeamDao;
 import com.example.demo.entity.StudentEntity;
 import com.example.demo.mapper.*;
 import com.example.demo.sercurity.MyUserService;
@@ -26,6 +27,8 @@ public class TestController {
     CourseMapper courseMapper;
     @Autowired
     CourseDao courseDao;
+    @Autowired
+    TeamDao teamDao;
     @RequestMapping("hello")
     public String hello(){
         return "Hello spring security";
@@ -33,8 +36,8 @@ public class TestController {
     @RequestMapping("admin")
     public String admin(){return "Admin";}
     @RequestMapping(value = "/test1",method = RequestMethod.GET)
-    public StudentEntity test(@RequestParam("account")String account)
+    public boolean test(@RequestParam("teamId")Long teamId)
     {
-        return klassMapper.selectStudentByAccount(account);
+        return teamDao.beenApproved(teamId);
     }
 }

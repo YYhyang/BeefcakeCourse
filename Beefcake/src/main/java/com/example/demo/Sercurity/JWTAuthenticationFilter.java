@@ -35,7 +35,6 @@ public class JWTAuthenticationFilter extends BasicAuthenticationFilter {
             System.out.println("Token at Authentication"+authToken);
             JWTPayLoad jwtPayLoad=jwtService.verifyJwt(authToken);
             if(jwtPayLoad==null) {
-                System.out.println("jwtPayLoad is null at AuthenticationFilter");
             }
             if(jwtPayLoad!=null){
                 UserEntity user=jwtPayLoad.toUser();

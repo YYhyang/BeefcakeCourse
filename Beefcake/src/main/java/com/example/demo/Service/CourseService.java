@@ -122,6 +122,9 @@ public class CourseService {
                 break;
             }
         }
+        if(teamId==null){
+            return null;
+        }
         Long teamMainCourseId = courseDao.getTeamMainCourseId(courseId);
         TeamEntity myTeam;
         if(teamMainCourseId==null)

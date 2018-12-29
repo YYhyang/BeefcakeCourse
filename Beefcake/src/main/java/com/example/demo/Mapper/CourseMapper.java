@@ -12,30 +12,42 @@ import java.util.List;
 @Mapper
 @Component
 public interface CourseMapper {
-    public CourseEntity getCourseById(@Param("courseId") Long courseId);
 
-    public Long getTeacherId(@Param("courseId") Long courseId);
+    void createCourse(@Param("teacherId") Long teacherId, @Param("courseName") String courseName, @Param("introduction") String introduction, @Param("pPercent") int pPercent, @Param("qPercent") int qPercent, @Param("rPercent") int rPercent, @Param("teamStartTime") Date teamStartTime, @Param("teamEndTime") Date teamEndTime);
 
-    public Long getCourseId(@Param("teacherId") Long teacherId, @Param("courseName") String courseName);
+    void deleteTeamMainCourseId(@Param("courseId") Long courseId);
 
-    public Date getTeamEndTime(@Param("courseId") Long courseId);
+    void setTeamMainCourseId(@Param("courseId") Long courseId, @Param("teamMainCourseId") Long teamMainCourseId);
 
-    public void deleteCourse(@Param("courseId") Long courseId);
+    void deleteCourse(@Param("courseId") Long courseId);
 
-    public List<CourseEntity> getCoursesByTeacherId(@Param("teacherId") Long teacherId);
+    Long getTeacherId(@Param("courseId") Long courseId);
 
-    public void createCourse(@Param("teacherId") Long teacherId, @Param("courseName") String courseName, @Param("introduction") String introduction, @Param("pPercent") int pPercent, @Param("qPercent") int qPercent, @Param("rPercent") int rPercent, @Param("teamStartTime") Date teamStartTime, @Param("teamEndTime") Date teamEndTime);
+    Long getCourseId(@Param("teacherId") Long teacherId, @Param("courseName") String courseName);
 
-    public void deleteTeamMainCourseId(@Param("courseId") Long courseId);
+    Date getTeamEndTime(@Param("courseId") Long courseId);
 
+    Long getTeamMainCourseId(@Param("courseId") Long courseId);
 
-    public List<RoundEntity> getRoundByCourseId(@Param("courseId")Long courseId);
+    CourseEntity getCourseById(@Param("courseId") Long courseId);
 
-    public List<Long>getTeamIdByCourseId(@Param("courseId")Long courseId);
+    List<Long>getTeamIdByCourseId(@Param("courseId") Long courseId);
 
-    public void setTeamMainCourseId(@Param("courseId")Long courseId,@Param("teamMainCourseId")Long teamMainCourseId);
+    /**
+     * 获得某一教师创建的所有课程
+     *
+     * @param teacherId
+     * @return
+     */
+    List<CourseEntity> getCoursesByTeacherId(@Param("teacherId") Long teacherId);
 
-    public Long getTeamMainCourseId(@Param("courseId")Long courseId);
+    /**
+     * 获得所有课程
+     *
+     * @return
+     */
+    List<CourseEntity> getAllExistCourse();
 
-    public List<CourseEntity> getAllExistCourse();
+    List<RoundEntity> getRoundByCourseId(@Param("courseId") Long courseId);
+
 }

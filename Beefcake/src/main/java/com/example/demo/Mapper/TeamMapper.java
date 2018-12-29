@@ -16,47 +16,45 @@ import java.util.List;
 @Component
 public interface TeamMapper {
 
-    //public List<TeamSimpleVO> getTeamByCourseId(@Param("courseId")Long courseId);
+    void deleteTeamFromTeamStudent(@Param("teamId") Long teamId);
 
-    public boolean postTeam(@Param("klassId") Long klassId, @Param("courseId") Long courseId, @Param("leaderId") Long leaderId, @Param("teamName") String teamName
-                           , @Param("teamSerial")Integer teamSerial,@Param("klassSerial")Integer klassSerial);
+    void deleteTeamFromKlassTeam(@Param("teamId") Long teamId);
 
-    public boolean createTeamInKlassTeam(@Param("klassId")Long klassId,@Param("teamId")Long teamId);
+    void changeTeamStatus(@Param("teamId") Long teamId, @Param("status") int status);
 
-    public boolean createTeamInTeamStudent(@Param("teamId")Long teamId,@Param("studentId")Long studentId);
+    void deleteTeam(@Param("teamId") Long teamId);
 
-    public Long returnId(@Param("teamSerial") Integer teamSerial, @Param("klassSerial") Integer klassSerial);
+    boolean postTeam(@Param("klassId") Long klassId, @Param("courseId") Long courseId, @Param("leaderId") Long leaderId, @Param("teamName") String teamName
+            , @Param("teamSerial") Integer teamSerial, @Param("klassSerial") Integer klassSerial);
 
-    public TeamEntity getTeamById(@Param("teamId") Long teamId);
+    boolean createTeamInKlassTeam(@Param("klassId") Long klassId, @Param("teamId") Long teamId);
 
-    public void deleteTeam(@Param("teamId") Long teamId);
+    boolean createTeamInTeamStudent(@Param("teamId") Long teamId, @Param("studentId") Long studentId);
 
-    public void deleteTeamFromTeamStudent(@Param("teamId")Long teamId);
+    int getMaxTeamSerial(@Param("klassId") Long klassId);
 
-    public void deleteTeamFromKlassTeam(@Param("teamId")Long teamId);
+    Long returnId(@Param("teamSerial") Integer teamSerial, @Param("klassSerial") Integer klassSerial);
 
-    public void changeTeamStatus(@Param("teamId") Long teamId, @Param("status") int status);
+    TeamEntity getTeamById(@Param("teamId") Long teamId);
 
-    public List<Long> getAllTeamIdByKlassId(@Param("klassId") Long klassId);
+    MemberLimitStrategy getMemberLimit(@Param("strategyId") Long strategyId);
 
-    public MemberLimitStrategy getMemberLimit(@Param("strategyId")Long strategyId);
+    CourseMemberLimitStrategy getCourseMemberLimit(@Param("strategyId") Long strategyId);
 
-    public CourseMemberLimitStrategy getCourseMemberLimit(@Param("strategyId")Long strategyId);
+    List<Long> getMemberIdByCourseId(@Param("courseId") Long courseId, @Param("teamId") Long teamId);
 
-    public List<Long> getMemberIdByCourseId(@Param("courseId")Long courseId,@Param("teamId")Long teamId);
+    List<Long>getConflictCourseId(@Param("strategyId") Long strategyId);
 
-    public List<Long>getConflictCourseId(@Param("strategyId")Long strategyId);
+    List<Long> getAllTeamIdByKlassId(@Param("klassId") Long klassId);
 
-    public List<AndOrStrategy> getAndStrategy(@Param("strategyId")Long strategyId);
+    List<Long> getSomeMembersId(@Param("teamId") Long teamId, @Param("klassId") Long klassId);
 
-    public List<AndOrStrategy> getOrStrategy(@Param("strategyId")Long strategyId);
+    List<Long> getPartMembersId(@Param("teamId") Long teamId, @Param("courseId") Long courseId);
 
-    public List<TeamStrategy> getStrategyByCourseId(@Param("courseId")Long courseId);
+    List<AndOrStrategy> getAndStrategy(@Param("strategyId") Long strategyId);
 
-    public int getMaxTeamSerial(@Param("klassId")Long klassId);
+    List<AndOrStrategy> getOrStrategy(@Param("strategyId") Long strategyId);
 
-    public List<Long> getSomeMembersId(@Param("teamId")Long teamId,@Param("klassId")Long klassId);
-
-    List<Long> getPartMembersId(@Param("teamId")Long teamId,@Param("courseId")Long courseId);
+    List<TeamStrategy> getStrategyByCourseId(@Param("courseId") Long courseId);
 
 }

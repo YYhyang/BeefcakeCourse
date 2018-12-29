@@ -12,21 +12,23 @@ import java.util.List;
 @Component
 public interface KlassMapper {
 
-    public ClassEntity getKlassById(@Param("klassId")Long klassId);
+    void createKlass(@Param("courseId") Long courseId, @Param("grade") int grade, @Param("klassSerial") int klassSerial, @Param("klassTime") String klassTime, @Param("klassLocation") String klassLocation);
 
-    public List<Long> getAllKlassId(@Param("courseId")Long courseId);
+    void deleteKlass(@Param("klassId") Long klassId);
 
-    public void createKlass(@Param("courseId")Long courseId,@Param("grade")int grade,@Param("klassSerial")int klassSerial,@Param("klassTime")String klassTime,@Param("klassLocation")String klassLocation);
+    void insertStudentIntoKlassStudent(@Param("klassId") Long klassId, @Param("studentId") Long studentId, @Param("courseId") Long courseId);
 
-    public Long getKlassId(@Param("courseId")Long courseId,@Param("grade")int grade,@Param("klassSerial")int klassSerial);
+    boolean createStudent(@Param("account") String account, @Param("password") String password, @Param("isActive") int isActive, @Param("studentName") String studentName);
 
-    public Integer getKlassSerial(@Param("klassId")Long klassId);
+    Long getKlassId(@Param("courseId") Long courseId, @Param("grade") int grade, @Param("klassSerial") int klassSerial);
 
-    public void deleteKlass(@Param("klassId")Long klassId);
+    Integer getKlassSerial(@Param("klassId") Long klassId);
 
-    public StudentEntity selectStudentByAccount(@Param("account")String account);
+    StudentEntity selectStudentByAccount(@Param("account") String account);
 
-    public void insertStudentIntoKlassStudent(@Param("klassId")Long klassId,@Param("studentId")Long studentId,@Param("courseId")Long courseId);
+    ClassEntity getKlassById(@Param("klassId") Long klassId);
 
-    public boolean createStudent(@Param("account")String account,@Param("password")String password,@Param("isActive")int isActive,@Param("studentName")String studentName);
+    List<Long> getAllKlassId(@Param("courseId") Long courseId);
+
+
 }

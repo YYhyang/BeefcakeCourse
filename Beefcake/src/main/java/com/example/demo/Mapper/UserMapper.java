@@ -10,26 +10,25 @@ import org.springframework.stereotype.Component;
 @Mapper
 @Component
 public interface UserMapper {
-    public UserEntity findFromStudent(@Param("account") String account);
-    public UserEntity findFromTeacher(@Param("account") String account);
 
-    public StudentEntity studentForgetPassword(@Param("account")String account);
+    void studentChangePassword(@Param("account") String account, @Param("password") String password);
 
-    public TeacherEntity teacherForgetPassword(@Param("account")String account);
+    void teacherChangePassword(@Param("account") String account, @Param("password") String password);
 
-    public StudentEntity studentGetInfo(@Param("account")String account);
+    void studentChangeEmail(@Param("account") String account, @Param("email") String email);
 
-    public TeacherEntity teacherGetInfo(@Param("account")String account);
+    void teacherChangeEmail(@Param("account") String account, @Param("email") String email);
 
-    public void studentChangePassword(@Param("account")String account,@Param("password")String password);
+    UserEntity findFromStudent(@Param("account") String account);
 
-    public void teacherChangePassword(@Param("account")String account,@Param("password")String password);
+    UserEntity findFromTeacher(@Param("account") String account);
 
-    public void studentChangeEmail(@Param("account")String account,@Param("email")String email);
+    StudentEntity studentForgetPassword(@Param("account") String account);
 
-    public void teacherChangeEmail(@Param("account")String account,@Param("email")String email);
+    TeacherEntity teacherForgetPassword(@Param("account") String account);
 
-    public StudentEntity studentLogin(@Param("account")String account, @Param("password")String password);
+    StudentEntity studentGetInfo(@Param("account") String account);
 
-    public TeacherEntity teacherLogin(@Param("account")String account, @Param("password")String password);
+    TeacherEntity teacherGetInfo(@Param("account") String account);
+
 }

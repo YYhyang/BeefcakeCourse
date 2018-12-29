@@ -10,32 +10,70 @@ import java.util.List;
 @Component
 public interface AttendanceMapper {
 
-    //通过seminarId和classId获取klass_seminar_Id
-    public Long findKlassSeminarId(@Param("seminarId")Long seminarId,@Param("classId")Long classId);
+    /**
+     * 报名讨论课
+     *
+     * @param klassSeminarId
+     * @param presentationOrder
+     * @param teamId
+     * @return
+     */
+    boolean signUp(@Param("klassSeminarId") Long klassSeminarId, @Param("presentationOrder") int presentationOrder, @Param("teamId") Long teamId);
 
-    //查找这节课所有报名的小组信息
-    public List<AttendanceEntity> findAllTeam(@Param("klassSeminarId")Long klassSeminarId);
+    /**
+     * 修改报名顺序
+     *
+     * @param attendanceId
+     * @param presentationOrder
+     * @return
+     */
+    boolean changeOrder(@Param("attendanceId") Long attendanceId, @Param("presentationOrder") int presentationOrder);
 
-    //报名讨论课
-    public boolean signUp(@Param("klassSeminarId")Long klassSeminarId,@Param("presentationOrder")int presentationOrder,@Param("teamId")Long teamId);
+    /**
+     * 上传报告
+     *
+     * @param attendanceId
+     * @param reportName
+     * @param reportUrl
+     * @return
+     */
+    boolean postReport(@Param("attendanceId") Long attendanceId, @Param("report_name") String reportName, @Param("report_url") String reportUrl);
 
-    //修改报名顺序
+    /**
+     * 取消报名
+     *
+     * @param attendanceId
+     * @return
+     */
+    boolean deleteSignUp(@Param("attendanceId") Long attendanceId);
 
-    public boolean changeOrder(@Param("attendanceId")Long attendanceId,@Param("presentationOrder")int presentationOrder);
+    boolean setStatus(@Param("attendanceId") Long attendanceId, @Param("status") int status);
 
-    //上传报告
-    public boolean postReport(@Param("attendanceId")Long attendanceId,@Param("report_name")String reportName,@Param("report_url")String reportUrl);
+    /**
+     * 通过seminarId和classId获取klass_seminar_Id
+     *
+     * @param seminarId
+     * @param classId
+     * @return
+     */
+    Long findKlassSeminarId(@Param("seminarId") Long seminarId, @Param("classId") Long classId);
 
-    //取消报名
+    AttendanceEntity getAttendanceById(@Param("attendanceId") Long attendanceId);
 
-    public boolean deleteSignUp(@Param("attendanceId")Long attendanceId);
+    /**
+     * 查找这节课所有报名的小组信息
+     *
+     * @param klassSeminarId
+     * @return
+     */
+    List<AttendanceEntity> findAllTeam(@Param("klassSeminarId") Long klassSeminarId);
 
-    public Long getCourseBySeminarId(@Param("seminarId")Long seminarId);
 
-    public boolean setStatus(@Param("attendanceId")Long attendanceId, @Param("status")int status);
 
-    public AttendanceEntity getAttendanceById(@Param("attendanceId")Long attendanceId);
+    //**************未调用 待处理*******************
 
-    public boolean startPresentation(@Param("attendanceId")Long attendanceId);
+    Long getCourseBySeminarId(@Param("seminarId") Long seminarId);
+
+    boolean startPresentation(@Param("attendanceId") Long attendanceId);
 
 }

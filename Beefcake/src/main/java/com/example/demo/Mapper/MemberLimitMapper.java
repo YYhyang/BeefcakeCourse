@@ -6,6 +6,9 @@ import org.springframework.stereotype.Component;
 @Mapper
 @Component
 public interface MemberLimitMapper {
-    public int getMax();
-    public int getMin();
+
+    int getMax();
+
+    int getMin();
+
 }

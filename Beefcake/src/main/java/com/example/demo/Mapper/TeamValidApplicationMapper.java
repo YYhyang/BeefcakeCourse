@@ -10,12 +10,16 @@ import java.util.List;
 @Mapper
 @Component
 public interface TeamValidApplicationMapper {
-    public void createRequest(@Param("teamId") Long teamId, @Param("teacherId") Long teacherId, @Param("reason") String reason);
 
-    public void changeApplicationStatus(@Param("teamId") Long teamId, @Param("status") int status);
+    void createRequest(@Param("teamId") Long teamId, @Param("teacherId") Long teacherId, @Param("reason") String reason);
 
-    public List<TeamValidApplicationEntity>  getTeamValidRequests(@Param("teacherId") Long teacherId);
+    void changeApplicationStatus(@Param("teamId") Long teamId, @Param("status") int status);
 
-    public TeamValidApplicationEntity getTeamValidRequest(@Param("requestId") Long requestId);
+    TeamValidApplicationEntity getTeamValidRequest(@Param("requestId") Long requestId);
+
+    List<TeamValidApplicationEntity>  getTeamValidRequests(@Param("teacherId") Long teacherId);
+
+    public Long haveApplication(@Param("teamId")Long teamId);
+
 
 }

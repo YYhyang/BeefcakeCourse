@@ -25,8 +25,6 @@ public class TeamService {
     @Autowired
     private CourseDao courseDao;
     @Autowired
-    private MemberLimitDao memberLimitDao;
-    @Autowired
     private TeamValidApplicationDao teamValidApplicationDao;
     @Autowired
     private KlassDao klassDao;
@@ -95,20 +93,24 @@ public class TeamService {
     }//添加成员 待异常处理
 
     public void deleteTeamMember(Long teamId, Long studentId) {
-        TeamEntity team = teamDao.getTeamById(teamId);
+        //如果组长退出，则小组解散
+        if (studentId.equals(teamDao.getTeamById(teamId).getLeader().getId())) {
+            deleteTeam(teamId);
+            return;
+        }
         klassStudentDao.deleteTeamMember(studentId, teamId);
         if(!isValid(teamId))
         {
             teamDao.changeTeamStatus(teamId,0);
         }
-        //如果组长退出，则小组解散
-        if (studentId.equals(teamDao.getTeamById(teamId).getLeader().getId())) {
-            deleteTeam(teamId);
-        }
     }//删除成员 待异常处理
 
     public boolean isValid(Long teamId)//判断小组是否合法
     {
+        if(teamDao.beenApproved(teamId))
+        {
+            return false;
+        }
         TeamEntity team = getTeamById(teamId);
         Long courseId = team.getCourse().getId();
         List<TeamStrategy> strategies = teamDao.getStrategyByCourseId(courseId);
