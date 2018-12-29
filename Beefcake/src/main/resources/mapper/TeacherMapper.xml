@@ -5,39 +5,39 @@
 <mapper namespace="com.example.demo.mapper.TeacherMapper">
 
     <insert id="createTeacher">
-        insert into teacher(account,password,is_active,teacher_name,email) values(#{account},#{password},0,#{teacher_name},#{email})
+        insert into teacher(account,password,is_active,teacher_name,email) values(#{account},#{password},0,#{teacher_name},#{email});
     </insert>
 
     <select id="getAllTeacher" resultType="com.example.demo.entity.TeacherEntity">
-        SELECT * FROM teacher
+        SELECT * FROM teacher;
+    </select>
+
+    <select id="selectTeacherById" resultType="com.example.demo.entity.TeacherEntity">
+        SELECT * FROM teacher WHERE id=#{teacherId};
     </select>
 
     <select id="searchTeacherByAccount" resultType="com.example.demo.entity.TeacherEntity">
-        SELECT * FROM teacher WHERE account =#{account}
+        SELECT * FROM teacher WHERE account =#{account};
     </select>
 
     <select id="searchTeacherByName" resultType="com.example.demo.entity.TeacherEntity">
-        SELECT * FROM teacher WHERE teacher_name =#{teacher_name}
+        SELECT * FROM teacher WHERE teacher_name =#{teacher_name};
     </select>
 
     <update id="putTeacherInfo" >
-        update teacher set account=#{account},teacher_name=#{teacher_name},email=#{email} where id=${teacherId}
+        update teacher set account=#{account},teacher_name=#{teacher_name},email=#{email} where id=${teacherId};
     </update>
 
     <update id="putTeacherPassword">
-        update teacher set password="123456" where id=${teacherId}
+        update teacher set password="123456" where id=${teacherId};
+    </update>
+
+    <update id="activateTeacher">
+        update teacher set is_active=1,password=#{password} where id=#{teacherId};
     </update>
 
     <delete id="deleteTeacher">
-        delete FROM teacher where id=${teacherId}
+        delete from teacher where id=${teacherId};
     </delete>
-
-    <update id="activateTeacher">
-        update teacher set is_active=1,password=#{password} where id=#{teacherId}
-    </update>
-
-    <select id="selectTeacherById" resultType="com.example.demo.entity.TeacherEntity">
-        SELECT * FROM teacher WHERE id=#{teacherId}
-    </select>
 
 </mapper>

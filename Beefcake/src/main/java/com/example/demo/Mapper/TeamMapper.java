@@ -16,7 +16,7 @@ import java.util.List;
 @Component
 public interface TeamMapper {
 
-    public List<TeamSimpleVO> getTeamByCourseId(@Param("courseId")Long courseId);
+    //public List<TeamSimpleVO> getTeamByCourseId(@Param("courseId")Long courseId);
 
     public boolean postTeam(@Param("klassId") Long klassId, @Param("courseId") Long courseId, @Param("leaderId") Long leaderId, @Param("teamName") String teamName
                            , @Param("teamSerial")Integer teamSerial,@Param("klassSerial")Integer klassSerial);

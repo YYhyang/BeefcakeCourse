@@ -15,42 +15,45 @@
         <association property="team" column="team_id" select="CommonMapper.selectTeam"/>
     </resultMap>
 
-    <select id="findKlassSeminarId" resultType="java.lang.Long">
-        SELECT id FROM klass_seminar WHERE klass_id=#{classId} AND seminar_id=#{seminarId}
-    </select>
 
-    <select id="getCourseBySeminarId" resultType="java.lang.Long">
-        SELECT course_id FROM seminar WHERE id=#{seminarId}
-    </select>
+    <insert id="signUp">
+        insert into attendance(klass_seminar_id,team_id,team_order) values(#{klassSeminarId},#{teamId},#{presentationOrder});
+    </insert>
 
     <select id="findAllTeam" resultMap="AttendanceMap">
-        SELECT * FROM attendance WHERE klass_seminar_id= #{klassSeminarId} ORDER BY team_order ASC
+        select * from attendance where klass_seminar_id= #{klassSeminarId} order by team_order asc;
     </select>
 
     <select id="getAttendanceById" resultMap="AttendanceMap">
-        select * from attendance where id=#{attendanceId}
+        select * from attendance where id=#{attendanceId};
     </select>
 
-    <insert id="signUp">
-        insert into attendance(klass_seminar_id,team_id,team_order) values(#{klassSeminarId},#{teamId},#{presentationOrder})
-    </insert>
-
     <update id="postReport">
-        update attendance set report_name=#{report_name},report_url=#{report_url} where id=#{attendanceId}
+        update attendance set report_name=#{report_name},report_url=#{report_url} where id=#{attendanceId};
     </update>
 
     <update id="changeOrder">
-        update attendance set team_order=#{presentationOrder} where id=#{attendanceId}
+        update attendance set team_order=#{presentationOrder} where id=#{attendanceId};
     </update>
 
     <update id="setStatus">
-        update attendance set is_present=#{status} where id=#{attendanceId}
+        update attendance set is_present=#{status} where id=#{attendanceId};
     </update>
 
     <delete id="deleteSignUp">
-        DELETE FROM attendance WHERE id=#{attendanceId}
+        delete from attendance where id=#{attendanceId};
     </delete>
 
 
+    <!--klass_seminar表-->
+    <select id="findKlassSeminarId" resultType="java.lang.Long">
+        SELECT id FROM klass_seminar WHERE klass_id=#{classId} AND seminar_id=#{seminarId};
+    </select>
+
+
+    <!--seminar表-->
+    <select id="getCourseBySeminarId" resultType="java.lang.Long">
+        SELECT course_id FROM seminar WHERE id=#{seminarId};
+    </select>
 
 </mapper>

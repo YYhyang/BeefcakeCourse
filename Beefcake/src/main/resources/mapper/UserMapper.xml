@@ -20,51 +20,51 @@
     </resultMap>
 
     <select id="findFromStudent" resultMap="StudentMap">
-        select id,account,password,is_active,student_name from student where account=#{account}
+        select id,account,password,is_active,student_name from student where account=#{account};
     </select>
 
     <select id="findFromTeacher" resultMap="TeacherMap">
-        select id,account,password,is_active,teacher_name from teacher where account=#{account}
+        select id,account,password,is_active,teacher_name from teacher where account=#{account};
     </select>
 
     <select id="studentLogin" resultType="com.example.demo.entity.StudentEntity">
-        SELECT * FROM student WHERE account=#{account} AND password=#{password}
+        SELECT * FROM student WHERE account=#{account} AND password=#{password};
     </select>
 
     <select id="teacherLogin" resultType="com.example.demo.entity.TeacherEntity">
-        SELECT * FROM teacher WHERE account=#{account} AND password=#{password}
+        SELECT * FROM teacher WHERE account=#{account} AND password=#{password};
     </select>
 
     <select id="studentForgetPassword" resultType="com.example.demo.entity.StudentEntity">
-        SELECT * FROM  student WHERE account=#{account}
+        SELECT * FROM  student WHERE account=#{account};
     </select>
 
     <select id="teacherForgetPassword" resultType="com.example.demo.entity.TeacherEntity">
-        SELECT * FROM  teacher WHERE account=#{account}
+        SELECT * FROM  teacher WHERE account=#{account};
     </select>
 
     <select id="studentGetInfo" resultType="com.example.demo.entity.StudentEntity">
-        SELECT * FROM student WHERE account=#{account}
+        SELECT * FROM student WHERE account=#{account};
     </select>
 
     <select id="teacherGetInfo" resultType="com.example.demo.entity.TeacherEntity">
-        SELECT * FROM teacher WHERE account=#{account}
+        SELECT * FROM teacher WHERE account=#{account};
     </select>
 
     <select id="studentChangePassword">
-        UPDATE student SET password=#{password} WHERE account=#{account}
+        UPDATE student SET password=#{password} WHERE account=#{account};
     </select>
 
     <select id="teacherChangePassword">
-        UPDATE teacher SET password=#{password} WHERE account=#{account}
+        UPDATE teacher SET password=#{password} WHERE account=#{account};
     </select>
 
     <select id="studentChangeEmail">
-        UPDATE student SET email=#{email} WHERE account=#{account}
+        UPDATE student SET email=#{email} WHERE account=#{account};
     </select>
 
     <select id="teacherChangeEmail">
-        UPDATE teacher SET email=#{email} WHERE account=#{account}
+        UPDATE teacher SET email=#{email} WHERE account=#{account};
     </select>
 
 </mapper>

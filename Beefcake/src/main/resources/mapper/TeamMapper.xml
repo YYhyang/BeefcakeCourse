@@ -2,82 +2,87 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.example.demo.mapper.TeamMapper">
-    <select id="getTeamById" resultMap="CommonMapper.TeamMap">
-        SELECT * FROM team WHERE id=#{teamId}
-    </select>
-
-    <select id="getTeamByCourseId" resultType="com.example.demo.vo.TeamSimpleVO">
-        select id,team_name,team_serial,klass_serial from team where course_id=#{courseId}
-    </select>
-
-    <select id="getAllTeamIdByKlassId" resultType="java.lang.Long">
-        select id from team where klass_id=#{klassId}
-    </select>
 
     <insert id="postTeam">
         INSERT into team(klass_id,course_id,leader_id,team_name,team_serial,klass_serial,status)
-        values (#{param1},#{param2},#{param3},#{param4},#{param5},#{param6},1)
+        values (#{param1},#{param2},#{param3},#{param4},#{param5},#{param6},1);
     </insert>
-    
+
+    <select id="getAllTeamIdByKlassId" resultType="java.lang.Long">
+        select id from team where klass_id=#{klassId};
+    </select>
+
+    <select id="returnId" resultType="java.lang.Long">
+        select id from team where team_serial=#{param1} and klass_serial=#{param2};
+    </select>
+
+    <select id="getMaxTeamSerial" resultType="java.lang.Integer">
+        select max(team_serial) from team where klass_id=#{klassId};
+    </select>
+
+    <select id="getTeamById" resultMap="CommonMapper.TeamMap">
+        SELECT * FROM team WHERE id=#{teamId};
+    </select>
+
+    <update id="changeTeamStatus">
+        update team set status=#{status} where id=#{teamId};
+    </update>
+
+    <delete id="deleteTeam">
+        delete from team where id=#{teamId};
+    </delete>
+
+
+    <!--klass_team表-->
     <insert id="createTeamInKlassTeam">
         insert into klass_team (klass_id,team_id) values (#{param1},#{param2});
     </insert>
 
+    <delete id="deleteTeamFromKlassTeam">
+        delete from klass_team where team_id=#{teamId};
+    </delete>
+
+
+    <!--team_student表-->
     <insert id="createTeamInTeamStudent">
         insert into team_student(team_id,student_id) values (#{param1},#{param2});
     </insert>
 
-    <delete id="deleteTeam">
-        delete from team where id=#{teamId}
-    </delete>
-
     <delete id="deleteTeamFromTeamStudent">
-        delete from team_student where team_id=#{teamId}
+        delete from team_student where team_id=#{teamId};
     </delete>
 
-    <delete id="deleteTeamFromKlassTeam">
-        delete from klass_team where team_id=#{teamId}
-    </delete>
 
-    <update id="changeTeamStatus">
-        update team set status=#{status} where id=#{teamId}
-    </update>
-
+    <!--strategy相关表-->
     <select id="getMemberLimit" resultType="com.example.demo.strategy.MemberLimitStrategy">
-        select * from member_limit_strategy where id=#{strategyId}
+        select * from member_limit_strategy where id=#{strategyId};
     </select>
 
     <select id="getConflictCourseId" resultType="java.lang.Long">
-        select course_id from conflict_course_strategy where id=#{strategyId}
+        select course_id from conflict_course_strategy where id=#{strategyId};
     </select>
 
     <select id="getCourseMemberLimit" resultType="com.example.demo.strategy.CourseMemberLimitStrategy">
-        select * from course_member_limit_strategy where id=#{strategyId}
-    </select>
-
-    <select id="getMemberIdByCourseId" resultType="java.lang.Long">
-        select team_student.student_id from team_student LEFT JOIN klass_student on team_student.student_id=klass_student.student_id
-        where klass_student.course_id=#{courseId} and team_student.team_id=#{teamId}
+        select * from course_member_limit_strategy where id=#{strategyId};
     </select>
 
     <select id="getAndStrategy" resultType="com.example.demo.strategy.AndOrStrategy">
-        select * from team_and_strategy where id=#{strategyId}
+        select * from team_and_strategy where id=#{strategyId};
     </select>
 
     <select id="getOrStrategy" resultType="com.example.demo.strategy.AndOrStrategy">
-        select * from team_or_strategy where id=#{strategyId}
+        select * from team_or_strategy where id=#{strategyId};
     </select>
 
     <select id="getStrategyByCourseId" resultType="com.example.demo.strategy.TeamStrategy">
-        select course_id,strategy_name,strategy_id from team_strategy where course_id=#{courseId}
+        select course_id,strategy_name,strategy_id from team_strategy where course_id=#{courseId};
     </select>
 
-    <select id="getMaxTeamSerial" resultType="java.lang.Integer">
-        select max(team_serial) from team where klass_id=#{klassId}
-    </select>
 
-    <select id="returnId" resultType="java.lang.Long">
-        select id from team where team_serial=#{param1} and klass_serial=#{param2}
+    <!--连表查询-->
+    <select id="getMemberIdByCourseId" resultType="java.lang.Long">
+        select team_student.student_id from team_student LEFT JOIN klass_student on team_student.student_id=klass_student.student_id
+        where klass_student.course_id=#{courseId} and team_student.team_id=#{teamId};
     </select>
 
     <select id="getSomeMembersId" resultType="java.lang.Long">

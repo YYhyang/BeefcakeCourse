@@ -15,20 +15,20 @@
     </resultMap>
 
 
+    <insert id="askQuestion">
+        insert into question(klass_seminar_id,attendance_id,team_id,student_id) values (#{klassSeminarId},#{attendanceId},#{teamId},#{studentId});
+    </insert>
+
     <select id="getAllQuestion" resultMap="QuestionMap">
-        SELECT * FROM question WHERE klass_seminar_id=#{klassSeminarId} and is_selected=1
+        SELECT * FROM question WHERE klass_seminar_id=#{klassSeminarId} and is_selected=1;
     </select>
 
     <select id="getQuestion" resultMap="QuestionMap">
-        SELECT * FROM question WHERE attendance_id=#{param1} and team_id!=#{param2} and is_selected=0 ORDER BY RAND() LIMIT 1
+        SELECT * FROM question WHERE attendance_id=#{param1} and team_id!=#{param2} and is_selected=0 ORDER BY RAND() LIMIT 1;
     </select>
 
-    <insert id="askQuestion">
-        insert into question(klass_seminar_id,attendance_id,team_id,student_id) values (#{klassSeminarId},#{attendanceId},#{teamId},#{studentId})
-    </insert>
-
     <update id="score">
-        update question set score=#{score},is_selected=1 where id=#{questionId}
+        update question set score=#{score},is_selected=1 where id=#{questionId};
     </update>
 
 </mapper>

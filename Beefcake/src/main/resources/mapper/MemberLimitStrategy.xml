@@ -3,10 +3,12 @@
 
 <mapper namespace="com.example.demo.mapper.MemberLimitMapper">
     <select id="getMax" resultType="int">
-        select max_member from member_limit_strategy
+
+        select max_member from member_limit_strategy;
     </select>
 
     <select id="getMin" resultType="int">
-        select min_member from member_limit_strategy
+        select min_member from member_limit_strategy;
     </select>
+
 </mapper>

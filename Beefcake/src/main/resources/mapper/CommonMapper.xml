@@ -48,24 +48,27 @@
     </resultMap>
 
     <select id="selectStudent" resultType="com.example.demo.entity.StudentEntity">
-        SELECT * FROM student WHERE id=#{id}
+        SELECT * FROM student WHERE id=#{id};
     </select>
 
     <select id="selectTeacher" resultType="com.example.demo.entity.TeacherEntity">
-        SELECT * FROM teacher WHERE id=#{id}
+        SELECT * FROM teacher WHERE id=#{id};
     </select>
 
     <select id="selectCourse" resultMap="CourseMap">
-        SELECT * FROM course WHERE id=#{id}
+        SELECT * FROM course WHERE id=#{id};
     </select>
 
     <select id="selectRound" resultMap="RoundMap">
-        SELECT * FROM round WHERE id=#{id}
+        SELECT * FROM round WHERE id=#{id};
     </select>
+
     <select id="selectClass" resultMap="ClassMap">
-        SELECT * FROM klass WHERE id=#{id}
+        SELECT * FROM klass WHERE id=#{id};
     </select>
+
     <select id="selectTeam" resultMap="TeamMap">
-        SELECT * FROM team WHERE id=#{id}
+        SELECT * FROM team WHERE id=#{id};
     </select>
+
 </mapper>

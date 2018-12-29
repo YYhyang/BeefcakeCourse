@@ -5,35 +5,35 @@
 <mapper namespace="com.example.demo.mapper.StudentMapper">
 
     <select id="getAllStudent" resultType="com.example.demo.entity.StudentEntity" >
-        SELECT * FROM student
+        SELECT * FROM student;
+    </select>
+
+    <select id="selectStudentById" resultType="com.example.demo.entity.StudentEntity">
+        SELECT * FROM student WHERE id=#{studentId};
     </select>
 
     <select id="searchStudentByAccount" resultType="com.example.demo.entity.StudentEntity" >
-        SELECT * FROM student WHERE account =#{account }
+        SELECT * FROM student WHERE account =#{account };
     </select>
 
     <select id="searchStudentByName" resultType="com.example.demo.entity.StudentEntity">
-        SELECT * FROM student WHERE student_name =#{student_name }
+        SELECT * FROM student WHERE student_name =#{student_name };
     </select>
 
     <update id="putStudentInfo">
-        update student set account=#{account},student_name=#{student_name},email=#{email} where id=${studentId}
+        update student set account=#{account},student_name=#{student_name},email=#{email} where id=${studentId};
     </update>
 
     <update id="putStudentPassword">
-        update student set password="123456" where id=${studentId}
+        update student set password="123456" where id=${studentId};
+    </update>
+
+    <update id="activateStudent">
+        update student set is_active=1,password=#{password},email=#{email} where id=${studentId};
     </update>
 
     <delete id="deleteStudent">
-        delete FROM student where id=${studentId}
+        delete FROM student where id=${studentId};
     </delete>
-
-    <update id="activateStudent">
-        update student set is_active=1,password=#{password},email=#{email} where id=${studentId}
-    </update>
-
-    <select id="selectStudentById" resultType="com.example.demo.entity.StudentEntity">
-        SELECT * FROM student WHERE id=#{studentId}
-    </select>
 
 </mapper>

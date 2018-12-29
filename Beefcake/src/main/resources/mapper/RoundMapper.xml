@@ -24,53 +24,60 @@
         <association property="round" column="round_id" select="CommonMapper.selectRound"/>
         <association property="team" column="team_id" select="CommonMapper.selectTeam"/>
     </resultMap>
-    <select id="finaAllSeminarByRoundId" resultMap="seminarMap">
-        select * from seminar where round_id=#{roundId} and is_visible=1
-    </select>
 
-    <select id="getRoundByRoundId" resultMap="CommonMapper.RoundMap">
-        SELECT * FROM round WHERE id=#{roundId}
-    </select>
 
-    <select id="getAllRoundScoreByRoundIdAndTeamId" resultMap="RoundScoreMap">
-        SELECT * FROM round_score WHERE round_id=#{param1} AND team_id=#{param2}
-    </select>
-
-    <select id="getAllRoundScoreByRoundId" resultMap="RoundScoreMap">
-        SELECT * FROM round_score WHERE round_id=#{roundId}
-    </select>
+    <insert id="createRound">
+        insert into round(course_id,round_serial,presentation_score_method,report_score_method,question_score_method) values(#{arg1},#{arg0},0,0,0);
+    </insert>
 
     <select id="getAllRoundId" resultType="java.lang.Long">
-        select id from round where course_id=#{courseId}
+        select id from round where course_id=#{courseId};
     </select>
 
     <select id="returnId" resultType="java.lang.Long">
-        select id from round where course_id=#{param1} and round_serial=#{param2}
+        select id from round where course_id=#{param1} and round_serial=#{param2};
     </select>
 
-    <insert id="createRound">
-        insert into round(course_id,round_serial,presentation_score_method,report_score_method,question_score_method) values(#{arg1},#{arg0},0,0,0)
-    </insert>
-
-
-    <insert id="createSignUpnum">
-        insert into klass_round(klass_id,round_id,enroll_number) values (#{param1},#{param2},1)
-    </insert>
+    <select id="getRoundByRoundId" resultMap="CommonMapper.RoundMap">
+        SELECT * FROM round WHERE id=#{roundId};
+    </select>
 
     <update id="changeRoundInfo">
-        update round set presentation_score_method=#{param2},report_score_method=#{param3},question_score_method=#{param4} where id=#{param1}
+        update round set presentation_score_method=#{param2},report_score_method=#{param3},question_score_method=#{param4} where id=#{param1};
     </update>
+
+
+    <!--seminar表-->
+    <select id="finaAllSeminarByRoundId" resultMap="seminarMap">
+        select * from seminar where round_id=#{roundId} and is_visible=1;
+    </select>
+
+
+    <!--round_score表-->
+    <select id="getAllRoundScoreByRoundIdAndTeamId" resultMap="RoundScoreMap">
+        SELECT * FROM round_score WHERE round_id=#{param1} AND team_id=#{param2};
+    </select>
+
+    <select id="getAllRoundScoreByRoundId" resultMap="RoundScoreMap">
+        SELECT * FROM round_score WHERE round_id=#{roundId};
+    </select>
 
     <update id="changeRoundScore">
-        update round_score set presentation_score=#{param3},report_score=#{param4},question_score=#{param5},total_score=#{param6} where round_id=#{param1} and team_id=#{param2}
+        update round_score set presentation_score=#{param3},report_score=#{param4},question_score=#{param5},total_score=#{param6} where round_id=#{param1} and team_id=#{param2};
     </update>
 
-    <update id="changeSignUpnum">
-        update klass_round set enroll_number=#{param3} WHERE klass_id=#{param1} AND round_id=#{param2}
-    </update>
 
+    <!--klass_round表-->
     <insert id="createEnrollNumber">
         insert into klass_round (klass_id,round_id,enroll_number) values (#{param1},#{param2},#{param3});
     </insert>
+
+    <insert id="createSignUpnum">
+        insert into klass_round(klass_id,round_id,enroll_number) values (#{param1},#{param2},1);
+    </insert>
+
+    <update id="changeSignUpnum">
+        update klass_round set enroll_number=#{param3} WHERE klass_id=#{param1} AND round_id=#{param2};
+    </update>
 
 </mapper>
