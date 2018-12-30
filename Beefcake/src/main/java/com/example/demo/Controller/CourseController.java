@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.dto.CourseDTO;
+import com.example.demo.dto.CourseMemberLimitDTO;
 import com.example.demo.dto.KlassDTO;
 import com.example.demo.dto.ShareRequestIdDTO;
 import com.example.demo.dao.CourseDao;
@@ -10,6 +11,9 @@ import com.example.demo.entity.*;
 import com.example.demo.sercurity.JWTPayLoad;
 import com.example.demo.service.CourseService;
 import com.example.demo.service.KlassService;
+import com.example.demo.service.TeacherService;
+import com.example.demo.strategy.CourseMemberLimitStrategy;
+import com.example.demo.strategy.MemberLimitStrategy;
 import com.example.demo.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -33,11 +37,13 @@ public class CourseController {
     JwtDao jwtDao;
     @Autowired
     CourseDao courseDao;
+    @Autowired
+    TeacherService teacherService;
 
     @RequestMapping(value = "/course",method = RequestMethod.POST)//创建课程
-    public IdVO createCourse(@RequestBody CourseDTO course,HttpServletRequest request)
+    public boolean createCourse(@RequestBody CourseDTO courseDTO,HttpServletRequest request)
     {
-        SimpleDateFormat sim=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        /*SimpleDateFormat sim=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         try {
             Long id = courseService.createCourse(course.getName(), course.getIntro(), course.getPresentationWeight(),
                     course.getQuestionWeight(), course.getReportWeight(), sim.parse(course.getStartTeamTime()), sim.parse(course.getEndTeamTime()),request);
@@ -52,8 +58,37 @@ public class CourseController {
             IdVO idVO = new IdVO();
             idVO.setId(id);
             return idVO;
+        }*/
+
+        JWTPayLoad jwtPayLoad=jwtDao.getJwtPayLoad(request);
+        Long jwtTeacherid = jwtPayLoad.getId();
+        if(jwtTeacherid!=null){
+
+            TeacherEntity teacher=teacherService.getTeacherById(jwtTeacherid);
+
+            //添加课程
+            CourseEntity course=new CourseEntity(courseDTO);
+            course.setTeacher(teacher);
+            //记录组队人数限制策略
+            MemberLimitStrategy memberLimitStrategy=new MemberLimitStrategy();
+            memberLimitStrategy.setMax_member(courseDTO.getTeamMaxMember());
+            memberLimitStrategy.setMin_member(courseDTO.getTeamMinMember());
+
+            //记录选修课人数限制策略
+            List<CourseMemberLimitDTO> courseMemberLimitDTOList=courseDTO.getCourseMemberLimitDTOList();
+            List<CourseMemberLimitStrategy> courseMemberLimitStrategyList=new ArrayList<>();
+            for(CourseMemberLimitDTO courseMemberLimitDTO:courseMemberLimitDTOList){
+                CourseMemberLimitStrategy courseMemberLimitStrategy=new CourseMemberLimitStrategy(courseMemberLimitDTO);
+                courseMemberLimitStrategyList.add(courseMemberLimitStrategy);
+            }
+            //记录选修课人数限制策略之间的关系
+            Integer relation=courseDTO.getRelation();
+            //记录冲突课程
+            List<List<Long>> conflictCourseLists=courseDTO.getConfictCourseLists();
+            return courseService.createCourse(course,memberLimitStrategy,courseMemberLimitStrategyList,relation,conflictCourseLists);
         }
-    } //冲突课程待处理
+        return false;
+    }
 
     @RequestMapping(value = "/course",method = RequestMethod.GET)
     public List<GetAllCourseVO> getCourse(HttpServletRequest request)

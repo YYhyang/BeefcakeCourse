@@ -2,8 +2,10 @@ package com.example.demo.service;
 
 import com.example.demo.dao.*;
 import com.example.demo.entity.*;
+import com.example.demo.mapper.StrategyMapper;
 import com.example.demo.mapper.TeamMapper;
 import com.example.demo.sercurity.JWTPayLoad;
+import com.example.demo.strategy.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -31,17 +33,90 @@ public class CourseService {
     @Autowired
     private JwtDao jwtDao;
     @Autowired
-    private TeamMapper teamMapper;
-    @Autowired
     private ShareTeamApplicationDao shareTeamApplicationDao;
     @Autowired
     private TeamDao teamDao;
+    @Autowired
+    private CourseMemberLimitStrategyDao courseMemberLimitStrategyDao;
+    @Autowired
+    private StrategyService strategyService;
+    @Autowired
+    private TeamOrStrategyDao teamOrStrategyDao;
+    @Autowired
+    private TeamAndStrategyDao teamAndStrategyDao;
+    @Autowired
+    private TeamStrategyDao teamStrategyDao;
+    @Autowired
+    private StrategyMapper strategyMapper;
+    @Autowired
+    private ConflictCourseStrategyDao conflictCourseStrategyDao;
 
-    public Long createCourse(String courseName, String introduction, int pPercent, int qPercent, int rPercent, Date teamStartTime, Date teamEndTime, HttpServletRequest request){
-        JWTPayLoad jwtPayLoad=jwtDao.getJwtPayLoad(request);
+
+    public boolean createCourse(CourseEntity course, MemberLimitStrategy memberLimitStrategy,
+                             List<CourseMemberLimitStrategy>courseMemberLimitStrategyList,
+                             Integer relation,List<List<Long>>conflictCourseLists){
+        /*JWTPayLoad jwtPayLoad=jwtDao.getJwtPayLoad(request);
         Long jwtTeacherId = jwtPayLoad.getId();
         courseDao.createCourse(jwtTeacherId,courseName,introduction,pPercent,qPercent,rPercent,teamStartTime,teamEndTime);
-        return courseDao.getCourseId(jwtTeacherId,courseName);
+        return courseDao.getCourseId(jwtTeacherId,courseName);*/
+        boolean status=true;
+        //添加课程(有sql)
+        status=courseDao.addCourse(course)==false?false:status;
+
+        status=strategyMapper.addMemberLimitStrategy(memberLimitStrategy);
+
+        //记录选修课人数限制策略(有sql)
+        if(courseMemberLimitStrategyList!=null&&!courseMemberLimitStrategyList.isEmpty()){
+            for(CourseMemberLimitStrategy courseMemberLimitStrategy:courseMemberLimitStrategyList){
+                status=courseMemberLimitStrategyDao.addCourseMemberLimitStrategy(courseMemberLimitStrategy)==false?false:true;
+            }
+            if(relation==0){
+                //0表示满足其一，或关系
+                //将已经插入的选修课人数限制策略之间的或关系存在team_or_strategy表中
+                String strategyName=new String("CourseMemberLimitStrategy");
+                List<TeamOrStrategy> teamOrStrategyList=strategyService.getTeamOrStrategyList(strategyName,courseMemberLimitStrategyList);
+                List<TeamOrStrategy> returnTeamOrStrategyList=teamOrStrategyDao.addTeamOrStrategyList(teamOrStrategyList);
+
+                //组队人数和选修课人数限制策略是与关系
+                String strategyName2=new String("TeamOrStrategy");
+                List<TeamAndStrategy> teamAndStrategyList=strategyService.getTeamAndStrategyList1(memberLimitStrategy,returnTeamOrStrategyList);
+                List<TeamAndStrategy> returnTeamAndStrategyList=teamAndStrategyDao.addTeamAndStrategyList(teamAndStrategyList);
+
+                //将策略加到team_stategy表中
+                TeamStrategyAdd teamStrategyAdd=strategyService.getTeamStrategyAdd(course,returnTeamAndStrategyList);
+                status=teamStrategyDao.addTeamStrategy(teamStrategyAdd)==false?false:true;
+
+
+            }else{
+                //1表示均满足，与关系
+                //将已经插入的选修人数限制策略之间的与关系存在team_and_strategy表中
+                String strategyName=new String("CourseMemberLimitStrategy");
+                List<TeamAndStrategy> teamAndStrategyList=strategyService.getTeamAndStrategyList(strategyName,courseMemberLimitStrategyList);
+                List<TeamAndStrategy> returnTeamAndStrategyList=teamAndStrategyDao.addTeamAndStrategyList(teamAndStrategyList);
+
+                //组队人数限制策略和选修课人数限制策略是与关系
+                List<TeamAndStrategy> teamAndStrategyList1=strategyService.getTeamAndStrategyList2(memberLimitStrategy,returnTeamAndStrategyList);
+                List<TeamAndStrategy> returnTeamAndStrategyList2=teamAndStrategyDao.addTeamAndStrategyList(teamAndStrategyList1);
+
+                //将策略加到team_strategy表中
+                TeamStrategyAdd teamStrategyAdd=strategyService.getTeamStrategyAdd(course,returnTeamAndStrategyList2);
+                status=teamStrategyDao.addTeamStrategy(teamStrategyAdd);
+            }
+        }else{
+            TeamStrategyAdd teamStrategyAdd=strategyService.getTeamStrategyAdd(course,memberLimitStrategy);
+            status=teamStrategyDao.addTeamStrategy(teamStrategyAdd);
+        }
+
+        //记录冲突课程
+        if(conflictCourseLists!=null&&!conflictCourseLists.isEmpty()){
+            for(List<Long> conflictCourseList:conflictCourseLists){
+                List<ConflictCourseStrategy> conflictCourseStrategyList=strategyService.getConflictCourseStrategyList(conflictCourseList);
+                List<ConflictCourseStrategy>returnConflictCourseStrategyList=conflictCourseStrategyDao.addConflictCourseStrategyList(conflictCourseStrategyList);
+                TeamStrategyAdd teamStrategyAdd=strategyService.getTeamStrategyAdd2(course,returnConflictCourseStrategyList);
+                status=teamStrategyDao.addTeamStrategy(teamStrategyAdd);
+            }
+        }
+        return status;
     }
 
 

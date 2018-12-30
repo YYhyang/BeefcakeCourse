@@ -10,7 +10,7 @@ import java.util.List;
 @Component
 public interface KlassStudentMapper {
 
-    void addTeamMember(@Param("klassId") Long klassId, @Param("studentId") Long studentId, @Param("teamId") Long teamId);
+    void addTeamMember( @Param("studentId") Long studentId, @Param("teamId") Long teamId);
 
     void deleteTeamMember(@Param("studentId") Long studentId, @Param("teamId") Long teamId);
 

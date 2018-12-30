@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.mapper.TeamStrategyMapper">
+    <resultMap id="ConflictCourseStrategyResultMap" type="com.example.demo.strategy.TeamStrategyAdd">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="strategy_name" property="strategyName" jdbcType="VARCHAR" />
+
+        <collection property="strategyList" column="strategy_id"
+                    select="com.example.demo.mapper.StrategyMapper.selectConflictCourseStrategyById"/>
+    </resultMap>
+
+
+    <resultMap id="MemberLimitStrategyResultMap" type="com.example.demo.strategy.TeamStrategyAdd">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="strategy_name" property="strategyName" jdbcType="VARCHAR" />
+
+        <collection property="strategyList" column="strategy_id"
+                    select="com.example.demo.mapper.StrategyMapper.selectMemberLimitStrategyById"/>
+    </resultMap>
+
+
+    <resultMap id="CourseMemberLimitStrategyResultMap" type="com.example.demo.strategy.TeamStrategyAdd">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="strategy_name" property="strategyName" jdbcType="VARCHAR" />
+
+        <collection property="strategyList" column="strategy_id"
+                    select="com.example.demo.mapper.StrategyMapper.selectCourseMemberLimitStrategyById"/>
+    </resultMap>
+
+
+    <resultMap id="TeamAndStrategyResultMap" type="com.example.demo.strategy.TeamStrategyAdd">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="strategy_name" property="strategyName" jdbcType="VARCHAR" />
+
+        <collection property="strategyList" column="strategy_id"
+                    select="com.example.demo.mapper.TeamAndStrategyMapper.selectTeamAndStrategyById"/>
+    </resultMap>
+
+
+    <resultMap id="TeamOrStrategyResultMap" type="com.example.demo.strategy.TeamStrategyAdd">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="strategy_name" property="strategyName" jdbcType="VARCHAR" />
+
+        <collection property="strategyList" column="strategy_id"
+                    select="com.example.demo.mapper.TeamOrStrategyMapper.selectTeamOrStrategyById"/>
+    </resultMap>
+
+    <resultMap id="BaseResultMap" type="com.example.demo.strategy.TeamStrategyAdd">
+        <result column="strategy_serial" property="strategySerial" jdbcType="TINYINT"/>
+        <result column="strategy_name" property="strategyName" jdbcType="VARCHAR" />
+
+        <association property="course" select="CommomMapper.selectCourse"
+                     column="course_id" javaType="com.example.demo.entity.CourseEntity"/>
+        <discriminator javaType="java.lang.String" column="strategy_name">
+            <case value="ConflictCourseStrategy" resultMap="ConflictCourseStrategyResultMap"/>
+            <case value="MemberLimitStrategy" resultMap="MemberLimitStrategyResultMap"/>
+            <case value="CourseMemberLimitStrategy" resultMap="CourseMemberLimitStrategyResultMap"/>
+            <case value="TeamAndStrategy" resultMap="TeamAndStrategyResultMap"/>
+            <case value="TeamOrStrategy" resultMap="TeamOrStrategyResultMap"/>
+        </discriminator>
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+    course_id,strategy_serial,strategy_name,strategy_id
+    </sql>
+
+    <select id="selectTeamStrategyByCourseId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from team_strategy
+        where course_id = #{courseId,jdbcType=BIGINT}
+    </select>
+
+    <insert id="addTeamStrategy">
+        insert into team_strategy(course_id,strategy_serial,strategy_name,strategy_id) values (#{param1},#{param2},#{param3},#{param4})
+    </insert>
+</mapper>

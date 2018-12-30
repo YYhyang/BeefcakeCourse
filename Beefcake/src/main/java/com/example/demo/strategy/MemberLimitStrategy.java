@@ -9,8 +9,7 @@ import java.util.List;
 
 @Data
 @NoArgsConstructor
-public class MemberLimitStrategy {
-    private Long id;
+public class MemberLimitStrategy extends Strategy {
     private int min_member;
     private int max_member;
 

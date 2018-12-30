@@ -31,7 +31,7 @@ public class TeamService {
     @Autowired
     private JwtDao jwtDao;
 
-   public Long postTeam(Long klassId, Long courseId, String teamName, List<TeamMemberDTO>members, HttpServletRequest request) {
+   public Long postTeam(Long klassId, Long courseId, String teamName, List<Long>memberIds, HttpServletRequest request) {
        JWTPayLoad jwtPayLoad=jwtDao.getJwtPayLoad(request);
        Long jwtLeaderId = jwtPayLoad.getId();
         Integer teamSerial=teamDao.getMaxTeamSerial(klassId)+1;
@@ -43,8 +43,8 @@ public class TeamService {
 
         boolean create=teamDao.createTeamInKlassTeam(klassId,teamId);
 
-        for(TeamMemberDTO member:members){
-            teamDao.createTeamInTeamStudent(teamId,member.getId());
+        for(Long memberId:memberIds){
+            teamDao.createTeamInTeamStudent(teamId,memberId);
         }
         teamDao.createTeamInTeamStudent(teamId,jwtLeaderId);
         boolean valid=isValid(teamId);
@@ -85,7 +85,7 @@ public class TeamService {
     }//删除队伍 待异常处理
 
     public void addTeamMember(Long teamId, Long studentId) {
-        klassStudentDao.addTeamMember(teamDao.getTeamById(teamId).getKlass().getId(), studentId, teamId);
+        klassStudentDao.addTeamMember( studentId, teamId);
         if(!isValid(teamId))
         {
             teamDao.changeTeamStatus(teamId,0);
@@ -148,7 +148,6 @@ public class TeamService {
     public void teamValidRequest(Long teamId, Long courseId, String reason){
         if (teamDao.getTeamById(teamId).getStatus()==0) {
             teamValidApplicationDao.createRequest(teamId, courseDao.getCourseById(courseId).getTeacher().getId(), reason);
-            teamDao.changeTeamStatus(teamId,2);
         }//不合法才能申请
 
     }

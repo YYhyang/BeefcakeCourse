@@ -20,8 +20,8 @@ public class KlassStudentDao {
         return klassStudentMapper.getStudentIdByTeamId(teamId);
     }//返回所有在该小组的学生id
 
-    public void addTeamMember(Long klassId, Long studentId, Long teamId){
-        klassStudentMapper.addTeamMember(klassId,studentId,teamId);
+    public void addTeamMember(Long studentId, Long teamId){
+        klassStudentMapper.addTeamMember(studentId,teamId);
     }//为某班级下的某学生增加小组信息
 
     public void deleteTeamMember(Long studentId, Long teamId){

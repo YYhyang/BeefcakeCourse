@@ -19,7 +19,7 @@
 
     <!--team_student表-->
     <insert id="addTeamMember">
-        insert into  team_student(team_id,student_id) values(#{param3},#{param2});
+        insert into  team_student(team_id,student_id) values(#{param2},#{param1});
     </insert>
 
     <select id="getStudentIdByTeamId" resultType="java.lang.Long">
@@ -27,7 +27,7 @@
     </select>
 
     <delete id="deleteTeamMember">
-        delete from team_student  where team_id=#{teamId} and student_id=#{studentId};
+        delete from team_student  where team_id=#{param2} and student_id=#{param1};
     </delete>
 
 

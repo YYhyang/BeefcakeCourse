@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.mapper.CourseMemberLimitStrategyMapper">
+
+
+    <insert id="addCourseMemberLimitStrategy" useGeneratedKeys="true" keyProperty="id" >
+        insert into course_member_limit_strategy
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="course_id != null" >
+                course_id,
+            </if>
+            <if test="min_member != null" >
+                min_member,
+            </if>
+            <if test="max_member != null" >
+                max_member,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="course_id != null" >
+                #{course_id,jdbcType=BIGINT},
+            </if>
+            <if test="min_member != null" >
+                #{min_member,jdbcType=TINYINT},
+            </if>
+            <if test="max_member != null" >
+                #{max_member,jdbcType=TINYINT},
+            </if>
+        </trim>
+    </insert>
+</mapper>

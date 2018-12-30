@@ -13,13 +13,16 @@ import java.util.List;
 @Component
 public interface CourseMapper {
 
-    void createCourse(@Param("teacherId") Long teacherId, @Param("courseName") String courseName, @Param("introduction") String introduction, @Param("pPercent") int pPercent, @Param("qPercent") int qPercent, @Param("rPercent") int rPercent, @Param("teamStartTime") Date teamStartTime, @Param("teamEndTime") Date teamEndTime);
 
     void deleteTeamMainCourseId(@Param("courseId") Long courseId);
 
     void setTeamMainCourseId(@Param("courseId") Long courseId, @Param("teamMainCourseId") Long teamMainCourseId);
 
     void deleteCourse(@Param("courseId") Long courseId);
+
+    boolean addCourse(CourseEntity course);
+
+    boolean createCourse(@Param("teacherId") Long teacherId, @Param("courseName") String courseName, @Param("introduction") String introduction, @Param("pPercent") int pPercent, @Param("qPercent") int qPercent, @Param("rPercent") int rPercent, @Param("teamStartTime") String teamStartTime, @Param("teamEndTime") String teamEndTime);
 
     Long getTeacherId(@Param("courseId") Long courseId);
 

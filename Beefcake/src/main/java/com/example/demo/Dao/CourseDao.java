@@ -14,10 +14,6 @@ public class CourseDao {
     @Autowired
     private CourseMapper courseMapper;
 
-    public void createCourse(Long teacherId,String courseName,String introduction,int pPercent,int qPercent,int rPercent,Date teamStartTime,Date teamEndTime){
-        courseMapper.createCourse(teacherId,courseName,introduction,pPercent,qPercent,rPercent,teamStartTime,teamEndTime);
-    }
-
     public List<Long>getTeamIdByCourseId(Long courseId){return courseMapper.getTeamIdByCourseId(courseId);}
 
     public Long getTeacherId(Long courseId){
@@ -56,5 +52,9 @@ public class CourseDao {
 
     public List<CourseEntity> getAllExistCourse(){
         return courseMapper.getAllExistCourse();
+    }
+
+    public boolean addCourse(CourseEntity course){
+        return courseMapper.addCourse(course);
     }
 }

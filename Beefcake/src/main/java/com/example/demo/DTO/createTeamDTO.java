@@ -11,5 +11,5 @@ public class createTeamDTO {
     private String teamName;
     private Long courseId;
     private Long klassId;
-    private List<TeamMemberDTO> members;
+    private List<Long> members;
 }

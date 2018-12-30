@@ -7,6 +7,7 @@
         insert into course (teacher_id,course_name,introduction,presentation_percentage,question_percentage,report_percentage,team_start_time,team_end_time) values (#{teacherId},#{courseName},#{introduction},#{pPercent},#{qPercent},#{rPercent},#{teamStartTime},#{teamEndTime});
     </insert>
 
+
     <select id="getCourseId" resultType="java.lang.Long">
         select id from course where teacher_id=#{teacherId} and course_name=#{courseName};
     </select>
@@ -63,5 +64,77 @@
         select klass_team.team_id from klass_team LEFT JOIN klass_student on klass_team.klass_id=klass_student.klass_id
         where klass_student.course_id=#{courseId} group by klass_team.team_id;
     </select>
+
+
+
+
+
+    <insert id="addCourse" useGeneratedKeys="true" keyProperty="id" >
+        insert into course
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="teacher != null" >
+                teacher_id,
+            </if>
+            <if test="course_name != null" >
+                course_name,
+            </if>
+            <if test="introduction != null" >
+                introduction,
+            </if>
+            <if test="presentation_percentage != null" >
+                presentation_percentage,
+            </if>
+            <if test="question_percentage != null" >
+                question_percentage,
+            </if>
+            <if test="report_percentage != null" >
+                report_percentage,
+            </if>
+            <if test="team_start_time != null" >
+                team_start_time,
+            </if>
+            <if test="team_end_time != null" >
+                team_end_time,
+            </if>
+            <if test="team_main_course_id!=null">
+                team_main_course_id,
+            </if>
+            <if test="seminar_main_course_id!=null">
+                seminar_main_course_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="teacher != null" >
+                #{teacher.id,jdbcType=BIGINT},
+            </if>
+            <if test="course_name != null" >
+                #{course_name,jdbcType=VARCHAR},
+            </if>
+            <if test="introduction != null" >
+                #{introduction,jdbcType=VARCHAR},
+            </if>
+            <if test="presentation_percentage != null" >
+                #{presentation_percentage,jdbcType=BIT},
+            </if>
+            <if test="question_percentage != null" >
+                #{question_percentage,jdbcType=BIT},
+            </if>
+            <if test="report_percentage != null" >
+                #{report_percentage,jdbcType=BIT},
+            </if>
+            <if test="team_start_time != null" >
+                #{team_start_time,jdbcType=TIMESTAMP},
+            </if>
+            <if test="team_end_time != null" >
+                #{team_end_time,jdbcType=TIMESTAMP},
+            </if>
+            <if test="team_main_course_id!=null">
+                #{team_main_course_id,jdbcType=BIGINT}
+            </if>
+            <if test="seminar_main_course_id!=null">
+                #{seminar_main_course_id,jdbcType=BIGINT}
+            </if>
+        </trim>
+    </insert>
 
 </mapper>

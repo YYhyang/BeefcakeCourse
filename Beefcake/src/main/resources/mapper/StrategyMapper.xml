@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.mapper.StrategyMapper" >
+
+    <resultMap id="ConflictMap" type="com.example.demo.strategy.ConflictCourseStrategy" >
+        <id column="id" property="id" jdbcType="BIGINT" />
+
+        <association property="course" select="CommonMapper.selectCourse"
+                     column="course_id"/>
+    </resultMap>
+
+    <sql id="Confilct_Column_List" >
+    id, course_id
+    </sql>
+
+    <resultMap id="MemberLimitMap" type="com.example.demo.strategy.MemberLimitStrategy" >
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="min_member" property="min_member" jdbcType="TINYINT"/>
+        <result column="max_member" property="max_member" jdbcType="TINYINT"/>
+    </resultMap>
+
+    <sql id="MemberLimit_Column_List" >
+    id, min_member,max_member
+  </sql>
+
+    <resultMap id="CourseMemberLimitMap" type="com.example.demo.strategy.CourseMemberLimitStrategy" >
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="min_member" property="min_member" jdbcType="TINYINT"/>
+        <result column="max_member" property="max_member" jdbcType="TINYINT"/>
+        <result column="course_id" property="course_id"/>
+    </resultMap>
+    <sql id="CourseMemberLimit_Column_List" >
+    id, course_id,min_member,max_member
+  </sql>
+
+
+
+
+
+
+    <select id="selectConflictCourseStrategyById" resultMap="ConflictMap" parameterType="java.lang.Long" >
+        select
+        <include refid="Confilct_Column_List" />
+        from conflict_course_strategy
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <select id="selectMemberLimitStrategyById" resultMap="MemberLimitMap" parameterType="java.lang.Long" >
+        select
+        <include refid="MemberLimit_Column_List" />
+        from member_limit_strategy
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <select id="selectCourseMemberLimitStrategyById" resultMap="CourseMemberLimitMap" parameterType="java.lang.Long" >
+        select
+        <include refid="CourseMemberLimit_Column_List" />
+        from course_member_limit_strategy
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <select id="getMaxConflictId" resultType="java.lang.Long">
+        select max(id) from conflict_course_strategy
+    </select>
+
+    <insert id="addConflictCourseStrategy" parameterType="com.example.demo.strategy.ConflictCourseStrategy" >
+        insert into conflict_course_strategy
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null">
+                id,
+            </if>
+            <if test="course != null" >
+                course_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="course != null" >
+                #{course.id,jdbcType=BIGINT},
+            </if>
+        </trim>
+    </insert>
+
+    <insert id="addMemberLimitStrategy" useGeneratedKeys="true" keyProperty="id" >
+        insert into member_limit_strategy
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="min_member != null" >
+                min_member,
+            </if>
+            <if test="max_member != null" >
+                max_member,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="min_member != null" >
+                #{min_member,jdbcType=TINYINT},
+            </if>
+            <if test="max_member != null" >
+                #{max_member,jdbcType=TINYINT},
+            </if>
+        </trim>
+    </insert>
+
+</mapper>
