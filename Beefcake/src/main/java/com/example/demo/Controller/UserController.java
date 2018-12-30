@@ -45,19 +45,21 @@ public class UserController {
     }
 
     @RequestMapping(value = "/user/password",method = RequestMethod.PUT)//修改密码
-    public void changePassword( @RequestParam("password") String password,HttpServletRequest request)
+    public boolean changePassword( @RequestParam("password") String password,HttpServletRequest request)
     {
         JWTPayLoad jwtPayLoad=jwtDao.getJwtPayLoad(request);
         String jwtAccount = jwtPayLoad.getUsername();
         userService.changePassword(jwtAccount,password);
+        return true;
     }
 
     @RequestMapping(value = "/user/email",method = RequestMethod.PUT)//修改邮箱
-    public void changeEmail( @RequestParam("email") String email,HttpServletRequest request)
+    public boolean changeEmail( @RequestParam("email") String email,HttpServletRequest request)
     {
         JWTPayLoad jwtPayLoad=jwtDao.getJwtPayLoad(request);
         String jwtAccount = jwtPayLoad.getUsername();
         userService.changeEmail(jwtAccount,email);
+        return true;
     }
 
 }

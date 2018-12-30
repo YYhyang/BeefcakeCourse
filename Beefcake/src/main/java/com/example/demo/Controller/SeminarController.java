@@ -57,6 +57,12 @@ public class SeminarController {
         return seminarService.deleteSeminar(seminarId);
     }
 
+    @RequestMapping(value = "/seminar/{seminarId}/class/{classId}",method = RequestMethod.DELETE)
+    public boolean deleteSeminarFromKlassSeminar(@PathVariable("seminarId")Long seminarId,@PathVariable("classId")Long classId)
+    {
+        return seminarService.deleteSeminarFromKlassSeminar(seminarId,classId);
+    }
+
     @RequestMapping(value = "/seminar/{seminarId}",method = RequestMethod.GET)//获取某节讨论课（测试成功）
     public SeminarInfoVO getSeminar(@PathVariable("seminarId")Long seminarId)
     {

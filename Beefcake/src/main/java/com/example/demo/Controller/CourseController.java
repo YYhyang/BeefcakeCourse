@@ -189,10 +189,10 @@ public class CourseController {
          myTeam = TeamEntityToTeamVO(teamEntity);
         if(myTeam.getLeader()!=null&&myTeam.getLeader().getId().equals(jwtStudentId))
         {
-            myTeam.setIsLeader("yes")
+            myTeam.setIsLeader("true")
             ;}
         else{
-            myTeam.setIsLeader("no");}
+            myTeam.setIsLeader("false");}
         return myTeam;
     }
 
@@ -202,8 +202,25 @@ public class CourseController {
     {
         List<StudentEntity> studentEntities = courseService.getNoTeamStudents(courseId);
         List<StudentInTeamVO> students = new ArrayList<>();
-        for(StudentEntity studentEntity:studentEntities){
-            students.add(StudentEntityToStudentInTeamVO(studentEntity));
+        if(studentEntities.size()>0) {
+
+            for (StudentEntity studentEntity : studentEntities) {
+                students.add(StudentEntityToStudentInTeamVO(studentEntity));
+            }
+        }
+        return students;
+    }
+
+    @RequestMapping(value = "/course/{courseId}/noTeamStudent",method = RequestMethod.GET)
+    public List<StudentInTeamVO> getNoTeam(@PathVariable("courseId")Long courseId,@RequestParam("info")String info)
+    {
+        List<StudentEntity> studentEntities = courseService.getNoTeamStudents(courseId,info);
+        List<StudentInTeamVO> students = new ArrayList<>();
+        if(studentEntities.size()>0) {
+
+            for (StudentEntity studentEntity : studentEntities) {
+                students.add(StudentEntityToStudentInTeamVO(studentEntity));
+            }
         }
         return students;
     }

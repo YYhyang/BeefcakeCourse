@@ -214,10 +214,23 @@ public class CourseService {
     }
 
     public List<StudentEntity> getNoTeamStudents(Long courseId){
-        List<Long> noTeamStudentsId = klassStudentDao.getNoTeamStudentsId(courseId);
+        List<Long> noTeamStudentId = klassStudentDao.getNoTeamStudentId(courseId);
         List<StudentEntity> studentEntities = new ArrayList<>();
-        for(Long studentId:noTeamStudentsId){
+        for(Long studentId:noTeamStudentId) {
             studentEntities.add(studentDao.selectStudentById(studentId));
+        }
+        return studentEntities;
+    }
+
+    public List<StudentEntity> getNoTeamStudents(Long courseId,String info){
+        List<Long> noTeamStudentId = klassStudentDao.getNoTeamStudentId(courseId);
+        List<StudentEntity> studentEntities = new ArrayList<>();
+        for(Long studentId:noTeamStudentId) {
+            StudentEntity studentEntity = studentDao.selectStudentById(studentId);
+            if(String.valueOf(studentEntity.getAccount()).equals(info)||studentEntity.getStudent_name().equals(info))
+            {
+                studentEntities.add(studentEntity);
+            }
         }
         return studentEntities;
     }

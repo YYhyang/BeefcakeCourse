@@ -8,6 +8,7 @@ import com.example.demo.dao.SeminarDao;
 import com.example.demo.entity.ClassEntity;
 import com.example.demo.entity.SeminarEntity;
 import com.example.demo.entity.SeminarScoreEntity;
+import com.example.demo.mapper.SeminarMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -23,6 +24,8 @@ public class SeminarService {
     private KlassDao klassDao;
     @Autowired
     private RoundService roundService;
+    @Autowired
+    private SeminarMapper seminarMapper;
 
     public boolean createSeminar(CreateSeminarDTO createSeminarDTO)
     {
@@ -117,5 +120,10 @@ public class SeminarService {
             }
         }
         return true;
+    }
+
+    public boolean deleteSeminarFromKlassSeminar(Long seminarId,Long classId)
+    {
+        return seminarMapper.deleteKlassSeminar(classId,seminarId);
     }
 }

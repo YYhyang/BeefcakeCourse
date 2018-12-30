@@ -27,7 +27,7 @@ public class TeamController {
 
     @RequestMapping(value="/team",method = RequestMethod.POST)  //新建队伍
     public Long postTeam(@RequestBody createTeamDTO team, HttpServletRequest request){
-        return teamService.postTeam(team.getKlassId(),team.getCourseId(),team.getTeamName(),team.getMembers(),request);
+        return teamService.postTeam(team.getCourseId(),team.getTeamName(),team.getMembers(),request);
     }
 
     @RequestMapping(value="/team/{teamId}",method = RequestMethod.GET)  //获取队伍信息(测试通过）

@@ -31,9 +31,10 @@ public class TeamService {
     @Autowired
     private JwtDao jwtDao;
 
-   public Long postTeam(Long klassId, Long courseId, String teamName, List<Long>memberIds, HttpServletRequest request) {
+   public Long postTeam( Long courseId, String teamName, List<Long>memberIds, HttpServletRequest request) {
        JWTPayLoad jwtPayLoad=jwtDao.getJwtPayLoad(request);
        Long jwtLeaderId = jwtPayLoad.getId();
+       Long klassId=klassStudentDao.getKlassIdByStudentId(courseId,jwtLeaderId);
         Integer teamSerial=teamDao.getMaxTeamSerial(klassId)+1;
         Integer klassSerial=klassDao.getKlassSerial(klassId);
 

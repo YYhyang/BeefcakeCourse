@@ -37,4 +37,9 @@
         team_student.team_id where klass_team.klass_id=#{klassId} and team_student.student_id=#{studentId};
     </select>
 
+    <select id="getNoTeamStudentId" resultType="java.lang.Long">
+        select klass_student.student_id from klass_student left join team_student on klass_student.student_id=
+        team_student.student_id where team_student.team_id is null group by klass_student.student_id;
+    </select>
+
 </mapper>

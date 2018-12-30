@@ -34,11 +34,11 @@ public class KlassStudentDao {
         return klassStudentMapper.getTeamId(klassId,studentId);
     }//只能用班级和学生查询
 
-    public List<Long> getNoTeamStudentsId(Long courseId){
-        return klassStudentMapper.getNoTeamStudentsId(courseId);
-    }
-
     public List<Long> getCoursesIdByStudentId(Long studentId){
         return klassStudentMapper.getCoursesIdByStudentId(studentId);
+    }
+
+    public List<Long> getNoTeamStudentId(Long courseId){
+        return klassStudentMapper.getNoTeamStudentId(courseId);
     }
 }

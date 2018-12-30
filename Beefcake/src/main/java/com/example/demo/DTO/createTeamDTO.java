@@ -10,6 +10,5 @@ import java.util.List;
 public class createTeamDTO {
     private String teamName;
     private Long courseId;
-    private Long klassId;
     private List<Long> members;
 }

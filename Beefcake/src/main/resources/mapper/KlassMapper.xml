@@ -3,6 +3,15 @@
 
 <mapper namespace="com.example.demo.mapper.KlassMapper">
 
+    <resultMap id="ClassMap" type="com.example.demo.entity.ClassEntity">
+        <id column="id" property="id"/>
+        <result column="grade" property="grade"/>
+        <result column="klass_serial" property="klass_serial"/>
+        <result column="klass_time" property="klass_time"/>
+        <result column="klass_location" property="klass_location"/>
+        <association property="course" column="course_id" select="CommonMapper.selectCourse"/>
+    </resultMap>
+
     <insert id="createKlass">
         insert into klass(course_id,grade,klass_serial,klass_time,klass_location) values (#{courseId},#{grade},#{klassSerial},#{klassTime},#{klassLocation})
     </insert>
@@ -19,7 +28,7 @@
         select klass_serial from klass where id=#{klassId};
     </select>
 
-    <select id="getKlassById" resultType="com.example.demo.entity.ClassEntity">
+    <select id="getKlassById" resultMap="ClassMap">
         select * from klass where id=#{klassId};
     </select>
 

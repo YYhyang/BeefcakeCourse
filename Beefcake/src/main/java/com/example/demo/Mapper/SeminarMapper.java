@@ -22,6 +22,8 @@ public interface SeminarMapper {
 
     boolean deleteSeminar(@Param("seminarId") Long seminarId);
 
+    boolean deleteKlassSeminar(@Param("klassId")Long klassId,@Param("seminarId")Long seminarId);
+
     boolean insertIntoKlassSeminar(@Param("klassId") Long klassId, @Param("seminarId") Long seminarId, @Param("status") int status);
 
     boolean changeReportDDL(@Param("seminarId") Long seminarId, @Param("classId") Long classId, @Param("reportDDL") Date reportDDL);

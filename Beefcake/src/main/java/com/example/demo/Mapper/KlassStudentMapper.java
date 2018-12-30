@@ -36,8 +36,7 @@ public interface KlassStudentMapper {
 
     List<Long> getCoursesIdByStudentId(@Param("studentId") Long studentId);
 
-    //************待修改***************
-    List<Long> getNoTeamStudentsId(@Param("courseId") Long courseId);
+    List<Long> getNoTeamStudentId(@Param("courseId")Long courseId);
 
     //*********未实现************
     Long selectTeamMember(@Param("teamId") Long teamId, @Param("studentId") Long studentId);

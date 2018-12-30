@@ -61,6 +61,10 @@
         delete from seminar where id=#{seminarId};
     </delete>
 
+    <delete id="deleteKlassSeminar">
+        delete from klass_seminar where klass_id=#{param1} and seminar_id=#{param2}
+    </delete>
+
 
     <!--seminar_score表-->
     <insert id="setPresentationScore">

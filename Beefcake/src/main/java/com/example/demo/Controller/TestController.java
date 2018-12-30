@@ -38,6 +38,6 @@ public class TestController {
     @RequestMapping(value = "/test1",method = RequestMethod.GET)
     public boolean test(@RequestParam("teamId")Long teamId)
     {
-        return teamDao.beenApproved(teamId);
+        return teamService.isValid(teamId);
     }
 }
