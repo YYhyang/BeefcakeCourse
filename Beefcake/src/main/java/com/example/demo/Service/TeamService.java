@@ -91,6 +91,10 @@ public class TeamService {
         {
             teamDao.changeTeamStatus(teamId,0);
         }
+        else
+        {
+            teamDao.changeTeamStatus(teamId,1);
+        }
     }//添加成员 待异常处理
 
     public void deleteTeamMember(Long teamId, Long studentId) {
@@ -103,6 +107,10 @@ public class TeamService {
         if(!isValid(teamId))
         {
             teamDao.changeTeamStatus(teamId,0);
+        }
+        else
+        {
+            teamDao.changeTeamStatus(teamId,1);
         }
     }//删除成员 待异常处理
 
@@ -149,6 +157,7 @@ public class TeamService {
     public void teamValidRequest(Long teamId, Long courseId, String reason){
         if (teamDao.getTeamById(teamId).getStatus()==0) {
             teamValidApplicationDao.createRequest(teamId, courseDao.getCourseById(courseId).getTeacher().getId(), reason);
+            teamDao.changeTeamStatus(teamId,2);
         }//不合法才能申请
 
     }

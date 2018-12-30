@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.dao.JwtDao;
 import com.example.demo.dto.StudentIdDTO;
 import com.example.demo.dto.TeamRequestDTO;
 import com.example.demo.dto.createTeamDTO;
@@ -7,6 +8,7 @@ import com.example.demo.entity.ClassEntity;
 import com.example.demo.entity.CourseEntity;
 import com.example.demo.entity.StudentEntity;
 import com.example.demo.entity.TeamEntity;
+import com.example.demo.sercurity.JWTPayLoad;
 import com.example.demo.service.TeamService;
 import com.example.demo.vo.CourseInTeamVO;
 import com.example.demo.vo.GetTeamByIdVO;
@@ -24,6 +26,8 @@ public class TeamController {
 
     @Autowired
     private TeamService teamService;
+    @Autowired
+    private JwtDao jwtDao;
 
     @RequestMapping(value="/team",method = RequestMethod.POST)  //新建队伍
     public Long postTeam(@RequestBody createTeamDTO team, HttpServletRequest request){
@@ -87,9 +91,17 @@ public class TeamController {
         return true;
     }
 
-    @RequestMapping(value="/team/{teamId}/remove",method = RequestMethod.PUT)  //移除成员和退出队伍(测试通过）
+    @RequestMapping(value="/team/{teamId}/remove",method = RequestMethod.PUT)  //移除成员
     public boolean removeTeam(@PathVariable("teamId") Long teamId, @RequestBody StudentIdDTO student  ){
         teamService.deleteTeamMember(teamId,student.getId());
+        return true;
+    }
+
+    @RequestMapping(value="/team/{teamId}/quit",method = RequestMethod.PUT)  //退出（解散小组）
+    public boolean quitTeam(@PathVariable("teamId") Long teamId, HttpServletRequest request){
+        JWTPayLoad jwtPayLoad=jwtDao.getJwtPayLoad(request);
+        Long jwtStudentId=jwtPayLoad.getId();
+        teamService.deleteTeamMember(teamId,jwtStudentId);
         return true;
     }
 

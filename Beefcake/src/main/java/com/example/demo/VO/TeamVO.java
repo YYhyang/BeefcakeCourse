@@ -9,7 +9,8 @@ import java.util.List;
 @NoArgsConstructor
 public class TeamVO {
     Long id;
-    String name;
+    String serial_name;
+    String team_name;
     Integer status;
     StudentInTeamVO leader;
     List<StudentInTeamVO> members;

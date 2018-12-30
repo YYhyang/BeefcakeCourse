@@ -187,10 +187,9 @@ public class CourseController {
             return myTeam;
         }
          myTeam = TeamEntityToTeamVO(teamEntity);
-        if(myTeam.getLeader()!=null&&myTeam.getLeader().getId().equals(jwtStudentId))
+        if(myTeam.getLeader().getId().equals(jwtStudentId))
         {
-            myTeam.setIsLeader("true")
-            ;}
+            myTeam.setIsLeader("true");}
         else{
             myTeam.setIsLeader("false");}
         return myTeam;
@@ -302,19 +301,30 @@ public class CourseController {
     public TeamVO TeamEntityToTeamVO(TeamEntity teamEntity){
         TeamVO teamVO = new TeamVO();
         teamVO.setId(teamEntity.getId());
-        teamVO.setName(teamEntity.getKlass().getKlass_serial()+"-"+teamEntity.getTeam_serial()+" "+teamEntity.getTeam_name());
+        teamVO.setSerial_name(teamEntity.getKlass().getKlass_serial()+"-"+teamEntity.getTeam_serial());
+        teamVO.setTeam_name(teamEntity.getTeam_name());
         teamVO.setStatus(teamEntity.getStatus());
         //给TeamVO里的Leader赋值
         StudentEntity leaderEntity = teamEntity.getLeader();
         StudentInTeamVO leader = new StudentInTeamVO();
-        leader.setId(leaderEntity.getId());
-        leader.setAccount(leaderEntity.getAccount());
-        leader.setName(leaderEntity.getStudent_name());
+        if(leaderEntity!=null) {
+            leader.setId(leaderEntity.getId());
+            leader.setAccount(leaderEntity.getAccount());
+            leader.setName(leaderEntity.getStudent_name());
+        }
+        else{
+            leader.setId(Long.valueOf(-1));
+            leader.setAccount("(空)");
+            leader.setName("(空)");
+        }
         teamVO.setLeader(leader);
         //给TeamVO里的Members赋值
         List<StudentInTeamVO> students = new ArrayList<>();
         System.out.print(teamEntity.getMembers().size());
         for(StudentEntity studentEntity:teamEntity.getMembers()){
+            if(teamEntity.getLeader()!=null&&(studentEntity.getId()).equals(teamEntity.getLeader().getId())) {
+                continue;
+            }//如果为组长则跳过
             StudentInTeamVO student = new StudentInTeamVO();
             student.setId(studentEntity.getId());
             student.setAccount(studentEntity.getAccount());
